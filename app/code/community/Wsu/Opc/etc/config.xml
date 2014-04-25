@@ -152,13 +152,26 @@
 	</frontend>
 	<default>
 		<wsu_opc>
-			<config>
-				<!--
-				Some examples on the config defaults
-				<theme>go</theme>
-				<showmageads>0</showmageads>
-				<logo>logo.gif</logo>-->
-			</config>
+			<global>
+				<status>1</status>
+				<title>Checkout</title>
+			</global>
+			<default>
+				<payment>checkmo</payment>
+				<show_shipping>1</show_shipping>
+				<shipping>freeshipping_freeshipping</shipping>
+				<terms_type>1</terms_type>
+				<comment>0</comment>
+				<subscribe>0</subscribe>
+				<subscribe_default>0</subscribe_default>
+			</default>
+			<geo>
+			</geo>
+			<paypal>
+				<status>1</status>
+				<sandbox>0</sandbox>
+				<detailed>1</detailed>
+			</paypal>
 		</wsu_opc>
 	</default>
 </config>
