@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<stub>
+<!-- An example of custom config nodes
+    <indexers>
+        <config>
+            <class>wsu_stub/indexer_config</class>
+        </config>
+    </indexers>
+    <actions>
+        <clear_all>
+            <title module="wsu_stub">Clear Magento Cache</title>
+            <text module="core">Flush Magento Cache</text>
+            <acl>system/cache</acl>
+            <action>adminhtml/wsu_stub/clearCache</action>
+        </clear_all>
+    </actions>
+-->
+</stub>

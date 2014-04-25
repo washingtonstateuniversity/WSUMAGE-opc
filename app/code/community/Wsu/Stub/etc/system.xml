@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<config>
+  <sections>
+    <wsu_stub translate="label" module="wsu_stub">
+      <label>Wsu Stub</label>
+      <tab>utilitiestab</tab>
+      <sort_order>1000</sort_order>
+      <show_in_default>1</show_in_default>
+      <show_in_website>1</show_in_website>
+      <show_in_store>1</show_in_store>
+      <groups>
+        <hint>
+          <frontend_model>wsu_stub/adminhtml_system_config_fieldset_hint</frontend_model>
+          <sort_order>0</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>1</show_in_website>
+          <show_in_store>1</show_in_store>
+        </hint>
+        <config translate="label">
+          <label>Stub sample Settings</label>
+          <sort_order>10</sort_order>
+          <show_in_default>1</show_in_default>
+          <show_in_website>0</show_in_website>
+          <show_in_store>0</show_in_store>
+		  <comment>NOTE YOU WOULD LOOK TO THE /etc/system.xml for the samples</comment>
+          <fields>
+            <!--
+			<theme translate="label">
+              <label>Current Admin Theme</label>
+              <frontend_type>select</frontend_type>
+              <source_model>wsu_stub/adminhtml_system_config_source_themes</source_model>
+              <sort_order>10</sort_order>
+              <show_in_default>1</show_in_default>
+              <show_in_website>1</show_in_website>
+              <show_in_store>1</show_in_store>
+            </theme>
+			<logo translate="label comment">
+				<label>Logo</label>
+				<comment>Allowed file types: jpeg, gif, png.</comment>
+				<frontend_type>image</frontend_type>
+				<backend_model>adminhtml/system_config_backend_image</backend_model>
+				<upload_dir config="system/filesystem/media" scope_info="1">theme</upload_dir>
+				<base_url type="media" scope_info="1">theme</base_url>
+				<sort_order>1</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>1</show_in_store>
+			</logo>
+			<showmageads translate="label comment">
+				<label>Show Magento ads</label>
+				<comment>This will hide the Magento Ads to advoid miss clicks by users.</comment>
+				<frontend_type>select</frontend_type>
+				<source_model>adminhtml/system_config_source_yesno</source_model>
+				<sort_order>20</sort_order>
+				<show_in_default>1</show_in_default>
+				<show_in_website>1</show_in_website>
+				<show_in_store>1</show_in_store>
+			</showmageads>
+			-->
+          </fields>
+        </config>
+      </groups>
+    </wsu_stub>
+  </sections>
+</config>

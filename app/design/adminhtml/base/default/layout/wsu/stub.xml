@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<layout version="0.1.0">
+    <default>
+	<!-- an example of how you may change the blocks of the admin area
+        <reference name="head">
+			
+			<action method="addCss"><script>wsu/admintheme/corrections.css</script></action>
+			<action method="addCss" ifconfig="wsu_admintheme/config/extendmenu">
+				<script>wsu/admintheme/icon.css</script>
+			</action>
+        </reference>
+	-->
+    </default>
+</layout>
