@@ -68,17 +68,6 @@
 			</opc_setup>
 		</resources>
 	</global>
-	<admin>
-		<routers>
-			<adminhtml>
-				<args>
-					<modules>
-						<wsu_opc before="Mage_Adminhtml">Wsu_Opc_Adminhtml</wsu_opc>
-					</modules>
-				</args>
-			</adminhtml>
-		</routers>
-	</admin>
 	<adminhtml>
 		<layout>
 			<updates>
