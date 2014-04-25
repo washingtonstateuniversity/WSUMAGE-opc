@@ -133,7 +133,7 @@
         <layout>
             <updates>
                 <opc>
-                    <file>wsu_opc.xml</file>
+                    <file>wsu/opc.xml</file>
                 </opc>
             </updates>
         </layout>
