@@ -21,6 +21,9 @@
 				<class>Wsu_Opc_Model</class>
 				<resourceModel>opc_resource</resourceModel>
 			</opc>
+			<opc_resource>
+				<class>Wsu_Opc_Model_Resource</class>
+        	</opc_resource>
 		</models>
 		<resources>		
 			<opc_write>
