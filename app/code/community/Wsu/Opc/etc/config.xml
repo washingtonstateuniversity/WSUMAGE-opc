@@ -126,7 +126,15 @@
                 </opc>
             </updates>
         </layout>
-		
+        <translate>
+            <modules>
+                <Wsu_Opc>
+                    <files>
+                        <default>Wsu_Opc.csv</default>
+                    </files>
+                </Wsu_Opc>
+            </modules>
+        </translate>
 		
 		
 		
