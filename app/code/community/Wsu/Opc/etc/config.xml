@@ -21,8 +21,20 @@
 				<class>Wsu_Opc_Model</class>
 				<resourceModel>opc_resource</resourceModel>
 			</opc>
+        	<paypal>
+				<rewrite>
+					<api_nvp>Wsu_Opc_Model_Api_Nvp</api_nvp>
+					<express>Wsu_Opc_Model_Paypal_Express</express>
+					<config>Wsu_Opc_Model_Paypal_Config</config>
+				</rewrite>
+			</paypal>
 			<opc_resource>
 				<class>Wsu_Opc_Model_Resource</class>
+				<entities>
+	                <customer>
+						<table>paypalauth_customer</table>
+					</customer>
+            	</entities>
         	</opc_resource>
 		</models>
 		<resources>		
