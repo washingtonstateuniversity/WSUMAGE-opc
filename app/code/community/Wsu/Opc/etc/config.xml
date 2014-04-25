@@ -109,6 +109,17 @@
 			</modules>
 		</translate>
 	</adminhtml>
+	<frontend>
+		 <routers>
+			<opc>
+				<use>standard</use>
+				<args>
+					<module>Wsu_Opc</module>
+					<frontName>onepage</frontName>
+				</args>
+			</opc>
+		</routers>
+	</frontend>
 	<default>
 		<wsu_opc>
 			<config>
