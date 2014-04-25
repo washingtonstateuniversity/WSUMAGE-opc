@@ -1,6 +1,6 @@
 <?php
-class Wsu_Stub_Model_Launcher extends Mage_Core_Model_Abstract {
-    const CONFIG_CACHE_ID = 'wsu_stub_config';
+class Wsu_Opc_Model_Launcher extends Mage_Core_Model_Abstract {
+    const CONFIG_CACHE_ID = 'wsu_opc_config';
     protected $_config;
     protected $_indexers = array( );
     protected $_scopes = array( );
@@ -17,7 +17,7 @@ class Wsu_Stub_Model_Launcher extends Mage_Core_Model_Abstract {
         if ( false !== $data ) {
             $data = unserialize( $data );
         } else {
-            $xml  = Mage::getConfig()->loadModulesConfiguration( 'stub.xml' )->getNode();
+            $xml  = Mage::getConfig()->loadModulesConfiguration( 'opc.xml' )->getNode();
             $data = $xml->asArray();
             Mage::app()->saveCache( serialize( $data ), $cacheId );
         }

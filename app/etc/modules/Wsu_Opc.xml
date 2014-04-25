@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Wsu_Stub>
+        <Wsu_Opc>
             <active>true</active>
             <codePool>community</codePool>
 			<depends>
                 <Wsu_Storeutilities/>
             </depends>
-        </Wsu_Stub>
+        </Wsu_Opc>
     </modules>
 </config>

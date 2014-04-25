@@ -1,35 +1,35 @@
 <?xml version="1.0"?>
 <config>
     <modules>
-        <Wsu_Stub>
+        <Wsu_Opc>
             <version>0.0.1</version>
-        </Wsu_Stub>
+        </Wsu_Opc>
     </modules>
     <global>
         <blocks>
-            <wsu_stub>
-                <class>Wsu_Stub_Block</class>
-            </wsu_stub>
+            <wsu_opc>
+                <class>Wsu_Opc_Block</class>
+            </wsu_opc>
         </blocks>
         <helpers>
-            <wsu_stub>
-                <class>Wsu_Stub_Helper</class>
-            </wsu_stub>
+            <wsu_opc>
+                <class>Wsu_Opc_Helper</class>
+            </wsu_opc>
         </helpers>
         <models>
-            <wsu_stub>
-                <class>Wsu_Stub_Model</class>
-            </wsu_stub>
+            <wsu_opc>
+                <class>Wsu_Opc_Model</class>
+            </wsu_opc>
         </models>
         <!--
 		This is an example of a event hook
 		<events>
             <adminhtml_controller_action_predispatch_start>
                 <observers>
-                    <wsu_stub_admin_predispatch>
-                        <class>Wsu_Stub_Model_Adminhtml_Observer</class>
+                    <wsu_opc_admin_predispatch>
+                        <class>Wsu_Opc_Model_Adminhtml_Observer</class>
                         <method>setTheme</method>
-                    </wsu_stub_admin_predispatch>
+                    </wsu_opc_admin_predispatch>
                 </observers>
             </adminhtml_controller_action_predispatch_start>
         </events>-->
@@ -39,7 +39,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <wsu_stub before="Mage_Adminhtml">Wsu_Stub_Adminhtml</wsu_stub>
+                        <wsu_opc before="Mage_Adminhtml">Wsu_Opc_Adminhtml</wsu_opc>
                     </modules>
                 </args>
             </adminhtml>
@@ -48,23 +48,23 @@
     <adminhtml>
         <layout>
             <updates>
-                <wsu_stub>
-                    <file>wsu/stub.xml</file>
-                </wsu_stub>
+                <wsu_opc>
+                    <file>wsu/opc.xml</file>
+                </wsu_opc>
             </updates>
         </layout>
         <translate>
             <modules>
-                <Wsu_Stub>
+                <Wsu_Opc>
                     <files>
-                        <default>Wsu_Stub.csv</default>
+                        <default>Wsu_Opc.csv</default>
                     </files>
-                </Wsu_Stub>
+                </Wsu_Opc>
             </modules>
         </translate>
     </adminhtml>
     <default>
-        <wsu_stub>
+        <wsu_opc>
             <config>
                 <!--
 				Some examples on the config defaults
@@ -72,6 +72,6 @@
 				<showmageads>0</showmageads>
 				<logo>logo.gif</logo>-->
             </config>
-        </wsu_stub>
+        </wsu_opc>
     </default>
 </config>

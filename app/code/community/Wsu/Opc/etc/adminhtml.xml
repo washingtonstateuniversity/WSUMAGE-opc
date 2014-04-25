@@ -8,9 +8,9 @@
                         <children>
                             <config>
                                 <children>
-                                    <wsu_stub>
-                                        <title>Wsu Stub</title>
-                                    </wsu_stub>
+                                    <wsu_opc>
+                                        <title>Wsu Opc</title>
+                                    </wsu_opc>
                                 </children>
                             </config>
                         </children>
