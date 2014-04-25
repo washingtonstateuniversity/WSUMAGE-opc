@@ -135,9 +135,16 @@
                 </Wsu_Opc>
             </modules>
         </translate>
-		
-		
-		
+		<events>
+			 <checkout_submit_all_after>
+				<observers>
+					<opc_checkout_submit_all_after>
+						<class>opc/observer</class>
+						<method>applyComment</method>
+					</opc_checkout_submit_all_after>
+				</observers>
+			</checkout_submit_all_after>
+		</events>
 	</frontend>
 	<default>
 		<wsu_opc>
