@@ -69,6 +69,14 @@
 					<sort_order>50</sort_order>
 					<show_in_default>1</show_in_default>
 				</show_shipping>
+				<shipping translate="label">
+					<label>Default Shipping Method</label>
+					<frontend_type>select</frontend_type>
+					<source_model>wsu_opc/system_config_source_shipping_allmethods</source_model>
+					<isrequired>true</isrequired>
+					<sort_order>10</sort_order>
+					<show_in_default>1</show_in_default>
+				</shipping>
 
 			</fields>
 		</default>
