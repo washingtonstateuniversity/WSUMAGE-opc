@@ -77,6 +77,14 @@
 					<sort_order>10</sort_order>
 					<show_in_default>1</show_in_default>
 				</shipping>
+				<terms_type>
+					<label>Terms and Conditions Output type</label>
+					<frontend_type>select</frontend_type>
+					<source_model>wsu_opc/system_config_source_terms</source_model>
+					<isrequired>true</isrequired>
+					<sort_order>60</sort_order>
+					<show_in_default>1</show_in_default>
+				</terms_type>
 
 			</fields>
 		</default>
