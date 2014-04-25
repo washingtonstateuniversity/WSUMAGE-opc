@@ -108,6 +108,17 @@
 				</Wsu_Opc>
 			</modules>
 		</translate>
+		<events>
+			<controller_action_predispatch>
+				<observers>
+					<opc_check_related>
+						<type>singleton</type>
+						<class>opc/observer</class>
+						<method>checkRequiredModules</method>
+					</opc_check_related>
+				</observers>
+			</controller_action_predispatch>
+		</events>
 	</adminhtml>
 	<frontend>
 		 <routers>
