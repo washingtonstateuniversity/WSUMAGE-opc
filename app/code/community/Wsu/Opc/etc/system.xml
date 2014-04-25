@@ -123,7 +123,23 @@
 
 			</fields>
 		</geo>
-		
+		<paypal translate="label">
+			<label>Paypal Express LightBox</label>
+			<sort_order>40</sort_order>
+			<show_in_default>1</show_in_default>
+			<expanded>1</expanded>
+			<fields>
+				<status>
+					<label>Enable Paypal Express Lightbox</label>
+					<frontend_type>select</frontend_type>
+					<source_model>adminhtml/system_config_source_yesno</source_model>
+					<isrequired>true</isrequired>
+					<sort_order>10</sort_order>
+					<show_in_default>1</show_in_default>
+					<comment><![CDATA[<span class="notice">The site must be securely hosted on an HTTPS server.</span>]]></comment>
+				</status>
+			</fields>
+		</paypal>
 		
         <!--<config translate="label">
           <label>Opc sample Settings</label>
