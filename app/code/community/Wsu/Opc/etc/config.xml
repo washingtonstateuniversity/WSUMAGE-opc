@@ -10,6 +10,11 @@
 			<wsu_opc>
 				<class>Wsu_Opc_Block</class>
 			</wsu_opc>
+			<customer>
+				<rewrite>
+					<account_dashboard_info>Wsu_Opc_Block_Customer_Account_Dashboard_Info</account_dashboard_info>
+				</rewrite>
+			</customer>
 			<checkout>
 				<rewrite>
 					<onepage_link>Wsu_Opc_Block_Onepage_Link</onepage_link>                   
