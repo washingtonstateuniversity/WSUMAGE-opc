@@ -111,6 +111,20 @@
 				</subscribe>
 			</fields>
 		</default>
+		
+		<geo>
+			<label>GEO detection</label>
+			<sort_order>30</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<expanded>1</expanded>
+			<fields>
+
+			</fields>
+		</geo>
+		
+		
         <!--<config translate="label">
           <label>Opc sample Settings</label>
           <sort_order>10</sort_order>
