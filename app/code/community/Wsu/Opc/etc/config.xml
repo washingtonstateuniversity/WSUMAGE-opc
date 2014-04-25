@@ -31,7 +31,7 @@
 				<class>Wsu_Opc_Model</class>
 				<resourceModel>opc_resource</resourceModel>
 			</opc>
-        	<paypal>
+			<paypal>
 				<rewrite>
 					<api_nvp>Wsu_Opc_Model_Api_Nvp</api_nvp>
 					<express>Wsu_Opc_Model_Paypal_Express</express>
@@ -41,11 +41,11 @@
 			<opc_resource>
 				<class>Wsu_Opc_Model_Resource</class>
 				<entities>
-	                <customer>
+					<customer>
 						<table>paypalauth_customer</table>
 					</customer>
-            	</entities>
-        	</opc_resource>
+				</entities>
+			</opc_resource>
 		</models>
 		<resources>		
 			<opc_write>
@@ -107,22 +107,22 @@
 				</args>
 			</opc>
 		</routers>
-        <layout>
-            <updates>
-                <opc>
-                    <file>wsu/opc.xml</file>
-                </opc>
-            </updates>
-        </layout>
-        <translate>
-            <modules>
-                <Wsu_Opc>
-                    <files>
-                        <default>Wsu_Opc.csv</default>
-                    </files>
-                </Wsu_Opc>
-            </modules>
-        </translate>
+		<layout>
+			<updates>
+				<opc>
+					<file>wsu/opc.xml</file>
+				</opc>
+			</updates>
+		</layout>
+		<translate>
+			<modules>
+				<Wsu_Opc>
+					<files>
+						<default>Wsu_Opc.csv</default>
+					</files>
+				</Wsu_Opc>
+			</modules>
+		</translate>
 		<events>
 			 <checkout_submit_all_after>
 				<observers>
