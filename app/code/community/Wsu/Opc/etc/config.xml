@@ -67,18 +67,6 @@
 				</connection>
 			</opc_setup>
 		</resources>
-		<!--
-		This is an example of a event hook
-		<events>
-			<adminhtml_controller_action_predispatch_start>
-				<observers>
-					<wsu_opc_admin_predispatch>
-						<class>Wsu_Opc_Model_Adminhtml_Observer</class>
-						<method>setTheme</method>
-					</wsu_opc_admin_predispatch>
-				</observers>
-			</adminhtml_controller_action_predispatch_start>
-		</events>-->
 	</global>
 	<admin>
 		<routers>
