@@ -119,6 +119,17 @@
 				</args>
 			</opc>
 		</routers>
+        <layout>
+            <updates>
+                <opc>
+                    <file>wsu_opc.xml</file>
+                </opc>
+            </updates>
+        </layout>
+		
+		
+		
+		
 	</frontend>
 	<default>
 		<wsu_opc>
