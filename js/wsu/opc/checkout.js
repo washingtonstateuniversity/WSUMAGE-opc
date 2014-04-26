@@ -18,7 +18,7 @@ WSU.OPC = {
 		if(jQuery("#mess").length<=0)jQuery('body').append('<div id="mess">');
 		jQuery("#mess").html((typeof html_message == 'string' || html_message instanceof String)?html_message:html_message.html());
 		
-		jQuery("#mess").prepend('<button style="float:right" id="ok" class="button">Ok</button>');
+		jQuery("#mess").prepend('<button style="float:right" id="ok" >Ok</button>');
 		
 		var defaultParams = {
 			autoOpen: true,
@@ -395,8 +395,7 @@ WSU.OPC.Checkout = {
 			WSU.OPC.Checkout.hideLoader();				
 			
 			if (typeof(response.error)!="undefined"){
-				jQuery('.opc-message-container').html(response.error);
-				jQuery('.opc-message-wrapper').show();
+				WSU.OPC.popup_message(response.error);
 				WSU.OPC.saveOrderStatus = false;
 				return;
 			}
