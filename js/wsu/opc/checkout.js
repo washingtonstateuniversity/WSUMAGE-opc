@@ -18,7 +18,7 @@ WSU.OPC = {
 		if(jQuery("#mess").length<=0)jQuery('body').append('<div id="mess">');
 		jQuery("#mess").html((typeof html_message == 'string' || html_message instanceof String)?html_message:html_message.html());
 		
-		jQuery("#mess").prepend('<button style="float:right" id="ok">Ok</button>');
+		jQuery("#mess").prepend('<button style="float:right" id="ok" class="button">Ok</button>');
 		
 		var defaultParams = {
 			autoOpen: true,
@@ -642,12 +642,8 @@ WSU.OPC.Shipping = {
 	saveShippingMethod: function(){
 		
 		if (WSU.OPC.Shipping.validateShippingMethod()===false){
-
-			jQuery('.opc-message-container').html('Please specify shipping method');
-			jQuery('.opc-message-wrapper').show();
-
+			WSU.OPC.popup_message('Please specify shipping method');
 			WSU.OPC.Checkout.hideLoader();
-
 			return;
 		}
 
@@ -706,8 +702,6 @@ WSU.OPC.Coupon = {
 	prepareResponse: function(response){
 		WSU.OPC.Checkout.hideLoader();
 		if (typeof(response.message) != "undefined"){
-			//jQuery('.opc-message-container').html(response.message);
-			//jQuery('.opc-message-wrapper').show();
 			WSU.OPC.popup_message(response.message);
 			WSU.OPC.Checkout.pullReview();
 		}
