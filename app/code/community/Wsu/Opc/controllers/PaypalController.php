@@ -184,7 +184,7 @@ class Wsu_Opc_PaypalController extends Mage_Core_Controller_Front_Action{
 			$email = $login ['username'];
 			$customerId = $this->_getCustomerIdByEmail ( $email );
 	
-			$isPaypalCustomerExists = Mage::getModel ( 'opc/paypal_customer' )->isPaypalCustomerExists ( 'customer_id', $customerId );
+			$isPaypalCustomerExists = Mage::getModel ( 'wsu_opc/paypal_customer' )->isPaypalCustomerExists ( 'customer_id', $customerId );
 	
 			if ($isPaypalCustomerExists) {
 				$this->_getSession ()->addError ( $this->_getHelper ()->__ ( "Your %s account is already linked with your PayPal login.", Mage::app ()->getStore ()->getFrontendName () ) );
