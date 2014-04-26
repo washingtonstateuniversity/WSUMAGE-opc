@@ -143,8 +143,7 @@ WSU.OPC = {
 
 		if (typeof(response.error) != "undefined"){
 			WSU.OPC.Plugin.dispatch('error');
-			jQuery('.opc-message-container').html(response.error);
-			jQuery('.opc-message-wrapper').show();
+			WSU.OPC.popup_message(response.error);
 			WSU.OPC.Checkout.hideLoader();
 			WSU.OPC.saveOrderStatus = false;
 			
