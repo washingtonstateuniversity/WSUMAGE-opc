@@ -13,6 +13,34 @@ WSU.OPC = {
 			jQuery('.opc-message-container').empty();
 		});
 	},
+	popup_message: function(html_message,sizeObj){
+		sizeObj = sizeObj || {width: 350,minHeight: 25,}
+		if(jQuery("#mess").length<=0)jQuery('body').append('<div id="mess">');
+		jQuery("#mess").html((typeof html_message == 'string' || html_message instanceof String)?html_message:html_message.html());
+		var defaultParams = {
+			autoOpen: true,
+			resizable: false,
+			modal: true,
+			draggable : false,
+			create:function(){
+				jQuery('.ui-dialog-titlebar').remove();
+				jQuery(".ui-dialog-buttonpane").remove();
+				jQuery('body').css({overflow:"hidden"});
+			},
+			buttons:{
+				Ok:function(){
+					jQuery( this ).dialog( "close" );
+				}
+			},
+			close: function() {
+				jQuery('body').css({overflow:"auto"});
+				jQuery( "#mess" ).dialog( "destroy" );
+				jQuery( "#mess" ).remove();
+			}																										
+		}
+		defaultParams = jQuery.extend(defaultParams,sizeObj);
+		jQuery( "#mess" ).dialog(defaultParams);
+	},
 	/** CREATE EVENT FOR SAVE ORDER **/
 	initSaveOrder: function(){
 		jQuery(document).on('click', '.opc-btn-checkout', function(e){
@@ -148,7 +176,6 @@ WSU.OPC = {
 	/** ADD AGGREMENTS TO ORDER FORM **/
 	checkAgreement: function(form){
 		jQuery.each(WSU.OPC.agreements, function(index, data){
-			
 			form.push(data);
 		});
 		return form;
@@ -216,8 +243,6 @@ WSU.OPC.Checkout = {
 	/** PARSE RESPONSE FROM AJAX SAVE BILLING AND SHIPPING METHOD **/
 	prepareAddressResponse: function(response){
 		WSU.OPC.Checkout.xhr = null;
-		
-		
 		if (typeof(response.error) != "undefined"){
 			jQuery('.opc-message-container').html(response.message);
 			jQuery('.opc-message-wrapper').show();
@@ -232,11 +257,9 @@ WSU.OPC.Checkout = {
 		if (typeof(response.payments) != "undefined"){				
 			jQuery('#checkout-payment-method-load').empty().html(response.payments);
 			payment.initWhatIsCvvListeners();//default logic for view "what is this?"
-			
 		}
 		
 		if (typeof(response.isVirtual) != "undefined"){
-			
 			WSU.OPC.Checkout.isVirtual = true;
 		}
 		
@@ -260,9 +283,7 @@ WSU.OPC.Checkout = {
 
 		
 		if (typeof(response.error)!="undefined"){
-			
 			WSU.OPC.Plugin.dispatch('error');
-			
 			jQuery('.opc-message-container').html(response.message);
 			jQuery('.opc-message-wrapper').show();
 			WSU.OPC.saveOrderStatus = false;
