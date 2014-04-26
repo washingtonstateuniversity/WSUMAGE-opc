@@ -84,7 +84,7 @@ WSU.OPC = {
 			WSU.OPC.Checkout.xhr.abort();
 		}
 		var form = jQuery('#co-payment-form').serializeArray();
-		WSU.OPC.Checkout.showLoader();
+		WSU.OPC.Checkout.showLoader('.payment-block');
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',form, WSU.OPC.preparePaymentResponse,'json');
 	},
 	/** CHECK RESPONSE FROM AJAX AFTER SAVE PAYMENT METHOD **/
@@ -352,7 +352,7 @@ WSU.OPC.Checkout = {
 	
 	/** PULL PAYMENTS METHOD AFTER LOAD PAGE **/
 	pullPayments: function(){
-		WSU.OPC.Checkout.showLoader('#payment-block');
+		WSU.OPC.Checkout.showLoader('.payment-block');
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/payments',function(response){
 			WSU.OPC.Checkout.hideLoader();				
 			
@@ -660,7 +660,7 @@ WSU.OPC.Coupon = {
 		}else{
 			form.push({"name":"remove", "value":"1"});
 		}
-		WSU.OPC.Checkout.showLoader();
+		WSU.OPC.Checkout.showLoader('.discount-block');
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/coupon/couponPost',form, WSU.OPC.Coupon.prepareResponse,'json');
 	},
 	
