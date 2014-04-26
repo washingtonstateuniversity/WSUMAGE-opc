@@ -28,9 +28,23 @@
 			</div>
 		</div>
 		<?php endif;?>
-		<div class="payment-block <?php if ($this->getOnepage()->getQuote()->isVirtual()):?>clear-margin<?php endif;?>">
+		<div class="payment-block <?php if ($this->getOnepage()->getQuote()->isVirtual()):?>clear-margin<?php endif;?>" style=" position:relative;">
 			<h3><?php echo $this->__('Payment Method')?></h3>
 			<?php echo $this->getChildHtml('payment')//$this->_getPaymentMethodsHtml();?>
+			
+			<div class="opc-ajax-loader">
+				<div id="floatingCirclesG">
+					<div class="f_circleG" id="frotateG_01"></div>
+					<div class="f_circleG" id="frotateG_02"></div>
+					<div class="f_circleG" id="frotateG_03"></div>
+					<div class="f_circleG" id="frotateG_04"></div>
+					<div class="f_circleG" id="frotateG_05"></div>
+					<div class="f_circleG" id="frotateG_06"></div>
+					<div class="f_circleG" id="frotateG_07"></div>
+					<div class="f_circleG" id="frotateG_08"></div>
+				</div>
+			</div>
+			
 		</div>
 		
 		<div class="discount-block">
@@ -46,8 +60,20 @@
 
     <div class="opc-col-right">
         <h3><?php echo $this->__('Review Your Order')?></h3>
-        <div id="opc-review-block">
-		<?php echo $this->_getReviewHtml()?>
+        <div id="review-block" style=" position:relative;">
+			<?php echo $this->_getReviewHtml()?>
+			<div class="opc-ajax-loader">
+				<div id="floatingCirclesG">
+					<div class="f_circleG" id="frotateG_01"></div>
+					<div class="f_circleG" id="frotateG_02"></div>
+					<div class="f_circleG" id="frotateG_03"></div>
+					<div class="f_circleG" id="frotateG_04"></div>
+					<div class="f_circleG" id="frotateG_05"></div>
+					<div class="f_circleG" id="frotateG_06"></div>
+					<div class="f_circleG" id="frotateG_07"></div>
+					<div class="f_circleG" id="frotateG_08"></div>
+				</div>
+			</div>
 		</div>
     </div>
 </div>
@@ -58,7 +84,7 @@
 	<?php endif;?>	 
 </script>
 
-<div class="opc-ajax-loader">
+<!--<div class="opc-ajax-loader">
 	<div id="floatingCirclesG">
 		<div class="f_circleG" id="frotateG_01"></div>
 		<div class="f_circleG" id="frotateG_02"></div>
@@ -69,7 +95,7 @@
 		<div class="f_circleG" id="frotateG_07"></div>
 		<div class="f_circleG" id="frotateG_08"></div>
 	</div>
-</div>
+</div>-->
 <div class="opc-message-wrapper">
 	
 	<div class="opc-messages">
