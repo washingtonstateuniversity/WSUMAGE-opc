@@ -114,7 +114,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 	protected function _getPaymentMethodsHtml() {
 
 		/** UPDATE PAYMENT METHOD **/
-		$defaultPaymentMethod = Mage::getStoreConfig(self::XML_PATH_DEFAULT_PAYMENT);
+		$defaultPaymentMethod = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
 		$_cart = $this->_getCart();
 		$_quote = $_cart->getQuote();
 		$_quote->getPayment()->setMethod($defaultPaymentMethod);
