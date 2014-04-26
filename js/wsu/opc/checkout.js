@@ -7,14 +7,16 @@ WSU.OPC = {
 	agreements : null,
 	saveOrderStatus:false,
 	initMessages: function(){
-		jQuery('.close-message-wrapper, .opc-messages-action .button').click(function(){
+		jQuery('.close-message-wrapper, .opc-messages-action .button').on('click',function(e){
+			e.preventDefault();
 			jQuery('.opc-message-wrapper').hide();
 			jQuery('.opc-message-container').empty();
 		});
 	},
 	/** CREATE EVENT FOR SAVE ORDER **/
 	initSaveOrder: function(){
-		jQuery(document).on('click', '.opc-btn-checkout', function(){
+		jQuery(document).on('click', '.opc-btn-checkout', function(e){
+			e.preventDefault();
 			var addressForm = new VarienForm('billing-new-address-form');
 			if (!addressForm.validator.validate()){				
 				return;
@@ -36,7 +38,8 @@ WSU.OPC = {
 	/** INIT CHAGE PAYMENT METHOD **/
 	initPayment: function(){
 		WSU.OPC.bindChangePaymentFields();
-		jQuery(document).on('click', '#co-payment-form input[type="radio"]', function(event){
+		jQuery(document).on('click', '#co-payment-form input[type="radio"]', function(e){
+			e.preventDefault();
 			WSU.OPC.validatePayment();
 		});
 	},
@@ -54,7 +57,8 @@ WSU.OPC = {
 	/** BIND CHANGE PAYMENT FIELDS **/ 
 	bindChangePaymentFields: function(){
 		WSU.OPC.unbindChangePaymentFields();
-		jQuery('#co-payment-form input').keyup(function(event){
+		jQuery('#co-payment-form input').on('keyup',function(e){
+			e.preventDefault();
 			if (WSU.OPC.Checkout.ajaxProgress!=false){
 				clearTimeout(WSU.OPC.Checkout.ajaxProgress);
 			}
@@ -62,7 +66,8 @@ WSU.OPC = {
 				WSU.OPC.validatePayment();
 			}, 1000);
 		});
-		jQuery('#co-payment-form select').change(function(event){
+		jQuery('#co-payment-form select').on('change',function(e){
+			e.preventDefault();
 			if (WSU.OPC.Checkout.ajaxProgress!=false){
 				clearTimeout(WSU.OPC.Checkout.ajaxProgress);
 			}
@@ -74,8 +79,8 @@ WSU.OPC = {
 
 	/** UNBIND CHANGE PAYMENT FIELDS **/
 	unbindChangePaymentFields: function(){
-		jQuery('#co-payment-form input').unbind('keyup');
-		jQuery('#co-payment-form select').unbind('change');
+		jQuery('#co-payment-form input').off('keyup');
+		jQuery('#co-payment-form select').off('change');
 	},
 
 	/** SAVE PAYMENT **/		
@@ -381,7 +386,8 @@ WSU.OPC.Billing = {
 	init: function(){
 		//set flag use billing for shipping and init change flag
 		this.setBillingForShipping(true);
-		jQuery('input[name="billing[use_for_shipping]"]').change(function(){
+		jQuery('input[name="billing[use_for_shipping]"]').on('change',function(e){
+			e.preventDefault();
 			if (jQuery(this).is(':checked')){
 				WSU.OPC.Billing.setBillingForShipping(true);
 				jQuery('#opc-address-form-billing select[name="billing[country_id]"]').change();
@@ -718,8 +724,10 @@ WSU.OPC.Login ={
 
 		jQuery('#forgotpassword-button-set .back-link').on("click",function(e){
 			e.preventDefault();
-			jQuery('#form-validate-email').hide();jQuery('#forgotpassword-button-set').hide();
-			jQuery('#login-form').fadeIn();jQuery('#login-button-set').show();
+			jQuery('#form-validate-email').hide();
+			jQuery('#forgotpassword-button-set').hide();
+			jQuery('#login-form').fadeIn();
+			jQuery('#login-button-set').show();
 		});
 	},
 	prepareResponse: function(response){
