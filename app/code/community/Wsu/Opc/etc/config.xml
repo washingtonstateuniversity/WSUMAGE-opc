@@ -127,7 +127,7 @@
 			 <checkout_submit_all_after>
 				<observers>
 					<opc_checkout_submit_all_after>
-						<class>opc/observer</class>
+						<class>wsu_opc/observer</class>
 						<method>applyComment</method>
 					</opc_checkout_submit_all_after>
 				</observers>
@@ -143,7 +143,7 @@
 			<sales_order_place_after>
 				<observers>
 					<newsletter_order_place_after>
-						<class>opc/observer</class>
+						<class>wsu_opc/observer</class>
 						<method>newsletter</method>
 					</newsletter_order_place_after>
 				</observers>
