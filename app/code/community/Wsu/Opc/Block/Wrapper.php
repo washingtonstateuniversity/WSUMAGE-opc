@@ -36,7 +36,7 @@ class Wsu_Opc_Block_Wrapper extends  Mage_Core_Block_Template {
 		$params = array (
 			'_secure' => true
 		);	
-		$config['baseUrl'] = Mage::getBaseUrl('link', true);
+		$config['baseUrl'] = Mage::getBaseUrl('link', false);// this needs to be checked
 		$config['isLoggedIn'] = (int) Mage::getSingleton('customer/session')->isLoggedIn();
 
 		$config['geoCountry'] =  Mage::getStoreConfig(self::GEO_COUNTRY) ? Mage::helper('wsu_opc/country')->get() : false;
