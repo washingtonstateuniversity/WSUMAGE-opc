@@ -194,8 +194,7 @@ WSU.OPC = {
 		if (typeof(response.error) != "undefined"){
 			WSU.OPC.Checkout.hideLoader();
 			WSU.OPC.saveOrderStatus = false;
-			jQuery('.opc-message-container').html(response.error);
-			jQuery('.opc-message-wrapper').show();
+			WSU.OPC.popup_message(response.error);
 			return;
 		}
 		if (typeof(response.redirect) !="undefined"){
