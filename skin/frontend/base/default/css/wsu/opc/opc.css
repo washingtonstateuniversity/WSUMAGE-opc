@@ -42,7 +42,15 @@
 @-o-keyframes f_fadeG{0%{background-color:#00909e}100%{background-color:#FFFFFF}}
 @keyframes f_fadeG{0%{background-color:#00909e}100%{background-color:#FFFFFF}}
 
+
+
+
+
 .opc-ajax-loader{background-color: rgba(0, 0, 0, 0.6);height: 100%;left: 0;position: fixed;top: 0;width: 100%;display:none;z-index: 10000 !important;}
+
+.payment-block .opc-ajax-loader{ position:absolute;}
+#review-block .opc-ajax-loader{ position:absolute;}
+
 .opc-checkout-cart{}
 
 /** BASE OPC ELEMENTS **/
