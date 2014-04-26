@@ -15,5 +15,20 @@ class Wsu_Opc_Model_Observer{
 			Mage::logException($e);
 		}
 	}	
+
+	public function newsletter($observer){
+		$_session = Mage::getSingleton('core/session');
+		$newsletterFlag = $_session->getIsSubscribed();
+		if ($newsletterFlag==true){
+			$email = $observer->getEvent()->getOrder()->getCustomerEmail();
+
+			$subscriber = Mage::getModel('newsletter/subscriber')->loadByEmail($email);
+			if($subscriber->getStatus() != Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED 
+				&& $subscriber->getStatus() != Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED) {
+				$subscriber->setImportMode(true)->subscribe($email);
+			}
+		}
+	}
+
 	
 }
