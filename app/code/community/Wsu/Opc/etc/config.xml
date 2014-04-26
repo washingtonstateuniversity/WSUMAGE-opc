@@ -86,7 +86,7 @@
 			</modules>
 		</translate>
 		<events>
-			<controller_action_predispatch>
+			<!--<controller_action_predispatch>
 				<observers>
 					<opc_check_related>
 						<type>singleton</type>
@@ -94,7 +94,7 @@
 						<method>checkRequiredModules</method>
 					</opc_check_related>
 				</observers>
-			</controller_action_predispatch>
+			</controller_action_predispatch>-->
 		</events>
 	</adminhtml>
 	<frontend>
