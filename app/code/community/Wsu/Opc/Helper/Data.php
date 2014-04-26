@@ -4,11 +4,11 @@ class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract {
 	private $_version = 'CE';
 
 	const VAT_FRONTEND_VISIBILITY = 'customer/create_account/vat_frontend_visibility';
-	const SHIPPING_VISIBILITY = 'opc/default/show_shipping';
-	const TERMS_TYPE = 'opc/default/terms_type';
-	const COMMENT = 'opc/default/comment';
-	const PAYPAL_LIGHTBOX_SANDBOX = 'opc/paypal/sandbox';
-	const PAYPAL_LIGHTBOX_ENABLED = 'opc/paypal/status';
+	const SHIPPING_VISIBILITY = 'wsu_opc/default/show_shipping';
+	const TERMS_TYPE = 'wsu_opc/default/terms_type';
+	const COMMENT = 'wsu_opc/default/comment';
+	const PAYPAL_LIGHTBOX_SANDBOX = 'wsu_opc/paypal/sandbox';
+	const PAYPAL_LIGHTBOX_ENABLED = 'wsu_opc/paypal/status';
 
 	public function isAvailableVersion(){
 		$mage  = new Mage();
@@ -25,7 +25,7 @@ class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 
 	public function isEnable(){
-		$status = Mage::getStoreConfig('opc/global/status');		
+		$status = Mage::getStoreConfig('wsu_opc/global/status');		
 		return $status;
 	}
 

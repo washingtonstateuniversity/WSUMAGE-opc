@@ -1,8 +1,8 @@
 <?php
 class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 
-	const TITLE = 'opc/global/title';
-	const DEFAULT_PAYMENT = 'opc/default/payment';
+	const TITLE = 'wsu_opc/global/title';
+	const DEFAULT_PAYMENT = 'wsu_opc/default/payment';
 
 	/**
 	 * Get one page checkout model
