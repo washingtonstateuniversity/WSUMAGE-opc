@@ -89,13 +89,13 @@ WSU.OPC = {
 	},
 	/** CHECK RESPONSE FROM AJAX AFTER SAVE PAYMENT METHOD **/
 	preparePaymentResponse: function(response){
-		WSU.OPC.Checkout.hideLoader();					
+		WSU.OPC.Checkout.hideLoader('#review-block');					
 		WSU.OPC.Checkout.xhr = null;
 
 		WSU.OPC.agreements = jQuery('#checkout-agreements').serializeArray();
 
 		if (typeof(response.review)!= "undefined" && WSU.OPC.saveOrderStatus===false){					
-			jQuery('#opc-review-block').html(response.review);
+			jQuery('#review-block').html(response.review);
 			WSU.OPC.Checkout.removePrice();
 		}
 
@@ -307,12 +307,14 @@ WSU.OPC.Checkout = {
 		
 	},
 	
-	showLoader: function(){
-		jQuery('.opc-ajax-loader').show();
+	showLoader: function(parentBlock){
+		var jObj = parentBlock || "";
+		jQuery(jObj+' .opc-ajax-loader').show();
 	},
 	
-	hideLoader: function(){
-		jQuery('.opc-ajax-loader').hide();
+	hideLoader: function(parentBlock){
+		var jObj = parentBlock || "";
+		jQuery(jObj+' .opc-ajax-loader').hide();
 	},
 	
 	/** APPLY SHIPPING METHOD FORM TO BILLING FORM **/
@@ -338,11 +340,11 @@ WSU.OPC.Checkout = {
 	
 	/** PULL REVIEW **/
 	pullReview: function(){
-		WSU.OPC.Checkout.showLoader();
+		WSU.OPC.Checkout.showLoader('#review-block');
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/review',function(response){
-			WSU.OPC.Checkout.hideLoader();
+			WSU.OPC.Checkout.hideLoader('#review-block');
 			if (typeof(response.review)!="undefined"){
-				jQuery('#opc-review-block').html(response.review);
+				jQuery('#review-block').html(response.review);
 				WSU.OPC.Checkout.removePrice();
 			}
 		});
@@ -350,7 +352,7 @@ WSU.OPC.Checkout = {
 	
 	/** PULL PAYMENTS METHOD AFTER LOAD PAGE **/
 	pullPayments: function(){
-		WSU.OPC.Checkout.showLoader();
+		WSU.OPC.Checkout.showLoader('#payment-block');
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/payments',function(response){
 			WSU.OPC.Checkout.hideLoader();				
 			
