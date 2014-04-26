@@ -1,37 +1,35 @@
 <?php
+class Wsu_Opc_CouponController extends Mage_Core_Controller_Front_Action {
 
-class IWD_Opc_CouponController extends Mage_Core_Controller_Front_Action{
-
-	
 	/**
 	 * Retrieve shopping cart model object
 	 *
 	 * @return Mage_Checkout_Model_Cart
 	 */
-	protected function _getCart(){
+	protected function _getCart() {
 		return Mage::getSingleton('checkout/cart');
 	}
-	
+
 	/**
 	 * Get checkout session model instance
 	 *
 	 * @return Mage_Checkout_Model_Session
 	 */
-	protected function _getSession(){
+	protected function _getSession() {
 		return Mage::getSingleton('checkout/session');
 	}
-	
+
 	/**
 	 * Get current active quote instance
 	 *
 	 * @return Mage_Sales_Model_Quote
 	 */
-	protected function _getQuote(){
+	protected function _getQuote() {
 		return $this->_getCart()->getQuote();
 	}
 	
 	
-	public function couponPostAction(){
+	public function couponPostAction() {
 		
 		$responseData = array();
 		/**
@@ -60,9 +58,7 @@ class IWD_Opc_CouponController extends Mage_Core_Controller_Front_Action{
 			$this->_getQuote()->setCouponCode(strlen($couponCode) ? $couponCode : '')
 				->collectTotals()
 				->save();
-	
-			
-			
+
 			if ($couponCode) {
 				if ($couponCode == $this->_getQuote()->getCouponCode()) {
 					$responseData['message'] = $this->__('Coupon code "%s" was applied.', Mage::helper('core')->htmlEscape($couponCode));
@@ -83,8 +79,7 @@ class IWD_Opc_CouponController extends Mage_Core_Controller_Front_Action{
 			$responseData['message'] =  $this->__('Cannot apply the coupon code.');
 			Mage::logException($e);
 		}
-		
-		
+
 		$this->getResponse()->setHeader('Content-type','application/json', true);
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
 		
