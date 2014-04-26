@@ -13,7 +13,7 @@ class Wsu_Opc_Model_System_Config_Source_Shipping_Allmethods{
 		$carriers = Mage::getSingleton('shipping/config')->getAllCarriers();
 		foreach ($carriers as $carrierCode=>$carrierModel) {
 			//fix for 1.7 magento - or view dhl first need setup config
-			if ($carrierCode=='dhl'){
+			if ($carrierCode=='dhl' || $carrierCode=='dhlint'){
 				continue;
 			}
 			if (!$carrierModel->isActive() && (bool)$isActiveOnlyFlag === true) {
