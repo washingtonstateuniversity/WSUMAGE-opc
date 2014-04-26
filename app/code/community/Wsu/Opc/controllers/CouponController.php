@@ -71,7 +71,7 @@ class Wsu_Opc_CouponController extends Mage_Core_Controller_Front_Action {
 			
 			$layout= $this->getLayout();
 			$block = $layout->createBlock('checkout/cart_coupon');
-			$block->setTemplate('opc/onepage/coupon.phtml');
+			$block->setTemplate('wsu/opc/onepage/coupon.phtml');
 			$responseData['coupon'] = $block->toHtml();
 		} catch (Mage_Core_Exception $e) {
 			$this->_getSession()->addError($e->getMessage());
