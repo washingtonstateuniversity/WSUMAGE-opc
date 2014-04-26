@@ -296,8 +296,7 @@ WSU.OPC.Checkout = {
 		
 		if (typeof(response.error)!="undefined"){
 			WSU.OPC.Plugin.dispatch('error');
-			jQuery('.opc-message-container').html(response.message);
-			jQuery('.opc-message-wrapper').show();
+			WSU.OPC.popup_message(response.message);
 			WSU.OPC.saveOrderStatus = false;
 			return;
 		}
