@@ -17,6 +17,9 @@ WSU.OPC = {
 		sizeObj = sizeObj || {width: 350,minHeight: 25,}
 		if(jQuery("#mess").length<=0)jQuery('body').append('<div id="mess">');
 		jQuery("#mess").html((typeof html_message == 'string' || html_message instanceof String)?html_message:html_message.html());
+		
+		jQuery("#mess").prepend('<button style="float:right" id="ok">Ok</button>');
+		
 		var defaultParams = {
 			autoOpen: true,
 			resizable: false,
@@ -31,6 +34,12 @@ WSU.OPC = {
 				Ok:function(){
 					jQuery( this ).dialog( "close" );
 				}
+			},
+			open:function(){
+				jQuery( "#ok" ).on('click',function(e){
+					e.preventDefault();
+					jQuery( "#mess" ).dialog( "close" );
+				});
 			},
 			close: function() {
 				jQuery('body').css({overflow:"auto"});
@@ -244,8 +253,11 @@ WSU.OPC.Checkout = {
 	prepareAddressResponse: function(response){
 		WSU.OPC.Checkout.xhr = null;
 		if (typeof(response.error) != "undefined"){
-			jQuery('.opc-message-container').html(response.message);
-			jQuery('.opc-message-wrapper').show();
+			//jQuery('.opc-message-container').html(response.message);
+			//jQuery('.opc-message-wrapper').show();
+			
+			WSU.OPC.popup_message(response.message);
+
 			WSU.OPC.Checkout.hideLoader();
 			return;
 		}
@@ -694,9 +706,9 @@ WSU.OPC.Coupon = {
 	prepareResponse: function(response){
 		WSU.OPC.Checkout.hideLoader();
 		if (typeof(response.message) != "undefined"){
-			jQuery('.opc-message-container').html(response.message);
-			jQuery('.opc-message-wrapper').show();
-			
+			//jQuery('.opc-message-container').html(response.message);
+			//jQuery('.opc-message-wrapper').show();
+			WSU.OPC.popup_message(response.message);
 			WSU.OPC.Checkout.pullReview();
 		}
 		if (typeof(response.coupon) != "undefined"){
