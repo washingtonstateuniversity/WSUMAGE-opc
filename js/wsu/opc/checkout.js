@@ -701,7 +701,7 @@ WSU.OPC.Coupon = {
 			WSU.OPC.popup_message(response.message);
 			WSU.OPC.Checkout.pullReview();
 		}
-		if (typeof(response.coupon) != "undefined"){
+		if (typeof(response.coupon) != "undefined" && response.coupon!==""){
 			jQuery('.discount-block').html(response.coupon);
 		}
 		
