@@ -27,10 +27,10 @@
 			</wsu_opc>
 		</helpers>
 		<models>
-			<opc>
+			<wsu_opc>
 				<class>Wsu_Opc_Model</class>
 				<resourceModel>opc_resource</resourceModel>
-			</opc>
+			</wsu_opc>
 			<paypal>
 				<rewrite>
 					<api_nvp>Wsu_Opc_Model_Api_Nvp</api_nvp>
