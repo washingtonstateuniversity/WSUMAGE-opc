@@ -372,6 +372,7 @@ WSU.OPC.Checkout = {
 				jQuery('#review-block').html(response.review);
 				WSU.OPC.Checkout.removePrice();
 			}
+			WSU.OPC.Agreement.init();
 		});
 	},
 	
@@ -677,16 +678,46 @@ WSU.OPC.Coupon = {
 
 WSU.OPC.Agreement ={
 	init: function(){
-		jQuery('.view-agreement').on('click', function(e){
+		jQuery('.view-agreement').off().on('click', function(e){
 			e.preventDefault();
-			jQuery('#agreement-dialog').modal('show');
 
 			var id = jQuery(this).data('id');
-			var title = jQuery(this).html();
+			var title = jQuery(this).find('span').html();
 			var content = jQuery('#agreement-block-'+id).html();
 
 			jQuery('#agreement-title').html(title);
 			jQuery('#agreement-modal-body').html(content);
+
+			var defaultParams = {
+				autoOpen: true,
+				resizable: false,
+				modal: true,
+				draggable : false,
+				width: 350,
+				create:function(){
+					jQuery('.ui-dialog-titlebar').remove();
+					jQuery(".ui-dialog-buttonpane").remove();
+					jQuery('body').css({overflow:"hidden"});
+				},
+				buttons:{
+					Ok:function(){
+						jQuery('#agreement-dialog').dialog( "close" );
+					}
+				},
+				open:function(){
+					jQuery('.ui-dialog-titlebar').remove();
+					jQuery(".ui-dialog-buttonpane").remove();
+					jQuery('body').css({overflow:"hidden"});
+					jQuery( "#agreement-dialog .close" ).on('click',function(e){
+						e.preventDefault();
+						jQuery( "#agreement-dialog" ).dialog( "close" );
+					});
+				},
+				close: function() {
+					jQuery('body').css({overflow:"auto"});
+				}																										
+			}
+			jQuery('#agreement-dialog').dialog(defaultParams);
 		});
 		
 	}

@@ -18,7 +18,7 @@
         </div>
         <p class="agree">
             <input type="checkbox" id="agreement-<?php echo $_a->getId()?>" name="agreement[<?php echo $_a->getId()?>]" value="1" title="<?php echo $this->htmlEscape($_a->getCheckboxText()) ?>" class="checkbox" />
-            <a class="view-agreement" data-id="<?php echo $_a->getId();?>"><?php echo $_a->getIsHtml() ? $_a->getCheckboxText() : $this->htmlEscape($_a->getCheckboxText()) ?></a>
+            <a class="view-agreement" data-id="<?php echo $_a->getId();?>"><span><?php echo $_a->getIsHtml() ? $_a->getCheckboxText() : $this->htmlEscape($_a->getCheckboxText()) ?></span> (click to read)</a>
             
             
         </p>
@@ -30,19 +30,16 @@
 <?php if (Mage::helper('wsu_opc')->getTermsType()):?>
 <!-- Modal -->
 <div class="modal fade" id="agreement-dialog" tabindex="-1" role="dialog" aria-labelledby="agreement-title" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
+
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <span class="close">&times;</span>
         <h4 class="modal-title" id="agreement-title"></h4>
       </div>
       <div class="modal-body" id="agreement-modal-body">
-        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><span><span><?php echo $this->__('Close')?></span></span></button>        
       </div>
-    </div>
-  </div>
+
 </div>
 <?php endif;?>
