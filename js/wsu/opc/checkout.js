@@ -411,16 +411,18 @@ WSU.OPC.Billing = {
 			}
 		});
 		//update password field
-		jQuery('input[name="billing[create_account]"]').on("click",function(e){
+		jQuery('input[name="billing[create_account]"]').on('change',function(e){
 			e.preventDefault();
 			if (jQuery(this).is(':checked')){
+				jQuery(this).attr('checked',true);
 				jQuery('#register-customer-password').removeClass('hidden');
-				jQuery('input[name="billing[customer_password]"]').addClass('required-entry');
-				jQuery('input[name="billing[confirm_password]"]').addClass('required-entry');
+				jQuery('input[name="billing[customer_password]"]').addClass('required-entry').attr('required',true);
+				jQuery('input[name="billing[confirm_password]"]').addClass('required-entry').attr('required',true);
 			}else{
+				jQuery(this).removeAttr('checked');
 				jQuery('#register-customer-password').addClass('hidden');
-				jQuery('input[name="billing[customer_password]"]').removeClass('required-entry');
-				jQuery('input[name="billing[confirm_password]"]').removeClass('required-entry');
+				jQuery('input[name="billing[customer_password]"]').removeClass('required-entry').removeAttr('required');
+				jQuery('input[name="billing[confirm_password]"]').removeClass('required-entry').removeAttr('required');
 				jQuery('#register-customer-password input').val('');
 			}
 		});
