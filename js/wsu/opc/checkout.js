@@ -750,6 +750,7 @@ WSU.OPC.Login ={
 				open:function(){
 					jQuery('.ui-dialog-titlebar').remove();
 					jQuery(".ui-dialog-buttonpane").remove();
+					jQuery('body').css({overflow:"hidden"});
 					jQuery( "#login_form_modal .close" ).on('click',function(e){
 						e.preventDefault();
 						jQuery( "#login_form_modal" ).dialog( "close" );
