@@ -736,6 +736,7 @@ WSU.OPC.Login ={
 				resizable: false,
 				modal: true,
 				draggable : false,
+				width: 350,
 				create:function(){
 					jQuery('.ui-dialog-titlebar').remove();
 					jQuery(".ui-dialog-buttonpane").remove();
@@ -747,6 +748,8 @@ WSU.OPC.Login ={
 					}
 				},
 				open:function(){
+					jQuery('.ui-dialog-titlebar').remove();
+					jQuery(".ui-dialog-buttonpane").remove();
 					jQuery( "#login_form_modal .close" ).on('click',function(e){
 						e.preventDefault();
 						jQuery( "#login_form_modal" ).dialog( "close" );
@@ -778,8 +781,6 @@ WSU.OPC.Login ={
 				},
 				close: function() {
 					jQuery('body').css({overflow:"auto"});
-					jQuery( "#login_form_modal" ).dialog( "destroy" );
-					jQuery( "#login_form_modal" ).remove();
 				}																										
 			}
 			jQuery('#login_form_modal').dialog(defaultParams);
