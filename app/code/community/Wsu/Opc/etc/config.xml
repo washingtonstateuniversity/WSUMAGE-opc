@@ -164,6 +164,7 @@
 				<comment>0</comment>
 				<subscribe>0</subscribe>
 				<subscribe_default>0</subscribe_default>
+				<emailCheck>1</emailCheck>
 			</default>
 			<geo>
 			</geo>
