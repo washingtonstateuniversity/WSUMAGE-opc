@@ -710,7 +710,7 @@ WSU.OPC.Coupon = {
 
 WSU.OPC.Agreement ={
 	init: function(){
-		jQuery(document).on('click', '.view-agreement', function(e){
+		jQuery('.view-agreement').on('click', function(e){
 			e.preventDefault();
 			jQuery('#agreement-dialog').modal('show');
 			
@@ -727,10 +727,49 @@ WSU.OPC.Agreement ={
 
 WSU.OPC.Login ={
 	init: function(){
-		jQuery(document).on('click', '.restore-account', function(e){
+		
+		jQuery('#trig_login_form').on('click',function(e){
 			e.preventDefault();
-			jQuery('#login-form').hide();jQuery('#login-button-set').hide();
-			jQuery('#form-validate-email').fadeIn();jQuery('#forgotpassword-button-set').show();
+			
+			var defaultParams = {
+				autoOpen: true,
+				resizable: false,
+				modal: true,
+				draggable : false,
+				create:function(){
+					jQuery('.ui-dialog-titlebar').remove();
+					jQuery(".ui-dialog-buttonpane").remove();
+					jQuery('body').css({overflow:"hidden"});
+				},
+				buttons:{
+					Ok:function(){
+						jQuery( this ).dialog( "close" );
+					}
+				},
+				open:function(){
+					jQuery( "#ok" ).on('click',function(e){
+						e.preventDefault();
+						jQuery( "#login_form_modal" ).dialog( "close" );
+					});
+				},
+				close: function() {
+					jQuery('body').css({overflow:"auto"});
+					jQuery( "#login_form_modal" ).dialog( "destroy" );
+					jQuery( "#login_form_modal" ).remove();
+				}																										
+			}
+			jQuery('#login_form_modal').dialog(defaultParams);
+		});
+		
+		
+		
+		
+		jQuery('.restore-account').on('click',function(e){
+			e.preventDefault();
+			jQuery('#login-form').hide();
+			jQuery('#login-button-set').hide();
+			jQuery('#form-validate-email').fadeIn();
+			jQuery('#forgotpassword-button-set').show();
 		});
 
 		jQuery('#login-button-set .btn').on("click",function(e){

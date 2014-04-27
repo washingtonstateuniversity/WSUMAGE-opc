@@ -1,7 +1,10 @@
 <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-<p class="text-login"><?php echo $this->__('Already registered?') ?> <a data-toggle="modal" data-target="#myModal"><?php echo $this->__('LOGIN HERE')?></a></p>
+<p class="text-login">
+	<?=$this->__('Already registered?') ?>
+	<a href="#" id="trig_login_form"><?=$this->__('LOGIN HERE')?></a>
+</p>
 	<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="login_form_modal" >
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
