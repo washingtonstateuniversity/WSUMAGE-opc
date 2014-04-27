@@ -30,8 +30,10 @@ class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract {
 	}
 
 	public function hasCheckoutForm(){
-		
+		if(Mage::getStoreConfig('webformscrf/registration/enable') && Mage::getStoreConfig('webformscrf/registration/form'))
+			return true;
 		return false;	
+		
 	}
 
 
