@@ -2,6 +2,7 @@
 class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 	const DEFAULT_PAYMENT = 'wsu_opc/default/payment';
+	const DEFAULT_PAYMENT = 'wsu_opc/default/check_email';
 
 	/* @var $_order Mage_Sales_Model_Order */
 	protected $_order;

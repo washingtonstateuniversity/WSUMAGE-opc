@@ -112,14 +112,14 @@
 					<sort_order>70</sort_order>
 					<show_in_default>1</show_in_default>
 				</subscribe>
-				<emailCheck>
+				<check_email>
 					<label>Check for existing email</label>
 					<frontend_type>select</frontend_type>
 					<source_model>adminhtml/system_config_source_yesno</source_model>
 					<isrequired>true</isrequired>
 					<sort_order>80</sort_order>
 					<show_in_default>1</show_in_default>
-				</emailCheck>
+				</check_email>
 			</fields>
 		</default>
 		
