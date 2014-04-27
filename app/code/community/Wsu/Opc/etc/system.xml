@@ -84,6 +84,9 @@
 					<isrequired>true</isrequired>
 					<sort_order>40</sort_order>
 					<show_in_default>1</show_in_default>
+					<comment>
+						<model>wsu_opc/system_config_source_terms_comment</model>
+					</comment>
 				</terms_type>
 				<comment>
 					<label>Show comment field? </label>
