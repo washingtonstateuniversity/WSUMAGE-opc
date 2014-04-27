@@ -36,7 +36,7 @@ class Wsu_Opc_Model_Paypal_Customer extends Mage_Core_Model_Abstract {
 	   return (bool) $this->_getResource()->isPaypalCustomerExists((string) $field, (string) $value);
 	}
 	/**
-	 * Return data array from paypalauth_customer table
+	 * Return data array from paypal_customer table
 	 *
 	 * @param $field
 	 * @param $value

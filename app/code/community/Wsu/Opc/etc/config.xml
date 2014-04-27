@@ -42,7 +42,7 @@
 				<class>Wsu_Opc_Model_Resource</class>
 				<entities>
 					<customer>
-						<table>paypalauth_customer</table>
+						<table>paypal_customer</table>
 					</customer>
 				</entities>
 			</opc_resource>
