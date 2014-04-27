@@ -642,11 +642,11 @@ WSU.OPC.Shipping = {
 
 WSU.OPC.Coupon = {
 	init: function(){
-		$('.apply-coupon').on('click', function(e){
+		jQuery('.apply-coupon').on('click', function(e){
 			e.preventDefault();
 			WSU.OPC.Coupon.applyCoupon(false);
 		});
-		$('.remove-coupon').on('click', function(e){
+		jQuery('.remove-coupon').on('click', function(e){
 			e.preventDefault();
 			WSU.OPC.Coupon.applyCoupon(true);
 		});
