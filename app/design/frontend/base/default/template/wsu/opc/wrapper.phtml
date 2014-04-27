@@ -1,3 +1,9 @@
+<?php if(Mage::getStoreConfig('webformscrf/registration/enable') && Mage::getStoreConfig('webformscrf/registration/form')): ?>
+	<!-- Web-forms custom form -->
+	<?php echo $this->getChildHtml('webformscrf.form'); ?>
+<?php endif ?>
+
+
 <script type="text/javascript">countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?></script>
 <div class="opc-wrapper-opc">
 	<h2><?php echo $this->__('Checkout')?></h2>
@@ -71,6 +77,7 @@
     </div>
 
     <div class="opc-col-right">
+		<?php echo $this->getChildHtml('webforms')?>
         <h3><?php echo $this->__('Review Your Order')?></h3>
         <div id="review-block" style=" position:relative;">
 			<?php echo $this->_getReviewHtml()?>
@@ -116,3 +123,9 @@
 		<div class="opc-messages-action"><button class="button"><span><span><?php echo $this->__('Close')?></span></span></button></div>
 	</div>
 </div>
+
+
+
+
+
+
