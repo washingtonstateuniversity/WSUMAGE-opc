@@ -1,6 +1,15 @@
 <?php
 class Wsu_Opc_Model_Observer{
-	
+
+	public function redirect_to_opc($observer){
+		if(Mage::helper('wsu_opc')->isEnable()){
+			Mage::app()->getFrontController()->getResponse()
+				->setRedirect(Mage::getBaseUrl().'onepage', 301)
+				->sendResponse();
+			exit;
+		}
+	}
+
 	public function applyComment($observer){
 		$order = $observer->getData('order');
 		$comment = Mage::getSingleton('core/session')->getOpcOrderComment();
