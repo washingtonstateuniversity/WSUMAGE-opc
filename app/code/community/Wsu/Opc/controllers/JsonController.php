@@ -2,7 +2,7 @@
 class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 	const DEFAULT_PAYMENT = 'wsu_opc/default/payment';
-	const DEFAULT_PAYMENT = 'wsu_opc/default/check_email';
+	const CHECK_EMAIL = 'wsu_opc/default/check_email';
 
 	/* @var $_order Mage_Sales_Model_Order */
 	protected $_order;
@@ -161,11 +161,22 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			return;
 		}
 
+
+
+
 		if ($this->getRequest()->isPost()) {
 
 			$data = $this->getRequest()->getPost('billing', array());
-
+			if (isset($data['email'])) {
+				$data['email'] = trim($data['email']);
+			}
+			$exists="";
 			if (!Mage::getSingleton('customer/session')->isLoggedIn()){
+				if(Mage::getStoreConfig(self::CHECK_EMAIL)){				
+					$customer_email = $data['email'];
+					$customer = Mage::getModel("customer/customer")->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail($customer_email);
+					$exists = ($customer->getId()>0);
+				}
 				if (isset($data['create_account']) && $data['create_account']==1){
 					$this->getOnepage()->saveCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_REGISTER);
 				}else{
@@ -181,9 +192,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 			$customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
 	
-			if (isset($data['email'])) {
-				$data['email'] = trim($data['email']);
-			}
+
 			$result = $this->getOnepage()->saveBilling($data, $customerAddressId);
 	
 			if (!isset($result['error'])) {
@@ -200,6 +209,8 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				$responseData['error'] = true;
 				$responseData['message'] = $result['message'];
 			}
+			$result['exists']=$exists;
+			
 			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 		}
 	}

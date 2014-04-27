@@ -260,21 +260,25 @@ WSU.OPC.Checkout = {
 			return;
 		}
 		
+		if(typeof(response.exists) != "undefined" && response.exists===true){
+			jQuery('#opc-address-form-billing .form-list').before('<b>This email exists.  Try loging in above</b>');
+		}
+
 		if (typeof(response.shipping) != "undefined"){
 			jQuery('#shipping-block-methods').empty().html(response.shipping);
 		}
-		
+
 		if (typeof(response.payments) != "undefined"){				
 			jQuery('#checkout-payment-method-load').empty().html(response.payments);
 			payment.initWhatIsCvvListeners();//default logic for view "what is this?"
 		}
-		
+
 		if (typeof(response.isVirtual) != "undefined"){
 			WSU.OPC.Checkout.isVirtual = true;
 		}
-		
+
 		WSU.OPC.Checkout.updatePaymentBlock = true;
-		
+
 		if (WSU.OPC.Checkout.isVirtual===false){
 			WSU.OPC.Shipping.saveShippingMethod();
 		}else{
