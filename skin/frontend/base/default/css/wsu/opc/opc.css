@@ -10,7 +10,22 @@
 .modal-backdrop.in {  filter: alpha(opacity=50);  opacity: .5;}
 .modal-header { border-bottom:1px solid #fbfbfb }
 .modal-header h4{padding:10px;;color:#4a4a4a; font-weight:600}
-.modal-header .close {cursor: pointer;position: absolute;right: 10px;text-decoration: none;top:10px;z-index: 1000;background: url("images/close.png") no-repeat scroll 0 0 transparent;display: block;height: 8px;width: 8px;text-indent: -999em;border:none}
+.modal-header .close {
+  border: medium none;
+  color: #6E6E6E;
+  cursor: pointer;
+  display: block;
+  font-size: 2em;
+  font-weight: bold;
+  height: 8px;
+  position: absolute;
+  right: 19px;
+  text-decoration: none;
+  top: 2px;
+  width: 8px;
+  z-index: 1000;
+}
+.modal-header .close:hover { color:#1B1B1B; }
 .modal-title {  margin: 0;  line-height: 1.42857143;}	
 .modal-body {  position: relative;  padding: 20px;border-top:1px solid #d8d8d8}
 .modal-footer {  padding: 19px 20px 20px;  margin-top: 15px;  text-align: right;  border-top: 1px solid #e5e5e5;; overflow:hiden;}
