@@ -29,6 +29,13 @@ class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract {
 		return $status;
 	}
 
+	public function hasCheckoutForm(){
+		
+		return false;	
+	}
+
+
+
 	/**
 	 * Get string with frontend validation classes for attribute
 	 *
