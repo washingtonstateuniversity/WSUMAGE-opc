@@ -747,9 +747,33 @@ WSU.OPC.Login ={
 					}
 				},
 				open:function(){
-					jQuery( "#ok" ).on('click',function(e){
+					jQuery( "#login_form_modal .close" ).on('click',function(e){
 						e.preventDefault();
 						jQuery( "#login_form_modal" ).dialog( "close" );
+					});
+					jQuery('.restore-account').on('click',function(e){
+						e.preventDefault();
+						jQuery('#login-form').hide();
+						jQuery('#login-button-set').hide();
+						jQuery('#form-validate-email').fadeIn();
+						jQuery('#forgotpassword-button-set').show();
+					});
+					jQuery('#login-button-set .btn').on("click",function(e){
+						e.preventDefault();
+						jQuery('#login-form').submit();
+					});
+					jQuery('#forgotpassword-button-set .btn').on("click",function(e){
+						e.preventDefault();
+						var form = jQuery('#form-validate-email').serializeArray();
+						WSU.OPC.Checkout.showLoader();
+						WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/forgotpassword',form, WSU.OPC.Login.prepareResponse,'json');
+					});
+					jQuery('#forgotpassword-button-set .back-link').on("click",function(e){
+						e.preventDefault();
+						jQuery('#form-validate-email').hide();
+						jQuery('#forgotpassword-button-set').hide();
+						jQuery('#login-form').fadeIn();
+						jQuery('#login-button-set').show();
 					});
 				},
 				close: function() {
@@ -761,36 +785,6 @@ WSU.OPC.Login ={
 			jQuery('#login_form_modal').dialog(defaultParams);
 		});
 		
-		
-		
-		
-		jQuery('.restore-account').on('click',function(e){
-			e.preventDefault();
-			jQuery('#login-form').hide();
-			jQuery('#login-button-set').hide();
-			jQuery('#form-validate-email').fadeIn();
-			jQuery('#forgotpassword-button-set').show();
-		});
-
-		jQuery('#login-button-set .btn').on("click",function(e){
-			e.preventDefault();
-			jQuery('#login-form').submit();
-		});
-		
-		jQuery('#forgotpassword-button-set .btn').on("click",function(e){
-			e.preventDefault();
-			var form = jQuery('#form-validate-email').serializeArray();
-			WSU.OPC.Checkout.showLoader();
-			WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/forgotpassword',form, WSU.OPC.Login.prepareResponse,'json');
-		});
-
-		jQuery('#forgotpassword-button-set .back-link').on("click",function(e){
-			e.preventDefault();
-			jQuery('#form-validate-email').hide();
-			jQuery('#forgotpassword-button-set').hide();
-			jQuery('#login-form').fadeIn();
-			jQuery('#login-button-set').show();
-		});
 	},
 	prepareResponse: function(response){
 		WSU.OPC.Checkout.hideLoader();
