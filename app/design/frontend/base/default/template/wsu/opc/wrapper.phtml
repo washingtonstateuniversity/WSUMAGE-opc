@@ -1,7 +1,9 @@
-<?php if(Mage::getStoreConfig('webformscrf/registration/enable') && Mage::getStoreConfig('webformscrf/registration/form')): ?>
-	<!-- Web-forms custom form -->
-	<?php echo $this->getChildHtml('webformscrf.form'); ?>
-<?php endif ?>
+<?php
+$form="";
+if($this->helper('wsu_opc')->hasCheckoutForm()){
+	$form = $this->getChildHtml('webformscrf.form'); 
+}
+?>
 
 
 <script type="text/javascript">countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?></script>
@@ -15,6 +17,7 @@
 	<div class="clear"></div>
 
     <div class="opc-col-left">
+		<?=(Mage::getStoreConfig('wsu_opc/default/form_location')=='billing_above'?$form:"")?>
 		<form id="opc-address-form-billing">
         	<?php echo $this->getChildHtml('billing')?>
         </form>
@@ -22,7 +25,7 @@
         <form id="opc-address-form-shipping" class="hidden">
         <?php echo $this->getChildHtml('shipping')?>
         </form>
-		
+		<?=(Mage::getStoreConfig('wsu_opc/default/form_location')=='billing_below'?$form:"")?>
     </div>
 
     <div class="opc-col-center">
@@ -77,7 +80,7 @@
     </div>
 
     <div class="opc-col-right">
-		<?php echo $this->getChildHtml('webforms')?>
+		<?=(Mage::getStoreConfig('wsu_opc/default/form_location')=='review_above'?$form:"")?>
         <h3><?php echo $this->__('Review Your Order')?></h3>
         <div id="review-block" style=" position:relative;">
 			<?php echo $this->_getReviewHtml()?>
@@ -94,6 +97,7 @@
 				</div>
 			</div>
 		</div>
+		<?=(Mage::getStoreConfig('wsu_opc/default/form_location')=='review_below'?$form:"")?>
     </div>
 </div>
 <script>
