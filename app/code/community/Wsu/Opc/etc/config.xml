@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Wsu_Opc>
-			<version>0.0.1</version>
+			<version>0.1.0</version>
 		</Wsu_Opc>
 	</modules>
 	<global>
@@ -27,10 +27,10 @@
 			</wsu_opc>
 		</helpers>
 		<models>
-			<opc>
+			<wsu_opc>
 				<class>Wsu_Opc_Model</class>
 				<resourceModel>opc_resource</resourceModel>
-			</opc>
+			</wsu_opc>
 			<paypal>
 				<rewrite>
 					<api_nvp>Wsu_Opc_Model_Api_Nvp</api_nvp>
@@ -42,7 +42,7 @@
 				<class>Wsu_Opc_Model_Resource</class>
 				<entities>
 					<customer>
-						<table>paypalauth_customer</table>
+						<table>paypal_customer</table>
 					</customer>
 				</entities>
 			</opc_resource>
@@ -86,7 +86,7 @@
 			</modules>
 		</translate>
 		<events>
-			<controller_action_predispatch>
+			<!--<controller_action_predispatch>
 				<observers>
 					<opc_check_related>
 						<type>singleton</type>
@@ -94,7 +94,7 @@
 						<method>checkRequiredModules</method>
 					</opc_check_related>
 				</observers>
-			</controller_action_predispatch>
+			</controller_action_predispatch>-->
 		</events>
 	</adminhtml>
 	<frontend>
@@ -127,7 +127,7 @@
 			 <checkout_submit_all_after>
 				<observers>
 					<opc_checkout_submit_all_after>
-						<class>opc/observer</class>
+						<class>wsu_opc/observer</class>
 						<method>applyComment</method>
 					</opc_checkout_submit_all_after>
 				</observers>
@@ -143,11 +143,20 @@
 			<sales_order_place_after>
 				<observers>
 					<newsletter_order_place_after>
-						<class>opc/observer</class>
+						<class>wsu_opc/observer</class>
 						<method>newsletter</method>
 					</newsletter_order_place_after>
 				</observers>
 			</sales_order_place_after>
+			
+			 <controller_action_predispatch_checkout_onepage_index>
+				<observers>
+					<load_opc>
+						<class>wsu_opc/observer</class>
+						<method>redirect_to_opc</method>
+					</load_opc>
+				</observers>
+			</controller_action_predispatch_checkout_onepage_index>
 		</events>
 	</frontend>
 	<default>
@@ -164,6 +173,7 @@
 				<comment>0</comment>
 				<subscribe>0</subscribe>
 				<subscribe_default>0</subscribe_default>
+				<check_email>1</check_email>
 			</default>
 			<geo>
 			</geo>

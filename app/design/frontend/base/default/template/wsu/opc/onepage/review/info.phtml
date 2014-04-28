@@ -1,0 +1,58 @@
+<?=$this->getChildHtml('items_before'); ?>
+<div id="checkout-review-table-wrapper">
+    <table class="opc-data-table" id="checkout-review-table">
+        <?php if ($this->helper('tax')->displayCartBothPrices()): $colspan = $rowspan = 2; else: $colspan = $rowspan = 1; endif; ?>
+        <col />
+        <col width="1" />
+        <col width="1" />
+        <col width="1" />
+        <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+        <col width="1" />
+        <col width="1" />
+        <?php endif; ?>
+        <thead>
+            <tr>
+                <th rowspan="<?=$rowspan?>"><?=$this->__('Product Name') ?></th>
+                <th colspan="<?=$colspan?>" class="a-center"><?=$this->__('Price') ?></th>
+                <th rowspan="<?=$rowspan?>" class="a-center"><?=$this->__('Qty') ?></th>
+                <th colspan="<?=$colspan?>" class="a-center"><?=$this->__('Subtotal') ?></th>
+            </tr>
+            <?php if ($this->helper('tax')->displayCartBothPrices()): ?>
+                <tr>
+                    <th class="a-right"><?=$this->helper('tax')->getIncExcTaxLabel(false)?></th>
+                    <th><?=$this->helper('tax')->getIncExcTaxLabel(true)?></th>
+                    <th class="a-right"><?=$this->helper('tax')->getIncExcTaxLabel(false)?></th>
+                    <th><?=$this->helper('tax')->getIncExcTaxLabel(true)?></th>
+                </tr>
+            <?php endif; ?>
+        </thead>
+        <?=$this->getChildHtml('totals');?>
+        <tbody>
+        <?php foreach($this->getItems() as $_item): ?>
+            <?=$this->getItemHtml($_item)?>
+        <?php endforeach ?>
+        </tbody>
+    </table>
+</div>
+<?=$this->getChildHtml('items_after'); ?>
+<script type="text/javascript">
+//<![CDATA[
+    decorateTable('checkout-review-table');
+    truncateOptions();
+//]]>
+</script>
+<?=$this->getChildHtml('opc.newsletters');?>
+<div id="checkout-review-submit">
+    <?=$this->getChildHtml('agreements') ?>
+    <div class="buttons-set" id="review-buttons-container">        
+        <?=$this->getChildHtml('button') ?>
+        <span class="please-wait" id="review-please-wait" style="display:none;">
+            <img src="<?=$this->getSkinUrl('images/opc-ajax-loader.gif') ?>" alt="<?=$this->__('Submitting order information...') ?>" title="<?=$this->__('Submitting order information...') ?>" class="v-middle" /> <?=$this->__('Submitting order information...') ?>
+        </span>
+    </div>
+    <script type="text/javascript">
+    //<![CDATA[
+    review = new Review('<?=$this->getUrl('checkout/onepage/saveOrder', array('form_key' => Mage::getSingleton('core/session')->getFormKey())) ?>', '<?=$this->getUrl('checkout/onepage/success') ?>', $('checkout-agreements'));
+    //]]>
+    </script>
+</div>
