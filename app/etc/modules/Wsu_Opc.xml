@@ -6,6 +6,7 @@
             <codePool>community</codePool>
 			<depends>
                 <Wsu_Storeutilities/>
+				<Wsu_NetworkSecurities/>
             </depends>
         </Wsu_Opc>
     </modules>

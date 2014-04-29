@@ -4,14 +4,11 @@
  */
 ?>
 <div class="box">
-    <div style="background:url('#') no-repeat left center;padding-left:55px;min-height:42px;">
-        <a href="https://github.com/washingtonstateuniversity/WSUMAGE-extopc" target="_blank" style="float:right;">
-            <img src="#" alt="Fork me on GitHub" title="Fork me on GitHub" />
+    <div style="background:url('<?=Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)?>wsu-brand/bug-logotype.svg') no-repeat left top;padding-left:59px;min-height:59px;">
+        <a href="https://github.com/washingtonstateuniversity/WSUMAGE-opc" target="_blank" style="float:right;">
+            <img src="<?=Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA)?>wsu-brand/Github-fork-icon.svg" alt="Fork me on GitHub" title="Fork me on GitHub" />
         </a>
-        <h4><?php echo $this->helper('wsu_opc')->__('Wsu Opc is a shell prime for growth.'); ?></h4>
+        <h4><?php echo $this->helper('wsu_opc')->__('Wsu Opc(One page checkout) is an extension that replaces the default one page checkout.'); ?></h4>
         <p style="margin-bottom:0;"><?php echo $this->helper('wsu_opc')->__('Full overview available'); ?> <a href="<?php echo $this->escapeHtml($this->helper('wsu_opc')->__('#')); ?>" target="_blank"><?php echo $this->helper('wsu_opc')->__('here'); ?></a>.</p>
     </div>
 </div>
-<h2>Opc life</h2>
-<p>This is a module that is just a Opc.  It doesn't do anything but waste a minor amount of resources to be loaded up in the path of all the other extensions.  The goal is that you will take this opc and turn it into something useful.  Simply put, with a case sensitive sreach for `Opc`, `opc` and doing the same on the file and fold names as well, you will have forked your own extention and are ready to create your moddule.  Read more on this that and more <a href="#" target="_blank">here</a>.</p>
-<!-- note we will want to place a quick image of the structure here -->
