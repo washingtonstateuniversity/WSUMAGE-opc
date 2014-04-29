@@ -29,9 +29,10 @@
 			
 					<!--  LOGIN FORM  -->
 					<block type="wsu_opc/onepage_login" name="checkout.onepage.login" as="login" template="wsu/opc/onepage/login.phtml">
-						<block type="core/text_list" name="form.additional.info" />
+						<block type="core/text_list" name="form.additional.info"  output="toHtml" />
 						<block type="customer/account_forgotpassword" name="forgotPassword" template="wsu/opc/customer/form/forgotpassword.phtml"/>	
 					</block>
+
 					<!-- BILLING FORM -->
 					<block type="checkout/onepage_billing" name="checkout.onepage.billing" as="billing" template="wsu/opc/onepage/billing.phtml"/>
 
