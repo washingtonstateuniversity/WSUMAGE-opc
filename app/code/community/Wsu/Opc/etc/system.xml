@@ -51,7 +51,7 @@
 			<show_in_default>1</show_in_default>
 			<show_in_website>1</show_in_website>
 			<show_in_store>1</show_in_store>
-			<expanded>0</expanded>
+			<expanded>1</expanded>
 			<fields>
 				<payment translate="label">
 					<label>Default Payment Method</label>
@@ -60,6 +60,8 @@
 					<isrequired>true</isrequired>
 					<sort_order>10</sort_order>
 					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
 				</payment>
 				<show_shipping>
 					<label>Display Shipping Address Form</label>
@@ -68,6 +70,8 @@
 					<isrequired>true</isrequired>
 					<sort_order>20</sort_order>
 					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
 				</show_shipping>
 				<shipping translate="label">
 					<label>Default Shipping Method</label>
@@ -76,6 +80,8 @@
 					<isrequired>true</isrequired>
 					<sort_order>30</sort_order>
 					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
 				</shipping>
 				<terms_type>
 					<label>Terms and Conditions Output type</label>
@@ -84,6 +90,8 @@
 					<isrequired>true</isrequired>
 					<sort_order>40</sort_order>
 					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
 					<comment>
 						<model>wsu_opc/system_config_source_terms_comment</model>
 					</comment>
@@ -95,6 +103,8 @@
 					<isrequired>true</isrequired>
 					<sort_order>50</sort_order>
 					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
 				</comment>
 				<subscribe_default>
 					<label>Check Subscribe to Newsletter by default</label>
@@ -103,6 +113,8 @@
 					<isrequired>true</isrequired>
 					<sort_order>60</sort_order>
 					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
 				</subscribe_default>
 				<subscribe>
 					<label>Show Subscribe to Newsletter</label>
@@ -111,6 +123,8 @@
 					<isrequired>true</isrequired>
 					<sort_order>70</sort_order>
 					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
 				</subscribe>
 				<check_email>
 					<label>Check for existing email</label>
@@ -119,6 +133,8 @@
 					<isrequired>true</isrequired>
 					<sort_order>80</sort_order>
 					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
 				</check_email>
 				<form_location>
 					<label>Checkout Form Location</label>
@@ -148,6 +164,8 @@
 			<label>Paypal Express LightBox</label>
 			<sort_order>40</sort_order>
 			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
 			<expanded>1</expanded>
 			<fields>
 				<status>
@@ -157,6 +175,8 @@
 					<isrequired>true</isrequired>
 					<sort_order>10</sort_order>
 					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
 					<comment><![CDATA[<span class="notice">The site must be securely hosted on an HTTPS server.</span>]]></comment>
 				</status>
 				<sandbox translate="label">
