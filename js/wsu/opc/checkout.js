@@ -438,11 +438,19 @@ WSU.OPC.Billing = {
 	initChangeAddress: function(){
 		jQuery('#opc-address-form-billing input').on('keyup',function(e){
 			e.preventDefault();
-			WSU.OPC.Billing.validateForm();
+			if( jQuery('#opc-address-form-billing select[required]').filter(function() { return $(this).val() == ""; }).length==0
+				&& jQuery('#opc-address-form-billing input[required]').filter(function() { return $(this).val() == ""; }).length==0
+			){
+				WSU.OPC.Billing.validateForm();
+			}
 		});
 		jQuery('#opc-address-form-billing select').not('#billing-address-select').on('change',function(e){
 			e.preventDefault();
-			WSU.OPC.Billing.validateForm();
+			if( jQuery('#opc-address-form-billing select[required]').filter(function() { return $(this).val() == ""; }).length==0
+				&& jQuery('#opc-address-form-billing input[required]').filter(function() { return $(this).val() == ""; }).length==0
+			){
+				WSU.OPC.Billing.validateForm();
+			}
 		});
 	},
 	
