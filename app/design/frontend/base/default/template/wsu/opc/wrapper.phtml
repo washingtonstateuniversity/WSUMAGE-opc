@@ -3,6 +3,9 @@ $form="";
 if($this->helper('wsu_opc')->hasCheckoutForm()){
 	$form = $this->getChildHtml('webformscrf.form'); 
 }
+
+$loading = '<div class="opc-ajax-loader"> LOADING! </div>';
+
 ?>
 
 
@@ -40,37 +43,13 @@ if($this->helper('wsu_opc')->hasCheckoutForm()){
 		<div class="payment-block <?php if ($this->getOnepage()->getQuote()->isVirtual()):?>clear-margin<?php endif;?>" style=" position:relative;">
 			<h3><?php echo $this->__('Payment Method')?></h3>
 			<?php echo $this->getChildHtml('payment')//$this->_getPaymentMethodsHtml();?>
-			
-			<div class="opc-ajax-loader">
-				<div id="floatingCirclesG">
-					<div class="f_circleG" id="frotateG_01"></div>
-					<div class="f_circleG" id="frotateG_02"></div>
-					<div class="f_circleG" id="frotateG_03"></div>
-					<div class="f_circleG" id="frotateG_04"></div>
-					<div class="f_circleG" id="frotateG_05"></div>
-					<div class="f_circleG" id="frotateG_06"></div>
-					<div class="f_circleG" id="frotateG_07"></div>
-					<div class="f_circleG" id="frotateG_08"></div>
-				</div>
-			</div>
-			
+			<?=$loading?>
 		</div>
 		
 		<div class="discount-block">
 			<h3><?php echo $this->__('Discount Codes')?></h3>
 			<?php echo $this->getChildhtml('coupon');?>
-			<div class="opc-ajax-loader">
-				<div id="floatingCirclesG">
-					<div class="f_circleG" id="frotateG_01"></div>
-					<div class="f_circleG" id="frotateG_02"></div>
-					<div class="f_circleG" id="frotateG_03"></div>
-					<div class="f_circleG" id="frotateG_04"></div>
-					<div class="f_circleG" id="frotateG_05"></div>
-					<div class="f_circleG" id="frotateG_06"></div>
-					<div class="f_circleG" id="frotateG_07"></div>
-					<div class="f_circleG" id="frotateG_08"></div>
-				</div>
-			</div>
+			<?=$loading?>
 		</div>
 
 		<?php if(Mage::helper('wsu_opc')->isShowComment()):?>
@@ -84,18 +63,7 @@ if($this->helper('wsu_opc')->hasCheckoutForm()){
         <h3><?php echo $this->__('Review Your Order')?></h3>
         <div id="review-block" style=" position:relative;">
 			<?php echo $this->_getReviewHtml()?>
-			<div class="opc-ajax-loader">
-				<div id="floatingCirclesG">
-					<div class="f_circleG" id="frotateG_01"></div>
-					<div class="f_circleG" id="frotateG_02"></div>
-					<div class="f_circleG" id="frotateG_03"></div>
-					<div class="f_circleG" id="frotateG_04"></div>
-					<div class="f_circleG" id="frotateG_05"></div>
-					<div class="f_circleG" id="frotateG_06"></div>
-					<div class="f_circleG" id="frotateG_07"></div>
-					<div class="f_circleG" id="frotateG_08"></div>
-				</div>
-			</div>
+			<?=$loading?>
 		</div>
 		<?=(Mage::getStoreConfig('wsu_opc/default/form_location')=='review_below'?$form:"")?>
     </div>
@@ -107,20 +75,7 @@ if($this->helper('wsu_opc')->hasCheckoutForm()){
 	<?php endif;?>	 
 </script>
 
-<!--<div class="opc-ajax-loader">
-	<div id="floatingCirclesG">
-		<div class="f_circleG" id="frotateG_01"></div>
-		<div class="f_circleG" id="frotateG_02"></div>
-		<div class="f_circleG" id="frotateG_03"></div>
-		<div class="f_circleG" id="frotateG_04"></div>
-		<div class="f_circleG" id="frotateG_05"></div>
-		<div class="f_circleG" id="frotateG_06"></div>
-		<div class="f_circleG" id="frotateG_07"></div>
-		<div class="f_circleG" id="frotateG_08"></div>
-	</div>
-</div>-->
-<div class="opc-message-wrapper">
-	
+<div class="opc-message-wrapper">	
 	<div class="opc-messages">
 		<a class="close-message-wrapper"></a>
 		<div class="opc-message-container"></div>
