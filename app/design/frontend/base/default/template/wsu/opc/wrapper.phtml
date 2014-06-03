@@ -3,9 +3,8 @@ $form="";
 if($this->helper('wsu_opc')->hasCheckoutForm()){
 	$form = $this->getChildHtml('webformscrf.form'); 
 }
-
+$form_location = Mage::getStoreConfig('wsu_opc/default/form_location');
 $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loader"></div></div>';
-
 ?>
 
 
@@ -20,7 +19,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
 	<div class="clear"></div>
 
     <div class="opc-col-left">
-		<?=(Mage::getStoreConfig('wsu_opc/default/form_location')=='billing_above'?$form:"")?>
+		<?=(=='billing_above'?$form:"")?>
 		<form id="opc-address-form-billing">
         	<?php echo $this->getChildHtml('billing')?>
         </form>
@@ -28,7 +27,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
         <form id="opc-address-form-shipping" class="hidden">
         <?php echo $this->getChildHtml('shipping')?>
         </form>
-		<?=(Mage::getStoreConfig('wsu_opc/default/form_location')=='billing_below'?$form:"")?>
+		<?=($form_location=='billing_below'?$form:"")?>
     </div>
 
     <div class="opc-col-center">
@@ -59,13 +58,13 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
     </div>
 
     <div class="opc-col-right">
-		<?=(Mage::getStoreConfig('wsu_opc/default/form_location')=='review_above'?$form:"")?>
+		<?=($form_location=='review_above'?$form:"")?>
         <h3><?php echo $this->__('Review Your Order')?></h3>
         <div id="review-block" style=" position:relative;">
 			<?php echo $this->_getReviewHtml()?>
 			<?=$loading?>
 		</div>
-		<?=(Mage::getStoreConfig('wsu_opc/default/form_location')=='review_below'?$form:"")?>
+		<?=($form_location=='review_below'?$form:"")?>
     </div>
 </div>
 <script>
