@@ -19,7 +19,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
 	<div class="clear"></div>
 
     <div class="opc-col-left">
-		<?=(=='billing_above'?$form:"")?>
+		<?=($form_location=='billing_above'?$form:"")?>
 		<form id="opc-address-form-billing">
         	<?php echo $this->getChildHtml('billing')?>
         </form>
