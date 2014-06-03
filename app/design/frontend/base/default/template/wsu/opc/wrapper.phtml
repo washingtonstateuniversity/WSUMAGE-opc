@@ -8,7 +8,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
 ?>
 
 
-<script type="text/javascript">countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?></script>
+<script type="text/javascript"> var countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?>;</script>
 <div class="opc-wrapper-opc">
 	<h2><?php echo $this->__('Checkout')?></h2>
 	<p><?php echo $this->__('Fill in the Fields below to complete your purchase!')?></p>
@@ -21,11 +21,10 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
     <div class="opc-col-left">
 		<?=($form_location=='billing_above'?$form:"")?>
 		<form id="opc-address-form-billing">
-        	<?php echo $this->getChildHtml('billing')?>
+        	<?=$this->getChildHtml('billing')?>
         </form>
-        	
         <form id="opc-address-form-shipping" class="hidden">
-        <?php echo $this->getChildHtml('shipping')?>
+        	<?=$this->getChildHtml('shipping')?>
         </form>
 		<?=($form_location=='billing_below'?$form:"")?>
     </div>
@@ -33,35 +32,35 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
     <div class="opc-col-center">
     	<?php if (!$this->getOnepage()->getQuote()->isVirtual()):?>
     	<div class="shipping-block">
-        	<h3><?php echo $this->__('Shipping Method')?></h3>
+        	<h3><?=$this->__('Shipping Method')?></h3>
         	<div id="shipping-block-methods">
-				<?php echo $this->getChildHtml('shipping_method');//$this->_getShippingMethodsHtml();?>
+				<?=$this->getChildHtml('shipping_method');//$this->_getShippingMethodsHtml();?>
 			</div>
 		</div>
 		<?php endif;?>
 		<div class="payment-block <?php if ($this->getOnepage()->getQuote()->isVirtual()):?>clear-margin<?php endif;?>" style=" position:relative;">
-			<h3><?php echo $this->__('Payment Method')?></h3>
-			<?php echo $this->getChildHtml('payment')//$this->_getPaymentMethodsHtml();?>
+			<h3><?=$this->__('Payment Method')?></h3>
+			<?=$this->getChildHtml('payment')//$this->_getPaymentMethodsHtml();?>
 			<?=$loading?>
 		</div>
 		
 		<div class="discount-block">
-			<h3><?php echo $this->__('Discount Codes')?></h3>
-			<?php echo $this->getChildhtml('coupon');?>
+			<h3><?=$this->__('Discount Codes')?></h3>
+			<?=$this->getChildhtml('coupon');?>
 			<?=$loading?>
 		</div>
 
 		<?php if(Mage::helper('wsu_opc')->isShowComment()):?>
-			<?php echo $this->getChildhtml('customer.comment');?>
+			<?=$this->getChildhtml('customer.comment');?>
 		<?php endif;?>
 
     </div>
 
     <div class="opc-col-right">
 		<?=($form_location=='review_above'?$form:"")?>
-        <h3><?php echo $this->__('Review Your Order')?></h3>
-        <div id="review-block" style=" position:relative;">
-			<?php echo $this->_getReviewHtml()?>
+        <h3><?=$this->__('Review Your Order')?></h3>
+        <div id="review-block" style="position:relative;">
+			<?=$this->_getReviewHtml()?>
 			<?=$loading?>
 		</div>
 		<?=($form_location=='review_below'?$form:"")?>
