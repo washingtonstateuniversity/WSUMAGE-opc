@@ -239,11 +239,11 @@ WSU.OPC.Checkout = {
 				WSU.OPC.Billing.save();
 			}else{
 				//FIX FOR MAGENTO 1.8 - NEED LOAD PAYTMENT METHOD BY AJAX
-				WSU.OPC.Checkout.pullPayments();
+				//WSU.OPC.Checkout.pullPayments();
 			}
 		}else{
 			//FIX FOR MAGENTO 1.8 - NEED LOAD PAYTMENT METHOD BY AJAX
-			WSU.OPC.Checkout.pullPayments();
+			//WSU.OPC.Checkout.pullPayments();
 		}		
 		WSU.OPC.initPayment();
 	},
