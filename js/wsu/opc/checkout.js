@@ -96,21 +96,27 @@ WSU.OPC = {
 		WSU.OPC.unbindChangePaymentFields();
 		jQuery('#co-payment-form input').on('keyup',function(e){
 			e.preventDefault();
-			if (WSU.OPC.Checkout.ajaxProgress!=false){
-				clearTimeout(WSU.OPC.Checkout.ajaxProgress);
-			}
-			WSU.OPC.Checkout.ajaxProgress = setTimeout(function(){
-				WSU.OPC.validatePayment();
-			}, 1000);
+			clearTimeout(WSU.OPC.Checkout.formChanging);
+			WSU.OPC.Checkout.formChanging = setTimeout(function(){
+				if (WSU.OPC.Checkout.ajaxProgress!=false){
+					clearTimeout(WSU.OPC.Checkout.ajaxProgress);
+				}
+				WSU.OPC.Checkout.ajaxProgress = setTimeout(function(){
+					WSU.OPC.validatePayment();
+				}, 1000);
+			}, 500);
 		});
 		jQuery('#co-payment-form select').on('change',function(e){
 			e.preventDefault();
-			if (WSU.OPC.Checkout.ajaxProgress!=false){
-				clearTimeout(WSU.OPC.Checkout.ajaxProgress);
-			}
-			WSU.OPC.Checkout.ajaxProgress = setTimeout(function(){
-				WSU.OPC.validatePayment();
-			}, 1000);
+			clearTimeout(WSU.OPC.Checkout.formChanging);
+			WSU.OPC.Checkout.formChanging = setTimeout(function(){
+				if (WSU.OPC.Checkout.ajaxProgress!=false){
+					clearTimeout(WSU.OPC.Checkout.ajaxProgress);
+				}
+				WSU.OPC.Checkout.ajaxProgress = setTimeout(function(){
+					WSU.OPC.validatePayment();
+				}, 1000);
+			}, 500);
 		});
 	},
 
@@ -239,11 +245,11 @@ WSU.OPC.Checkout = {
 				WSU.OPC.Billing.save();
 			}else{
 				//FIX FOR MAGENTO 1.8 - NEED LOAD PAYTMENT METHOD BY AJAX
-				WSU.OPC.Checkout.pullPayments();
+				//WSU.OPC.Checkout.pullPayments();
 			}
 		}else{
 			//FIX FOR MAGENTO 1.8 - NEED LOAD PAYTMENT METHOD BY AJAX
-			WSU.OPC.Checkout.pullPayments();
+			//WSU.OPC.Checkout.pullPayments();
 		}		
 		WSU.OPC.initPayment();
 	},
@@ -438,11 +444,28 @@ WSU.OPC.Billing = {
 	initChangeAddress: function(){
 		jQuery('#opc-address-form-billing input').on('keyup',function(e){
 			e.preventDefault();
-			WSU.OPC.Billing.validateForm();
+			if( jQuery('#opc-address-form-billing select[required]').filter(function() { return $(this).val() == ""; }).length==0
+				&& jQuery('#opc-address-form-billing input[required]').filter(function() { return $(this).val() == ""; }).length==0
+			){
+				clearTimeout(WSU.OPC.Checkout.formChanging);
+				WSU.OPC.Checkout.formChanging = setTimeout(function(){
+					WSU.OPC.Billing.validateForm();
+				}, 500);
+				
+				
+				
+			}
 		});
 		jQuery('#opc-address-form-billing select').not('#billing-address-select').on('change',function(e){
 			e.preventDefault();
-			WSU.OPC.Billing.validateForm();
+			if( jQuery('#opc-address-form-billing select[required]').filter(function() { return $(this).val() == ""; }).length==0
+				&& jQuery('#opc-address-form-billing input[required]').filter(function() { return $(this).val() == ""; }).length==0
+			){
+				clearTimeout(WSU.OPC.Checkout.formChanging);
+				WSU.OPC.Checkout.formChanging = setTimeout(function(){
+					WSU.OPC.Billing.validateForm();
+				}, 500);
+			}
 		});
 	},
 	
