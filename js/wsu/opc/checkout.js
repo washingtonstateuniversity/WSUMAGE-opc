@@ -221,16 +221,18 @@ WSU.OPC.Checkout = {
 
 	
 	showLoader: function(parentBlock,message){
-		var jObj = parentBlock || "#general_message";
-		var html = message || "";
+		var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
+		var html = message!=="undefined"? message:"";
 		jQuery(jObj+' .opc-ajax-loader').append(html);
 		jQuery(jObj+' .opc-ajax-loader').show();
+		console.log("masking "+jObj+" with a message of "+html);
 	},
 	
 	hideLoader: function(parentBlock){
-		var jObj = parentBlock || "#general_message";
+		var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
 		jQuery(jObj+' .opc-ajax-loader').html('<div class="loader">');
 		jQuery(jObj+' .opc-ajax-loader').hide();
+		console.log("hidgin mask of "+jObj+" with a message of ");
 	},
 
 	
@@ -277,7 +279,7 @@ WSU.OPC.Checkout = {
 			
 			WSU.OPC.popup_message(response.message);
 
-			WSU.OPC.Checkout.hideLoader();
+			WSU.OPC.Checkout.hideLoader("#opc-address-form-billing");
 			return;
 		}
 		
@@ -299,7 +301,8 @@ WSU.OPC.Checkout = {
 		}
 
 		WSU.OPC.Checkout.updatePaymentBlock = true;
-
+		WSU.OPC.Checkout.hideLoader("#opc-address-form-billing");
+		WSU.OPC.Checkout.hideLoader("#opc-address-form-shipping");
 		if (WSU.OPC.Checkout.isVirtual===false){
 			WSU.OPC.Shipping.saveShippingMethod();
 		}else{
@@ -312,7 +315,7 @@ WSU.OPC.Checkout = {
 	/** PARSE RESPONSE FROM AJAX SAVE SHIPPING METHOD **/
 	prepareShippingMethodResponse: function(response){
 		WSU.OPC.Checkout.xhr = null;
-		WSU.OPC.Checkout.hideLoader();
+		WSU.OPC.Checkout.hideLoader("#opc-address-form-shipping");
 
 		if (typeof(response.error)!="undefined"){
 			WSU.OPC.Plugin.dispatch('error');
@@ -396,7 +399,7 @@ WSU.OPC.Checkout = {
 	pullPayments: function(){
 		WSU.OPC.Checkout.showLoader('.payment-block',"<h1>Getting payment choices</h1>");
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/payments',function(response){
-			WSU.OPC.Checkout.hideLoader();
+			WSU.OPC.Checkout.hideLoader('.payment-block');
 			if (typeof(response.error)!="undefined"){
 				WSU.OPC.popup_message(response.error);
 				WSU.OPC.saveOrderStatus = false;
