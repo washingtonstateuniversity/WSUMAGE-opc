@@ -221,18 +221,16 @@ WSU.OPC.Checkout = {
 
 	
 	showLoader: function(parentBlock,message){
-		var jObj = parentBlock || ".opc-wrapper-opc";
-		var global_sec = parentBlock ? "" : ":first"; 
+		var jObj = parentBlock || "#general_message";
 		var html = message || "";
-		jQuery(jObj+' .opc-ajax-loader'+global_sec).append(html);
-		jQuery(jObj+' .opc-ajax-loader'+global_sec).show();
+		jQuery(jObj+' .opc-ajax-loader').append(html);
+		jQuery(jObj+' .opc-ajax-loader').show();
 	},
 	
 	hideLoader: function(parentBlock){
-		var jObj = parentBlock || ".opc-wrapper-opc";
-		var global_sec = parentBlock ? "" : ":first"; 
-		jQuery(jObj+' .opc-ajax-loader'+global_sec).html('<div class="loader">');
-		jQuery(jObj+' .opc-ajax-loader'+global_sec).hide();
+		var jObj = parentBlock || "#general_message";
+		jQuery(jObj+' .opc-ajax-loader').html('<div class="loader">');
+		jQuery(jObj+' .opc-ajax-loader').hide();
 	},
 
 	

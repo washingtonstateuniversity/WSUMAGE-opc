@@ -10,7 +10,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
 
 <script type="text/javascript"> var countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?>;</script>
 <div class="opc-wrapper-opc">
-	<?=$loading?>
+	<div id="general_message"><?=$loading?></div>
 	<h2><?php echo $this->__('Checkout')?></h2>
 	<p><?php echo $this->__('Fill in the Fields below to complete your purchase!')?></p>
 	
