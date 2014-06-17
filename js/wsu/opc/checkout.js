@@ -132,7 +132,7 @@ WSU.OPC = {
 			WSU.OPC.Checkout.xhr.abort();
 		}
 		var form = jQuery('#co-payment-form').serializeArray();
-		WSU.OPC.Checkout.showLoader('.payment-block');
+		WSU.OPC.Checkout.showLoader('.payment-block',"<h1>Saving payment choice</h1>");
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',form, WSU.OPC.preparePaymentResponse,'json');
 	},
 	/** CHECK RESPONSE FROM AJAX AFTER SAVE PAYMENT METHOD **/
@@ -173,7 +173,7 @@ WSU.OPC = {
 	saveOrder: function(){
 		var form = jQuery('#co-payment-form').serializeArray();
 		form  = WSU.OPC.checkAgreement(form);
-		WSU.OPC.Checkout.showLoader();
+		WSU.OPC.Checkout.showLoader("","<h1>Processing order.</h1>");
 		if (WSU.OPC.Checkout.config.comment!=="0"){
 			WSU.OPC.saveCustomerComment();
 		}
@@ -218,6 +218,23 @@ WSU.OPC.Checkout = {
 	isVirtual: false,
 	
 	saveOrderUrl: null,
+
+	
+	showLoader: function(parentBlock,message){
+		var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
+		var html = message!=="undefined"? message:"";
+		jQuery(jObj+' .opc-ajax-loader').append(html);
+		jQuery(jObj+' .opc-ajax-loader').show();
+		console.log("masking "+jObj+" with a message of "+html);
+	},
+	
+	hideLoader: function(parentBlock){
+		var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
+		jQuery(jObj+' .opc-ajax-loader').html('<div class="loader">');
+		jQuery(jObj+' .opc-ajax-loader').hide();
+		console.log("hidgin mask of "+jObj+" with a message of ");
+	},
+
 	
 	init:function(){		
 		
@@ -262,7 +279,7 @@ WSU.OPC.Checkout = {
 			
 			WSU.OPC.popup_message(response.message);
 
-			WSU.OPC.Checkout.hideLoader();
+			WSU.OPC.Checkout.hideLoader("#opc-address-form-billing");
 			return;
 		}
 		
@@ -284,7 +301,8 @@ WSU.OPC.Checkout = {
 		}
 
 		WSU.OPC.Checkout.updatePaymentBlock = true;
-
+		WSU.OPC.Checkout.hideLoader("#opc-address-form-billing");
+		WSU.OPC.Checkout.hideLoader("#opc-address-form-shipping");
 		if (WSU.OPC.Checkout.isVirtual===false){
 			WSU.OPC.Shipping.saveShippingMethod();
 		}else{
@@ -297,7 +315,7 @@ WSU.OPC.Checkout = {
 	/** PARSE RESPONSE FROM AJAX SAVE SHIPPING METHOD **/
 	prepareShippingMethodResponse: function(response){
 		WSU.OPC.Checkout.xhr = null;
-		WSU.OPC.Checkout.hideLoader();
+		WSU.OPC.Checkout.hideLoader(".shipping-method-block");
 
 		if (typeof(response.error)!="undefined"){
 			WSU.OPC.Plugin.dispatch('error');
@@ -343,16 +361,7 @@ WSU.OPC.Checkout = {
 			}
 		});
 	},
-	
-	showLoader: function(parentBlock){
-		var jObj = parentBlock || "";
-		jQuery(jObj+' .opc-ajax-loader').show();
-	},
-	
-	hideLoader: function(parentBlock){
-		var jObj = parentBlock || "";
-		jQuery(jObj+' .opc-ajax-loader').hide();
-	},
+
 	
 	/** APPLY SHIPPING METHOD FORM TO BILLING FORM **/
 	applyShippingMethod: function(form){
@@ -375,9 +384,9 @@ WSU.OPC.Checkout = {
 	
 	/** PULL REVIEW **/
 	pullReview: function(){
-		WSU.OPC.Checkout.showLoader('#review-block');
+		WSU.OPC.Checkout.showLoader('#review-block',"<h1>Recalulating</h1>");
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/review',function(response){
-			WSU.OPC.Checkout.hideLoader('#review-block');
+			WSU.OPC.Checkout.hideLoader('.review-block');
 			if (typeof(response.review)!="undefined"){
 				jQuery('#review-block').html(response.review);
 				WSU.OPC.Checkout.removePrice();
@@ -388,9 +397,9 @@ WSU.OPC.Checkout = {
 	
 	/** PULL PAYMENTS METHOD AFTER LOAD PAGE **/
 	pullPayments: function(){
-		WSU.OPC.Checkout.showLoader('.payment-block');
+		WSU.OPC.Checkout.showLoader('.payment-block',"<h1>Getting payment choices</h1>");
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/payments',function(response){
-			WSU.OPC.Checkout.hideLoader();
+			WSU.OPC.Checkout.hideLoader('.payment-block');
 			if (typeof(response.error)!="undefined"){
 				WSU.OPC.popup_message(response.error);
 				WSU.OPC.saveOrderStatus = false;
@@ -561,7 +570,7 @@ WSU.OPC.Billing = {
 			if (WSU.OPC.Checkout.xhr!=null){
 				WSU.OPC.Checkout.xhr.abort();
 			}
-			WSU.OPC.Checkout.showLoader();
+			WSU.OPC.Checkout.showLoader("#opc-address-form-billing","<h1>Saving billing information</h1>");
 			WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveBilling',form, WSU.OPC.Checkout.prepareAddressResponse,'json');
 		}, 300);
 	}
@@ -634,7 +643,7 @@ WSU.OPC.Shipping = {
 				if (WSU.OPC.Checkout.xhr!=null){
 					WSU.OPC.Checkout.xhr.abort();
 				}
-				WSU.OPC.Checkout.showLoader();
+				WSU.OPC.Checkout.showLoader("#opc-address-form-shipping","<h1>Saving shipping address</h1>");
 				WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShipping',form, WSU.OPC.Checkout.prepareAddressResponse);
 		}, 300);
 	},
@@ -654,7 +663,7 @@ WSU.OPC.Shipping = {
 			if (WSU.OPC.Checkout.xhr!=null){
 				WSU.OPC.Checkout.xhr.abort();
 			}
-			WSU.OPC.Checkout.showLoader();
+			WSU.OPC.Checkout.showLoader(".shipping-method-block","<h1>Saving shipping choice</h1>");
 			WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShippingMethod',form, WSU.OPC.Checkout.prepareShippingMethodResponse,'json');
 		}, 300);
 	},

@@ -252,10 +252,16 @@
 	transform: translate3d(0, 0, 0);
 	
 }
-
-.payment-block .opc-ajax-loader{ position:absolute; }
-#review-block .opc-ajax-loader{ position:absolute; }
-
+[class*="-block"]{ position:relative;}
+[class*="-block"] .opc-ajax-loader{ position:absolute; }
+.opc-ajax-loader h1 {
+  bottom: 5px;
+  color: #E8E8E8;
+  float: left;
+  font-size: 1.5em;
+  position: absolute;
+  right: 15px;
+}
 .loader {
 	width: 1em;
 	height: 1em;

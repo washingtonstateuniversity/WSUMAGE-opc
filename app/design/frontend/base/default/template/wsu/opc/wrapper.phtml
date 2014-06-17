@@ -10,6 +10,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
 
 <script type="text/javascript"> var countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?>;</script>
 <div class="opc-wrapper-opc">
+	<div id="general_message"><?=$loading?></div>
 	<h2><?php echo $this->__('Checkout')?></h2>
 	<p><?php echo $this->__('Fill in the Fields below to complete your purchase!')?></p>
 	
@@ -20,22 +21,25 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
 
     <div class="opc-col-left">
 		<?=($form_location=='billing_above'?$form:"")?>
-		<form id="opc-address-form-billing">
+		<form id="opc-address-form-billing" class="billing-block">
         	<?=$this->getChildHtml('billing')?>
+			<?=$loading?>
         </form>
-        <form id="opc-address-form-shipping" class="hidden">
+        <form id="opc-address-form-shipping" class="shipping-block hidden">
         	<?=$this->getChildHtml('shipping')?>
+			<?=$loading?>
         </form>
 		<?=($form_location=='billing_below'?$form:"")?>
     </div>
 
     <div class="opc-col-center">
     	<?php if (!$this->getOnepage()->getQuote()->isVirtual()):?>
-    	<div class="shipping-block">
+    	<div class="shipping-method-block">
         	<h3><?=$this->__('Shipping Method')?></h3>
         	<div id="shipping-block-methods">
 				<?=$this->getChildHtml('shipping_method');//$this->_getShippingMethodsHtml();?>
 			</div>
+			<?=$loading?>
 		</div>
 		<?php endif;?>
 		<div class="payment-block <?php if ($this->getOnepage()->getQuote()->isVirtual()):?>clear-margin<?php endif;?>" style=" position:relative;">
@@ -59,7 +63,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
     <div class="opc-col-right">
 		<?=($form_location=='review_above'?$form:"")?>
         <h3><?=$this->__('Review Your Order')?></h3>
-        <div id="review-block" style="position:relative;">
+        <div id="review-block" class="review-block">
 			<?=$this->_getReviewHtml()?>
 			<?=$loading?>
 		</div>
