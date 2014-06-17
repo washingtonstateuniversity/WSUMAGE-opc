@@ -252,9 +252,8 @@
 	transform: translate3d(0, 0, 0);
 	
 }
-
-.payment-block .opc-ajax-loader{ position:absolute; }
-#review-block .opc-ajax-loader{ position:absolute; }
+[class*="-block"]{ position:relative;}
+[class*="-block"] .opc-ajax-loader{ position:absolute; }
 
 .loader {
 	width: 1em;
