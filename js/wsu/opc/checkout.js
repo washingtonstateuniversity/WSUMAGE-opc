@@ -310,7 +310,9 @@ WSU.OPC.Checkout = {
 		WSU.OPC.Checkout.hideLoader("#opc-address-form-billing");
 		WSU.OPC.Checkout.hideLoader("#opc-address-form-shipping");
 		if (WSU.OPC.Checkout.isVirtual===false){
-			WSU.OPC.Shipping.saveShippingMethod();
+			if(WSU.OPC.ready_shipping_method===false){
+				WSU.OPC.Shipping.saveShippingMethod();
+			}
 		}else{
 			jQuery('.shipping-block').hide();
 			jQuery('.payment-block').addClass('clear-margin');
@@ -334,7 +336,7 @@ WSU.OPC.Checkout = {
 			jQuery('#opc-review-block').html(response.review);
 			WSU.OPC.Checkout.removePrice();
 		}
-
+		WSU.OPC.ready_shipping_method=true;
 		//IF STATUS TRUE - START SAVE PAYMENT FOR CREATE ORDER
 		if (WSU.OPC.saveOrderStatus==true){
 			WSU.OPC.validatePayment();
@@ -428,6 +430,7 @@ WSU.OPC.Billing = {
 		this.setBillingForShipping(true);
 		jQuery('input[name="billing[use_for_shipping]"]').on('change',function(e){
 			e.preventDefault();
+			WSU.OPC.ready_shipping_method=false;
 			if (jQuery(this).is(':checked')){
 				WSU.OPC.Billing.setBillingForShipping(true);
 				jQuery('#opc-address-form-billing select[name="billing[country_id]"]').change();
@@ -459,6 +462,11 @@ WSU.OPC.Billing = {
 	initChangeAddress: function(){
 		jQuery('#opc-address-form-billing input').on('keyup',function(e){
 			e.preventDefault();
+			
+			if(jQuery(this).is(jQuery('.shipping_method_value'))){
+				WSU.OPC.ready_shipping_method=false;	
+			}
+			
 			if( jQuery('#opc-address-form-billing select[required]').filter(function() { return $(this).val() == ""; }).length==0
 				&& jQuery('#opc-address-form-billing input[required]').filter(function() { return $(this).val() == ""; }).length==0
 			){
