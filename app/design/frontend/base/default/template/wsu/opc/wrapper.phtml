@@ -34,7 +34,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
 
     <div class="opc-col-center">
     	<?php if (!$this->getOnepage()->getQuote()->isVirtual()):?>
-    	<div class="shipping-block">
+    	<div class="shipping-method-block">
         	<h3><?=$this->__('Shipping Method')?></h3>
         	<div id="shipping-block-methods">
 				<?=$this->getChildHtml('shipping_method');//$this->_getShippingMethodsHtml();?>
