@@ -1,12 +1,12 @@
 <?php
 $cp_id = $this->getCouponCode();
-
+/*  was thinkin maybe a time that the code would change the shipping... but the discount is apply to the cart .. so maybe not.. well come back to 
 if(strlen($cp_id)){
-	$oCoupon = Mage::getModel('salesrule/coupon')->load($couponCode, 'code');
+	$oCoupon = Mage::getModel('salesrule/coupon')->load($cp_id, 'code');
 	$oRule = Mage::getModel('salesrule/rule')->load($oCoupon->getRuleId());
 	var_dump($oRule->getData());
 }
-
+*/
 $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loader"></div></div>';
 ?>
 <form id="opc-discount-coupon-form" action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
