@@ -63,7 +63,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
     <div class="opc-col-right">
 		<?=($form_location=='review_above'?$form:"")?>
         <h3><?=$this->__('Review Your Order')?></h3>
-        <div id="review-block" style="position:relative;">
+        <div id="review-block" class="review-block">
 			<?=$this->_getReviewHtml()?>
 			<?=$loading?>
 		</div>
