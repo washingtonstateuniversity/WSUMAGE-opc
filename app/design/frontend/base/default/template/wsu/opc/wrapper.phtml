@@ -23,9 +23,11 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
 		<?=($form_location=='billing_above'?$form:"")?>
 		<form id="opc-address-form-billing">
         	<?=$this->getChildHtml('billing')?>
+			<?=$loading?>
         </form>
         <form id="opc-address-form-shipping" class="hidden">
         	<?=$this->getChildHtml('shipping')?>
+			<?=$loading?>
         </form>
 		<?=($form_location=='billing_below'?$form:"")?>
     </div>
@@ -37,6 +39,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
         	<div id="shipping-block-methods">
 				<?=$this->getChildHtml('shipping_method');//$this->_getShippingMethodsHtml();?>
 			</div>
+			<?=$loading?>
 		</div>
 		<?php endif;?>
 		<div class="payment-block <?php if ($this->getOnepage()->getQuote()->isVirtual()):?>clear-margin<?php endif;?>" style=" position:relative;">
