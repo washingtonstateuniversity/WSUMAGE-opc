@@ -227,10 +227,11 @@ WSU.OPC.Checkout = {
 
 	
 	showLoader: function(parentBlock,message){
-		var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
-		var html = message!=="undefined"? message:"";
+		var jObj = parentBlock!=="undefined" ? parentBlock:"#general_message";
+		var html = message!=="undefined" ? message:"";
 		jQuery(jObj+' .opc-ajax-loader').append(html);
 		jQuery(jObj+' .opc-ajax-loader').show();
+		jQuery('.opc-btn-checkout').attr("disabled",true);
 		console.log("masking "+jObj+" with a message of "+html);
 	},
 	
@@ -238,6 +239,7 @@ WSU.OPC.Checkout = {
 		var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
 		jQuery(jObj+' .opc-ajax-loader').html('<div class="loader">');
 		jQuery(jObj+' .opc-ajax-loader').hide();
+		jQuery('.opc-btn-checkout').removeAttr("disabled");
 		console.log("hidgin mask of "+jObj+" with a message of ");
 	},
 
