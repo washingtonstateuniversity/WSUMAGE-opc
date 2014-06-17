@@ -343,7 +343,7 @@ WSU.OPC.Checkout = {
 		if (WSU.OPC.saveOrderStatus==true){
 			WSU.OPC.validatePayment();
 		}else{
-			WSU.OPC.Checkout.pullPayments();
+			//WSU.OPC.Checkout.pullPayments(); thinking about it, it seem redundent to pull payments when it's just the method of shipping change.  not one way i can think of to tie the two so why tie the two.
 		}
 	},
 
@@ -719,7 +719,7 @@ WSU.OPC.Coupon = {
 	},
 
 	prepareResponse: function(response){
-		WSU.OPC.Checkout.hideLoader();
+		WSU.OPC.Checkout.hideLoader(".discount-block");
 		if (typeof(response.message) != "undefined"){
 			WSU.OPC.popup_message(response.message);
 			WSU.OPC.Checkout.pullReview();
