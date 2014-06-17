@@ -727,6 +727,7 @@ WSU.OPC.Coupon = {
 		if (typeof(response.coupon) != "undefined" && response.coupon!==""){
 			jQuery('.discount-block').html(response.coupon);
 		}
+		WSU.OPC.Coupon.init();
 	}
 };
 
