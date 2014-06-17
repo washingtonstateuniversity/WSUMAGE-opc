@@ -6,6 +6,12 @@ var WSU=WSU||{};
 WSU.OPC = {
 	agreements : null,
 	saveOrderStatus:false,
+	ready_billing:false,
+	ready_shipping:false,
+	ready_shipping_method:false,
+	ready_payment_method:false,
+	ready_discounts:false,
+	ready_reviewed:false,
 	initMessages: function(){
 		jQuery('.close-message-wrapper, .opc-messages-action .button').on('click',function(e){
 			e.preventDefault();
@@ -221,10 +227,11 @@ WSU.OPC.Checkout = {
 
 	
 	showLoader: function(parentBlock,message){
-		var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
-		var html = message!=="undefined"? message:"";
+		var jObj = parentBlock!=="undefined" ? parentBlock:"#general_message";
+		var html = message!=="undefined" ? message:"";
 		jQuery(jObj+' .opc-ajax-loader').append(html);
 		jQuery(jObj+' .opc-ajax-loader').show();
+		jQuery('.opc-btn-checkout').attr("disabled",true);
 		console.log("masking "+jObj+" with a message of "+html);
 	},
 	
@@ -232,6 +239,7 @@ WSU.OPC.Checkout = {
 		var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
 		jQuery(jObj+' .opc-ajax-loader').html('<div class="loader">');
 		jQuery(jObj+' .opc-ajax-loader').hide();
+		jQuery('.opc-btn-checkout').removeAttr("disabled");
 		console.log("hidgin mask of "+jObj+" with a message of ");
 	},
 
@@ -304,7 +312,9 @@ WSU.OPC.Checkout = {
 		WSU.OPC.Checkout.hideLoader("#opc-address-form-billing");
 		WSU.OPC.Checkout.hideLoader("#opc-address-form-shipping");
 		if (WSU.OPC.Checkout.isVirtual===false){
-			WSU.OPC.Shipping.saveShippingMethod();
+			if(WSU.OPC.ready_shipping_method===false){
+				WSU.OPC.Shipping.saveShippingMethod();
+			}
 		}else{
 			jQuery('.shipping-block').hide();
 			jQuery('.payment-block').addClass('clear-margin');
@@ -328,12 +338,12 @@ WSU.OPC.Checkout = {
 			jQuery('#opc-review-block').html(response.review);
 			WSU.OPC.Checkout.removePrice();
 		}
-
+		WSU.OPC.ready_shipping_method=true;
 		//IF STATUS TRUE - START SAVE PAYMENT FOR CREATE ORDER
 		if (WSU.OPC.saveOrderStatus==true){
 			WSU.OPC.validatePayment();
 		}else{
-			WSU.OPC.Checkout.pullPayments();
+			//WSU.OPC.Checkout.pullPayments(); thinking about it, it seem redundent to pull payments when it's just the method of shipping change.  not one way i can think of to tie the two so why tie the two.
 		}
 	},
 
@@ -422,6 +432,7 @@ WSU.OPC.Billing = {
 		this.setBillingForShipping(true);
 		jQuery('input[name="billing[use_for_shipping]"]').on('change',function(e){
 			e.preventDefault();
+			WSU.OPC.ready_shipping_method=false;
 			if (jQuery(this).is(':checked')){
 				WSU.OPC.Billing.setBillingForShipping(true);
 				jQuery('#opc-address-form-billing select[name="billing[country_id]"]').change();
@@ -453,6 +464,11 @@ WSU.OPC.Billing = {
 	initChangeAddress: function(){
 		jQuery('#opc-address-form-billing input').on('keyup',function(e){
 			e.preventDefault();
+			
+			if(jQuery(this).is(jQuery('.shipping_method_value'))){
+				WSU.OPC.ready_shipping_method=false;	
+			}
+			
 			if( jQuery('#opc-address-form-billing select[required]').filter(function() { return $(this).val() == ""; }).length==0
 				&& jQuery('#opc-address-form-billing input[required]').filter(function() { return $(this).val() == ""; }).length==0
 			){
@@ -703,7 +719,7 @@ WSU.OPC.Coupon = {
 	},
 
 	prepareResponse: function(response){
-		WSU.OPC.Checkout.hideLoader();
+		WSU.OPC.Checkout.hideLoader(".discount-block");
 		if (typeof(response.message) != "undefined"){
 			WSU.OPC.popup_message(response.message);
 			WSU.OPC.Checkout.pullReview();
@@ -711,6 +727,7 @@ WSU.OPC.Coupon = {
 		if (typeof(response.coupon) != "undefined" && response.coupon!==""){
 			jQuery('.discount-block').html(response.coupon);
 		}
+		WSU.OPC.Coupon.init();
 	}
 };
 

@@ -200,7 +200,7 @@
 .opc-messages-action .button{display:block;height:44px;border:none;margin: 0 auto;}
 .opc-messages-action .button span{background:#00909e;border:none;height:40px;line-height:40px;-webkit-border-radius: 3px;border-radius: 3px;}
 .opc-messages-action .button span span{background:#00909e;color:#ffffff;font-size:16px;font-weight:bold;text-transform:uppercase;text-shadow:0 1px 1px #02484f;padding:0 20px}
-.close-message-wrapper {background: url("images/close.png") no-repeat scroll 0 0 transparent;display: block;height: 8px;position: absolute;width: 8px;z-index: 1005;right: 18px;top: 15px;cursor:pointer}
+/*.close-message-wrapper {background: url("images/close.png") no-repeat scroll 0 0 transparent;display: block;height: 8px;position: absolute;width: 8px;z-index: 1005;right: 18px;top: 15px;cursor:pointer}*/
 
 
 /** BUTTONS */
@@ -209,6 +209,7 @@
 .opc-wrapper-opc .btn span span{background:#00909e;color:#ffffff;font-size:12px;font-weight:bold;text-transform:uppercase;text-shadow:0 1px 1px #02484f;padding:0 10px}
 
 .opc-wrapper-opc .btn-checkout{display:block;width:100%;height:45px;}
+.opc-wrapper-opc .btn-checkout[disabled]{ opacity:0.35; cursor:default; }
 .opc-wrapper-opc .btn-checkout span{background:#00909e;-webkit-border-radius: 3px;border-radius: 3px;width:100%;line-height: 46px;padding: 0 !important;height: 45px;padding: 0;}
 .opc-wrapper-opc .btn-checkout span span{background:#00909e;color:#ffffff;font-size:18px;font-weight:bold;text-transform:uppercase;text-shadow:0 1px 1px #02484f}
 .opc-wrapper-opc .buttons-set{border:none;margin-top:10px}
