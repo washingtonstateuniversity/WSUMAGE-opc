@@ -6,6 +6,12 @@ var WSU=WSU||{};
 WSU.OPC = {
 	agreements : null,
 	saveOrderStatus:false,
+	ready_billing:false,
+	ready_shipping:false,
+	ready_shipping_method:false,
+	ready_payment_method:false,
+	ready_discounts:false,
+	ready_reviewed:false,
 	initMessages: function(){
 		jQuery('.close-message-wrapper, .opc-messages-action .button').on('click',function(e){
 			e.preventDefault();
