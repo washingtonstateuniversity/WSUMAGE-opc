@@ -173,7 +173,7 @@ WSU.OPC = {
 	saveOrder: function(){
 		var form = jQuery('#co-payment-form').serializeArray();
 		form  = WSU.OPC.checkAgreement(form);
-		WSU.OPC.Checkout.showLoader();
+		WSU.OPC.Checkout.showLoader("","<h1>Processing order.</h1>");
 		if (WSU.OPC.Checkout.config.comment!=="0"){
 			WSU.OPC.saveCustomerComment();
 		}
@@ -218,6 +218,21 @@ WSU.OPC.Checkout = {
 	isVirtual: false,
 	
 	saveOrderUrl: null,
+
+	
+	showLoader: function(parentBlock,message){
+		var jObj = parentBlock || "";
+		var html = message || "";
+		jQuery(jObj+' .opc-ajax-loader .loader').html(html);
+		jQuery(jObj+' .opc-ajax-loader').show();
+	},
+	
+	hideLoader: function(parentBlock){
+		var jObj = parentBlock || "";
+		jQuery(jObj+' .opc-ajax-loader .loader').html("");
+		jQuery(jObj+' .opc-ajax-loader').hide();
+	},
+
 	
 	init:function(){		
 		
@@ -343,16 +358,7 @@ WSU.OPC.Checkout = {
 			}
 		});
 	},
-	
-	showLoader: function(parentBlock){
-		var jObj = parentBlock || "";
-		jQuery(jObj+' .opc-ajax-loader').show();
-	},
-	
-	hideLoader: function(parentBlock){
-		var jObj = parentBlock || "";
-		jQuery(jObj+' .opc-ajax-loader').hide();
-	},
+
 	
 	/** APPLY SHIPPING METHOD FORM TO BILLING FORM **/
 	applyShippingMethod: function(form){
