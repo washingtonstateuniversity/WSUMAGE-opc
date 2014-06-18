@@ -72,7 +72,11 @@ WSU.OPC = {
 			}
 			WSU.OPC.saveOrderStatus = true;
 			if (WSU.OPC.Checkout.isVirtual===false){
-				WSU.OPC.Shipping.saveShippingMethod();
+				if(WSU.OPC.ready_shipping_method===false){
+					WSU.OPC.Shipping.saveShippingMethod();
+				}else{
+					WSU.OPC.validatePayment();
+				}
 			}else{
 				WSU.OPC.validatePayment();
 			}
