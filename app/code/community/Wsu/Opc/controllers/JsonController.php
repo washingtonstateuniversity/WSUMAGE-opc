@@ -375,7 +375,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			$this->getOnepage()->saveOrder();
 			$redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
 		} catch (Mage_Payment_Model_Info_Exception $e) {
-			$message = $e->getMessage();
+			$message = $e->getMessage()." ::Mage_Payment_Model_Info_Exception";
 			if (!empty($message)) {
 				$result['error_messages'] = $message;
 			}
@@ -384,7 +384,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			Mage::logException($e);
 			Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
 
-			$result['error'] = $e->getMessage();
+			$result['error'] = $e->getMessage()." ::Mage_Core_Exception";
 
 			$gotoSection = $this->getOnepage()->getCheckout()->getGotoSection();
 			if ($gotoSection) {
