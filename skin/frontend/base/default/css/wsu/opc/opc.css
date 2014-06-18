@@ -225,6 +225,7 @@
 
 /* loading */
 /* inspired by http://codepen.io/katydecorah/pen/tbjqx*/
+/*
 @import url(http://netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css);
 .opc-ajax-loader{
 	background-color: rgba(0, 0, 0, 0.6);
@@ -253,16 +254,7 @@
 	transform: translate3d(0, 0, 0);
 	
 }
-[class*="-block"]{ position:relative;}
-[class*="-block"] .opc-ajax-loader{ position:absolute; }
-.opc-ajax-loader h1 {
-  bottom: 5px;
-  color: #E8E8E8;
-  float: left;
-  font-size: 1.5em;
-  position: absolute;
-  right: 15px;
-}
+
 .loader {
 	width: 1em;
 	height: 1em;
@@ -301,10 +293,69 @@
   -webkit-animation-delay: -0.25s;
   animation-delay: -0.25s;
 }
+*/
+.opc-ajax-loader{
+	background-color: rgba(0, 0, 0, 0.6);
+	
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 10000 !important;
+	
+	width: 100%;
+	height: 100%;
+	
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-webkit-align-items: center;
+	-ms-flex-align: center;
+	align-items: center;
+	-webkit-box-pack: center;
+	-webkit-justify-content: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+	
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 0;
+  height: 0;
+  margin: auto;
+  border-radius: 100%;
+  box-shadow: inset 0 0 0 50px #A00002;
+  animation: load 1s ease-out infinite;
+}
+
+@keyframes load {
+  100% {
+    width: 100px;
+    height: 100px;
+    box-shadow: none;
+    -webkit-filter: blur(2px);
+  }
+}
 
 
-
-
+[class*="-block"]{ position:relative;}
+[class*="-block"] .opc-ajax-loader{ position:absolute; }
+.opc-ajax-loader h1 {
+  bottom: 5px;
+  color: #E8E8E8;
+  float: left;
+  font-size: 1.5em;
+  position: absolute;
+  right: 15px;
+}
 
  /* highlights */
 .price_change_highlight tbody .cart-price *,
