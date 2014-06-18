@@ -335,7 +335,13 @@ WSU.OPC.Checkout = {
 		}
 
 		if (typeof(response.review)!="undefined" && WSU.OPC.saveOrderStatus===false){
-			jQuery('#opc-review-block').html(response.review);
+			jQuery('.review-block').html(response.review);
+			jQuery('.review-block #checkout-review-table').addClass('price_change_highlight');
+			clearTimeout(WSU.OPC.Checkout.formChanging);
+				WSU.OPC.Checkout.formChanging = setTimeout(function(){
+					jQuery('.review-block #checkout-review-table').addClass('un_highlight');
+					jQuery('.review-block #checkout-review-table').removeClass('price_change_highlight');
+				}, 800);
 			WSU.OPC.Checkout.removePrice();
 		}
 		WSU.OPC.ready_shipping_method=true;
