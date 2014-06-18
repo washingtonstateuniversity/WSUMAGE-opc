@@ -307,8 +307,8 @@
 
 
  /* highlights */
-.price_change_highlight tbody .cart-price,
-.price_change_highlight tfoot  .a-right.last
+.price_change_highlight tbody .cart-price *,
+.price_change_highlight tfoot  .a-right.last *
 
 {
 	color:#C30003;
@@ -318,7 +318,10 @@
 -o-transition: color 750ms ease;
 transition: color 750ms ease;
 }
-.un_highlight *{
+
+.un_highlight tbody .cart-price *,
+.un_highlight tfoot  .a-right.last *
+{
 	color:#393939;
 -webkit-transition: color 750ms ease;
 -moz-transition: color 750ms ease;
