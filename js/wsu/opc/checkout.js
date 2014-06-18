@@ -72,9 +72,21 @@ WSU.OPC = {
 			}
 			WSU.OPC.saveOrderStatus = true;
 			if (WSU.OPC.Checkout.isVirtual===false){
-				WSU.OPC.Shipping.saveShippingMethod();
+				if(WSU.OPC.ready_shipping_method===false){
+					WSU.OPC.Shipping.saveShippingMethod();
+				}else{
+					if(WSU.OPC.ready_payment_method===false){
+						WSU.OPC.validatePayment();
+					}else{
+						WSU.OPC.saveOrder();
+					}
+				}
 			}else{
-				WSU.OPC.validatePayment();
+				if(WSU.OPC.ready_payment_method===false){
+					WSU.OPC.validatePayment();
+				}else{
+					WSU.OPC.saveOrder();
+				}
 			}
 		});
 	},
@@ -143,7 +155,7 @@ WSU.OPC = {
 	},
 	/** CHECK RESPONSE FROM AJAX AFTER SAVE PAYMENT METHOD **/
 	preparePaymentResponse: function(response){
-		WSU.OPC.Checkout.hideLoader('#review-block');					
+		WSU.OPC.Checkout.hideLoader('.payment-block');					
 		WSU.OPC.Checkout.xhr = null;
 
 		WSU.OPC.agreements = jQuery('#checkout-agreements').serializeArray();
@@ -158,9 +170,11 @@ WSU.OPC = {
 			WSU.OPC.popup_message(response.error);
 			WSU.OPC.Checkout.hideLoader();
 			WSU.OPC.saveOrderStatus = false;
-
+			WSU.OPC.ready_payment_method=false;
 			return;
 		}
+		
+		WSU.OPC.ready_payment_method=true;
 		//SOME PAYMENT METHOD REDIRECT CUSTOMER TO PAYMENT GATEWAY
 		if (typeof(response.redirect) != "undefined" && WSU.OPC.saveOrderStatus===true){
 			WSU.OPC.Checkout.xhr = null;
@@ -179,7 +193,7 @@ WSU.OPC = {
 	saveOrder: function(){
 		var form = jQuery('#co-payment-form').serializeArray();
 		form  = WSU.OPC.checkAgreement(form);
-		WSU.OPC.Checkout.showLoader("","<h1>Processing order.</h1>");
+		WSU.OPC.Checkout.showLoader("#general_message","<h1>Processing order.</h1>");
 		if (WSU.OPC.Checkout.config.comment!=="0"){
 			WSU.OPC.saveCustomerComment();
 		}
@@ -335,7 +349,13 @@ WSU.OPC.Checkout = {
 		}
 
 		if (typeof(response.review)!="undefined" && WSU.OPC.saveOrderStatus===false){
-			jQuery('#opc-review-block').html(response.review);
+			jQuery('.review-block').html(response.review);
+			jQuery('.review-block #checkout-review-table').addClass('price_change_highlight');
+			clearTimeout(WSU.OPC.Checkout.formChanging);
+				WSU.OPC.Checkout.formChanging = setTimeout(function(){
+					jQuery('.review-block #checkout-review-table').addClass('un_highlight');
+					jQuery('.review-block #checkout-review-table').removeClass('price_change_highlight');
+				}, 800);
 			WSU.OPC.Checkout.removePrice();
 		}
 		WSU.OPC.ready_shipping_method=true;

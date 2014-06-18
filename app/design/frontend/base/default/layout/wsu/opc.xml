@@ -89,7 +89,7 @@
 			<action method="addJs"><script>wsu/opc/lipp.js</script></action>				
 		</reference>
 		<reference name="before_body_end">
-			<block type="wsu_opc/lipp" name="wsu_opc.lipp.js" as="" template="wsu_opc/lipp-js.phtml"></block>
+			<block type="wsu_opc/lipp" name="wsu_opc.lipp.js" as="" template="wsu/opc/lipp-js.phtml"></block>
 		</reference>
 	</checkout_cart_index>
 	
