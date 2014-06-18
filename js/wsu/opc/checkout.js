@@ -179,7 +179,7 @@ WSU.OPC = {
 	saveOrder: function(){
 		var form = jQuery('#co-payment-form').serializeArray();
 		form  = WSU.OPC.checkAgreement(form);
-		WSU.OPC.Checkout.showLoader("","<h1>Processing order.</h1>");
+		WSU.OPC.Checkout.showLoader("#general_message","<h1>Processing order.</h1>");
 		if (WSU.OPC.Checkout.config.comment!=="0"){
 			WSU.OPC.saveCustomerComment();
 		}
