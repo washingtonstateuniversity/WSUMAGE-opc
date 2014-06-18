@@ -75,10 +75,18 @@ WSU.OPC = {
 				if(WSU.OPC.ready_shipping_method===false){
 					WSU.OPC.Shipping.saveShippingMethod();
 				}else{
-					WSU.OPC.validatePayment();
+					if(WSU.OPC.ready_payment_method===false){
+						WSU.OPC.validatePayment();
+					}else{
+						WSU.OPC.saveOrder();
+					}
 				}
 			}else{
-				WSU.OPC.validatePayment();
+				if(WSU.OPC.ready_payment_method===false){
+					WSU.OPC.validatePayment();
+				}else{
+					WSU.OPC.saveOrder();
+				}
 			}
 		});
 	},
@@ -147,7 +155,7 @@ WSU.OPC = {
 	},
 	/** CHECK RESPONSE FROM AJAX AFTER SAVE PAYMENT METHOD **/
 	preparePaymentResponse: function(response){
-		WSU.OPC.Checkout.hideLoader('#review-block');					
+		WSU.OPC.Checkout.hideLoader('.payment-block');					
 		WSU.OPC.Checkout.xhr = null;
 
 		WSU.OPC.agreements = jQuery('#checkout-agreements').serializeArray();
@@ -162,9 +170,11 @@ WSU.OPC = {
 			WSU.OPC.popup_message(response.error);
 			WSU.OPC.Checkout.hideLoader();
 			WSU.OPC.saveOrderStatus = false;
-
+			WSU.OPC.ready_payment_method=false;
 			return;
 		}
+		
+		WSU.OPC.ready_payment_method=true;
 		//SOME PAYMENT METHOD REDIRECT CUSTOMER TO PAYMENT GATEWAY
 		if (typeof(response.redirect) != "undefined" && WSU.OPC.saveOrderStatus===true){
 			WSU.OPC.Checkout.xhr = null;
