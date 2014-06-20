@@ -294,60 +294,157 @@
   animation-delay: -0.25s;
 }
 */
-.opc-ajax-loader{
-	background-color: rgba(0, 0, 0, 0.6);
-	
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 10000 !important;
-	
-	width: 100%;
-	height: 100%;
-	
-	display: -webkit-box;
-	display: -webkit-flex;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-webkit-align-items: center;
-	-ms-flex-align: center;
-	align-items: center;
-	-webkit-box-pack: center;
-	-webkit-justify-content: center;
-	-ms-flex-pack: center;
-	justify-content: center;
-	-webkit-transform: translate3d(0, 0, 0);
-	transform: translate3d(0, 0, 0);
-	
-}
-
-.loader {
-  position: absolute;
+/* CSS Document */
+.opc-ajax-loader {
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
-  width: 0;
-  height: 0;
-  margin: auto;
-  border-radius: 100%;
-  box-shadow: inset 0 0 0 50px #A00002;
-  animation: load 1s ease-out infinite;
+  z-index: 10000 !important;
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
-
-@keyframes load {
-  100% {
-    width: 100px;
-    height: 100px;
-    box-shadow: none;
-    -webkit-filter: blur(2px);
+.loader .outer {
+  border: 5px solid rgba(0, 0, 229, 0.9);
+  opacity: .9;
+  width: 50px;
+  height: 50px;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  -webkit-box-shadow: 0 0 35px rgba(0, 0, 76, 0.9);
+  -moz-box-shadow: 0 0 35px rgba(0, 0, 76, 0.9);
+  box-shadow: 0 0 35px rgba(0, 0, 76, 0.9);
+  -webkit-animation: spin-right 0.5s 0s linear infinite normal;
+  -moz-animation: spin-right 0.5s 0s linear infinite normal;
+  -ms-animation: spin-right 0.5s 0s linear infinite normal;
+  animation: spin-right 0.5s 0s linear infinite normal;
+  margin: 0 auto;
+}
+.loader .inner {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border: 5px solid rgba(0, 0, 229, 0.9);
+  opacity: .9;
+  border-radius: 50%;
+  border-left-color: transparent;
+  border-bottom-color: transparent;
+  -webkit-box-shadow: 0 0 35px rgba(0, 0, 76, 0.9);
+  -moz-box-shadow: 0 0 35px rgba(0, 0, 76, 0.9);
+  box-shadow: 0 0 35px rgba(0, 0, 76, 0.9);
+  position: relative;
+  top: -40px;
+  margin: 0 auto;
+  -webkit-animation: spin-left 0.5s 0s linear infinite normal;
+  -moz-animation: spin-left 0.5s 0s linear infinite normal;
+  -ms-animation: spin-left 0.5s 0s linear infinite normal;
+  animation: spin-left 0.5s 0s linear infinite normal;
+}
+@-moz-keyframes spin-right {
+  from {
+    -moz-transform: rotate(0deg);
+    opacity: 0.2;
+  }
+  50% {
+    -moz-transform: rotate(180deg);
+    opacity: 1.0;
+  }
+  to {
+    -moz-transform: rotate(360deg);
+    opacity: 0.2;
   }
 }
-
-
-[class*="-block"]{ position:relative;}
-[class*="-block"] .opc-ajax-loader{ position:absolute; }
+@-webkit-keyframes spin-right {
+  from {
+    -webkit-transform: rotate(0deg);
+    opacity: 0.2;
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+    opacity: 1.0;
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    opacity: 0.2;
+  }
+}
+@keyframes spin-right {
+  from {
+    transform: rotate(0deg);
+    opacity: 0.2;
+  }
+  50% {
+    transform: rotate(180deg);
+    opacity: 1.0;
+  }
+  to {
+    transform: rotate(360deg);
+    opacity: 0.2;
+  }
+}
+@-moz-keyframes spin-left {
+  from {
+    -moz-transform: rotate(0deg);
+    opacity: 0.2;
+  }
+  50% {
+    -moz-transform: rotate(-180deg);
+    opacity: 1.0;
+  }
+  to {
+    -moz-transform: rotate(-360deg);
+    opacity: 0.2;
+  }
+}
+@-webkit-keyframes spin-left {
+  from {
+    -webkit-transform: rotate(0deg);
+    opacity: 0.2;
+  }
+  50% {
+    -webkit-transform: rotate(-180deg);
+    opacity: 1.0;
+  }
+  to {
+    -webkit-transform: rotate(-360deg);
+    opacity: 0.2;
+  }
+}
+@keyframes spin-left {
+  from {
+    transform: rotate(0deg);
+    opacity: 0.2;
+  }
+  50% {
+    transform: rotate(-180deg);
+    opacity: 1.0;
+  }
+  to {
+    transform: rotate(-360deg);
+    opacity: 0.2;
+  }
+}
+[class*="-block"] {
+  position: relative;
+}
+[class*="-block"] .opc-ajax-loader {
+  position: absolute;
+}
 .opc-ajax-loader h1 {
   bottom: 5px;
   color: #E8E8E8;
@@ -356,6 +453,7 @@
   position: absolute;
   right: 15px;
 }
+
 
  /* highlights */
 .price_change_highlight tbody .cart-price *,
