@@ -243,18 +243,18 @@ WSU.OPC.Checkout = {
 	showLoader: function(parentBlock,message){
 		var jObj = parentBlock!=="undefined" ? parentBlock:"#general_message";
 		var html = message!=="undefined" ? message:"";
-		jQuery(jObj+' .opc-ajax-loader').append(html);
+		jQuery(jObj+' .opc-ajax-loader .loader').append("<div class='message'>"+html+"</div>");
 		jQuery(jObj+' .opc-ajax-loader').show();
 		jQuery('.opc-btn-checkout').attr("disabled",true);
-		console.log("masking "+jObj+" with a message of "+html);
+		//console.log("masking "+jObj+" with a message of "+html);
 	},
 	
 	hideLoader: function(parentBlock){
 		var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
-		jQuery(jObj+' .opc-ajax-loader').html('<div class="loader">');
 		jQuery(jObj+' .opc-ajax-loader').hide();
+		jQuery(jObj+' .opc-ajax-loader .loader .message').remove();
 		jQuery('.opc-btn-checkout').removeAttr("disabled");
-		console.log("hidgin mask of "+jObj+" with a message of ");
+		//console.log("hidgin mask of "+jObj+" with a message of ");
 	},
 
 	
@@ -600,9 +600,9 @@ WSU.OPC.Billing = {
 		}
 		WSU.OPC.Checkout.ajaxProgress = setTimeout(function(){
 			var form = jQuery('#opc-address-form-billing').serializeArray();
-			form = WSU.OPC.Checkout.applyShippingMethod(form);					
+			form = WSU.OPC.Checkout.applyShippingMethod(form);		 			
 			form = WSU.OPC.Checkout.applySubscribed(form); 
-			
+			form.push({ "name":"billing[use_for_shipping]", "value": jQuery('[name*=use_for_shipping]:checked').length });
 			if (WSU.OPC.Checkout.xhr!=null){
 				WSU.OPC.Checkout.xhr.abort();
 			}
