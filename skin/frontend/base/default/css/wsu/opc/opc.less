@@ -27,12 +27,12 @@
 	
 }
 
-@blue:rgba(0,0,229,0.9);
+@blue:rgba(156,15,18,.8);
 @blue-lt:lighten(@blue, 30%);
 @blue-shadow:darken(@blue, 30%);
 
 
-.animation (@name, @duration:1s, @delay:0s, @ease:linear, @iterations:infinite, @endState:normal) {
+.animation (@name, @duration:1s, @delay:0, @ease:linear, @iterations:infinite, @endState:normal) {
 	-webkit-animation: @name @duration @delay @ease @iterations @endState;
 	-moz-animation: @name @duration @delay @ease @iterations @endState;
 	-ms-animation: @name @duration @delay @ease @iterations @endState;
@@ -87,14 +87,18 @@
     border-bottom-color:transparent;
     .box-shadow(0 0 35px @blue-shadow);
     position:relative;
-    top:-40px;
+    top:-50px;
     margin:0 auto;
     .animation(spin-left, .5s);
   }
 }
 
 
-@-moz-keyframes spin-right {
+@keyframes spin-right {
+  from { transform:rotate(0deg); opacity:0.2; }
+  50% { transform:rotate(180deg); opacity:1.0; }
+  to { transform:rotate(360deg); opacity:0.2; }
+} @-moz-keyframes spin-right {
   from { -moz-transform:rotate(0deg); opacity:0.2; }
   50% { -moz-transform:rotate(180deg); opacity:1.0; }
   to { -moz-transform:rotate(360deg); opacity:0.2; }
@@ -102,13 +106,13 @@
   from { -webkit-transform:rotate(0deg); opacity:0.2; }
   50% { -webkit-transform:rotate(180deg); opacity:1.0; }
   to { -webkit-transform:rotate(360deg); opacity:0.2; }
-} @keyframes spin-right {
-  from { transform:rotate(0deg); opacity:0.2; }
-  50% { transform:rotate(180deg); opacity:1.0; }
-  to { transform:rotate(360deg); opacity:0.2; }
-} 
+}
 
-@-moz-keyframes spin-left {
+@keyframes spin-left {
+  from { transform:rotate(0deg); opacity:0.2; }
+  50% { transform:rotate(-180deg); opacity:1.0; }
+  to { transform:rotate(-360deg); opacity:0.2; }
+} @-moz-keyframes spin-left {
   from { -moz-transform:rotate(0deg); opacity:0.2; }
   50% { -moz-transform:rotate(-180deg); opacity:1.0; }
   to { -moz-transform:rotate(-360deg); opacity:0.2; }
@@ -116,11 +120,7 @@
   from { -webkit-transform:rotate(0deg); opacity:0.2; }
   50% { -webkit-transform:rotate(-180deg); opacity:1.0; }
   to { -webkit-transform:rotate(-360deg); opacity:0.2; }
-} @keyframes spin-left {
-  from { transform:rotate(0deg); opacity:0.2; }
-  50% { transform:rotate(-180deg); opacity:1.0; }
-  to { transform:rotate(-360deg); opacity:0.2; }
-} 
+}
 
 
 
