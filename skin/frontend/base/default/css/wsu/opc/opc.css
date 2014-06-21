@@ -441,6 +441,7 @@
 }
 [class*="-block"] {
   position: relative;
+  display:block;
 }
 [class*="-block"] .opc-ajax-loader {
   position: absolute;
