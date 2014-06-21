@@ -211,7 +211,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			}
 			$result['exists']=$exists;
 			
-			$this->getResponse()->setBody(json_encode($result));
+			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 		}
 	}
 
