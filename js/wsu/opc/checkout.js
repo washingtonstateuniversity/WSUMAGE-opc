@@ -309,6 +309,11 @@ WSU.OPC.Checkout = {
 			if(jQuery("#existing").length()<=0){
 				jQuery('#opc-address-form-billing .form-list').before('<b id="existing">This email exists.  Try loging in above</b>');
 			}
+			jQuery("#existing").addClass("highlight");
+			setTimeout(function(){
+				jQuery("#existing").addClass('unhighlight');
+				jQuery("#existing").removeClass('highlight');
+			}, 900);
 		}
 
 		if (typeof(response.shipping) != "undefined"){
