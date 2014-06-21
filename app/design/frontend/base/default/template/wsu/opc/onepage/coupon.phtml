@@ -7,7 +7,7 @@ if(strlen($cp_id)){
 	var_dump($oRule->getData());
 }
 */
-$loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loader"></div></div>';
+$loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loader"><div class="outer"></div><div class="inner"></div></div></div>';
 ?>
 <form id="opc-discount-coupon-form" action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
     <div class="discount">
