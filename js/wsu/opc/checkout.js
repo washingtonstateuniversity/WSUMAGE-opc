@@ -306,7 +306,7 @@ WSU.OPC.Checkout = {
 		}
 		
 		if(typeof(response.exists) != "undefined" && response.exists===true){
-			if(jQuery("#existing").length()<=0){
+			if(!jQuery("#existing")){
 				jQuery('#opc-address-form-billing .form-list').before('<b id="existing">This email exists.  Try loging in above</b>');
 			}
 			jQuery("#existing").addClass("highlight");
