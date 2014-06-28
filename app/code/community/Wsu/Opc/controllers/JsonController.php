@@ -145,7 +145,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$layout->generateXml();
 		$layout->generateBlocks();
 		$output = $layout->getOutput();
-		return $output.print_r($quote->getPayment()->getMethodInstance()->getCode(),true);
+		return $output.print_r($_quote->getPayment()->getMethodInstance()->getCode(),true);
 	}
 	
 	/**
