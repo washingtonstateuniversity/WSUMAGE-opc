@@ -334,6 +334,7 @@ WSU.OPC.Checkout = {
 		WSU.OPC.Checkout.updatePaymentBlock = true;
 		WSU.OPC.Checkout.hideLoader("#opc-address-form-billing");
 		WSU.OPC.Checkout.hideLoader("#opc-address-form-shipping");
+		WSU.OPC.Checkout.pullPayments();
 		if (WSU.OPC.Checkout.isVirtual===false){
 			if(WSU.OPC.ready_shipping_method===false){
 				WSU.OPC.Shipping.saveShippingMethod();
