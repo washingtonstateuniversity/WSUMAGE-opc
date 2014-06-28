@@ -125,30 +125,37 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 	 *
 	 * @return string
 	 */
-	protected function _getPaymentMethodsHtml() {
-
+	protected function _getPaymentMethodsHtml($use_method = false, $just_save = false){
+	
 		/** UPDATE PAYMENT METHOD **/
-		$this->updateDefaultPayment();
+		if($use_method && $use_method != -1){
+			$apply_method = $use_method;
+		}else {
+			if($use_method == -1){
+				$apply_method = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
+			}else{
+				$apply_method = Mage::helper('wsu_opc')->getSelectedPaymentMethod();
+				if(empty($apply_method)){
+					$apply_method = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
+				}
+			}
+		}
 
-		$defaultPaymentMethod = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
 		$_cart = $this->_getCart();
 		$_quote = $_cart->getQuote();
-		$_quote->getPayment()->setMethod($defaultPaymentMethod);
+		$_quote->getPayment()->setMethod($apply_method);
 		$_quote->setTotalsCollectedFlag(false)->collectTotals();
 		$_quote->save();
 
-
+		if($just_save){
+			return '';
+		}
 
 		$layout = $this->getLayout();
 		$update = $layout->getUpdate();
 		$update->load('checkout_onepage_paymentmethod');
 		$layout->generateXml();
-		$layout->generateBlocks();
-		
-		$shippingMethods = $layout->getBlock('checkout.onepage.payment');
-		$shippingMethods->setTemplate('wsu/opc/onepage/payment.phtml');
-		return $shippingMethods->toHtml();
-		
+		$layout->generateBlocks();	
 		$output = $layout->getOutput();
 		return $output.print_r($_quote->getPayment()->getMethodInstance()->getCode(),true);
 	}
@@ -227,12 +234,24 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				if (isset($data['use_for_shipping']) && $data['use_for_shipping'] == 1) {				
 					$result['shipping'] = $this->_getShippingMethodsHtml();
 				}
+				
+				$methods_after = Mage::helper('wsu_opc')->getAvailablePaymentMethods();
+				
+				$use_method = Mage::helper('wsu_opc')->checkUpdatedPaymentMethods($methods_before, $methods_after);
+				if($use_method != -1) {
+					if(empty($use_method)){
+						$use_method = -1;
+					}
+					$result['payments'] = $this->_getPaymentMethodsHtml($use_method, true);
+					$result['reload_payments'] = true; 
+				}
+				
 			}else{
 				$responseData['error'] = true;
 				$responseData['message'] = $result['message'];
 			}
 			$result['exists']=$exists;
-			
+			$this->getResponse()->setHeader('Content-type','application/json', true);
 			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 		}
 	}
