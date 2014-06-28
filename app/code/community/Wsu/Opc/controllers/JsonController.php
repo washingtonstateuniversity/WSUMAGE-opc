@@ -115,7 +115,6 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$_quote = $_cart->getQuote();
 		$_quote->getPayment()->setMethod($defaultPaymentMethod);
 		$_quote->setTotalsCollectedFlag(false)->collectTotals();
-		var_dump($quote->getPayment()->getMethodInstance()->getCode());
 		$_quote->save();
 	}
 
@@ -131,13 +130,22 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		/** UPDATE PAYMENT METHOD **/
 		$this->updateDefaultPayment();
 
+		$defaultPaymentMethod = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
+		$_cart = $this->_getCart();
+		$_quote = $_cart->getQuote();
+		$_quote->getPayment()->setMethod($defaultPaymentMethod);
+		$_quote->setTotalsCollectedFlag(false)->collectTotals();
+		$_quote->save();
+
+
+
 		$layout = $this->getLayout();
 		$update = $layout->getUpdate();
 		$update->load('checkout_onepage_paymentmethod');
 		$layout->generateXml();
 		$layout->generateBlocks();
 		$output = $layout->getOutput();
-		return $output;
+		return $output.print_r($quote->getPayment()->getMethodInstance()->getCode(),true);
 	}
 	
 	/**
