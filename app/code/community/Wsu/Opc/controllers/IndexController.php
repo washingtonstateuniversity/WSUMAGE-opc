@@ -43,14 +43,12 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 	}
 
 	protected function updateDefaultPayment(){
-		$this->getOnepage()->saveCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_GUEST);
 		$defaultPaymentMethod = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
 		$_cart = $this->_getCart();
 		$_quote = $_cart->getQuote();
 		$_quote->getPayment()->setMethod($defaultPaymentMethod);
 		$_quote->setTotalsCollectedFlag(false)->collectTotals();
 		$_quote->save();
-		$_cart->save();
 	}
 
 	/**
