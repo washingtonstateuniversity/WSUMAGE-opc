@@ -3,6 +3,7 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 
 	const TITLE = 'wsu_opc/global/title';
 	const DEFAULT_PAYMENT = 'wsu_opc/default/payment';
+	const CHECK_EMAIL = 'wsu_opc/default/check_email';
 
 	/**
 	 * Get one page checkout model
@@ -45,7 +46,7 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 		$defaultPaymentMethod = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
 		$_cart = $this->_getCart();
 		$_quote = $_cart->getQuote();
-		$_quote->getPayment()->setMethod($defaultPaymentMethod);
+		//$_quote->getPayment()->setMethod($defaultPaymentMethod);
 		$_quote->setTotalsCollectedFlag(false)->collectTotals();
 		$_quote->save();
 	}
@@ -64,10 +65,8 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 			$this->_redirect('checkout/cart');
 			return;
 		}
-
-		Mage::app()->getCacheInstance()->cleanType('layout');
-
 		$this->updateDefaultPayment();
+		Mage::app()->getCacheInstance()->cleanType('layout');
 
 		if (!$quote->validateMinimumAmount()) {
 			$error = Mage::getStoreConfig('sales/minimum_order/error_message') ?
