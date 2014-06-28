@@ -144,12 +144,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$update->load('checkout_onepage_paymentmethod');
 		$layout->generateXml();
 		$layout->generateBlocks();
-		//$output = $layout->getOutput();
-		
-		$output = $layout->getBlock('root');
-		$output->setTemplate('wsu/opc/onepage/payment.phtml');
-		return $output->toHtml().print_r($_quote->getPayment()->getMethodInstance()->getCode(),true);
-		
+		$output = $layout->getOutput();
 		return $output.print_r($_quote->getPayment()->getMethodInstance()->getCode(),true);
 	}
 	
