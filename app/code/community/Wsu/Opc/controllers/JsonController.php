@@ -106,6 +106,19 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$shippingMethods->setTemplate('wsu/opc/onepage/shipping_method.phtml');
 		return $shippingMethods->toHtml();
 	}
+
+
+
+	protected function updateDefaultPayment(){
+		$defaultPaymentMethod = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
+		$_cart = $this->_getCart();
+		$_quote = $_cart->getQuote();
+		$_quote->getPayment()->setMethod($defaultPaymentMethod);
+		$_quote->setTotalsCollectedFlag(false)->collectTotals();
+		$_quote->save();
+	}
+
+
 	
 	/**
 	 * Get payments method step html
@@ -115,12 +128,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 	protected function _getPaymentMethodsHtml() {
 
 		/** UPDATE PAYMENT METHOD **/
-		$defaultPaymentMethod = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
-		$_cart = $this->_getCart();
-		$_quote = $_cart->getQuote();
-		$_quote->getPayment()->setMethod($defaultPaymentMethod);
-		$_quote->setTotalsCollectedFlag(false)->collectTotals();
-		$_quote->save();
+		$this->updateDefaultPayment();
 
 		$layout = $this->getLayout();
 		$update = $layout->getUpdate();
@@ -296,6 +304,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		if ($this->_expireAjax()) {
 			return;
 		}
+		$this->updateDefaultPayment();
 		$responseData = array();
 		$responseData['payments'] = $this->_getPaymentMethodsHtml();
 		$this->getResponse()->setHeader('Content-type','application/json', true);
