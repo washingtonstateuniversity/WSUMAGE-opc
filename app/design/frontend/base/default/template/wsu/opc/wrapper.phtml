@@ -37,7 +37,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
     	<div class="shipping-method-block">
         	<h3><?=$this->__('Shipping Method')?></h3>
         	<div id="shipping-block-methods">
-            	<?php $this->_getShippingMethodsHtml();?>
+            	<?php //$this->_getShippingMethodsHtml();?>
 				<?=$this->getChildHtml('shipping_method');//$this->_getShippingMethodsHtml();?>
 			</div>
 			<?=$loading?>
@@ -45,7 +45,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
 		<?php endif;?>
 		<div class="payment-block <?php if ($this->getOnepage()->getQuote()->isVirtual()):?>clear-margin<?php endif;?>" style=" position:relative;">
 			<h3><?=$this->__('Payment Method')?></h3>
-            <?php $this->_getPaymentMethodsHtml();?>
+            <?php //$this->_getPaymentMethodsHtml();?>
 			<?=$this->getChildHtml('payment')?>
 			<?=$loading?>
 		</div>
