@@ -116,6 +116,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$_quote->getPayment()->setMethod($defaultPaymentMethod);
 		$_quote->setTotalsCollectedFlag(false)->collectTotals();
 		$_quote->save();
+		$_cart->save();
 	}
 
 
