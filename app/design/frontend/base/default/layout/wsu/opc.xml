@@ -53,7 +53,7 @@
 					
 					<!-- PAYMENTS METHOD FORM -->
 					<block type="checkout/onepage_payment" name="checkout.onepage.payment" as="payment" template="wsu/opc/onepage/payment.phtml">
-						<block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods" template="checkout/onepage/payment/methods.phtml"/>
+						<block type="checkout/onepage_payment_methods" name="checkout.payment.methods" as="methods" template="checkout/onepage/payment/methods.phtml">
 							<action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
 						</block>
 					</block>
