@@ -277,19 +277,18 @@ WSU.OPC.Checkout = {
 		WSU.OPC.Shipping.init();	
 		WSU.OPC.initMessages();
 		WSU.OPC.initSaveOrder();
-		WSU.OPC.Checkout.pullPayments();
-		
+
 		if (this.config.isLoggedIn===1){
 			var addressId = jQuery('#billing-address-select').val();
 			if (addressId!='' && addressId!=undefined ){
 				WSU.OPC.Billing.save();
 			}else{
 				//FIX FOR MAGENTO 1.8 - NEED LOAD PAYTMENT METHOD BY AJAX
-				//WSU.OPC.Checkout.pullPayments();
+				WSU.OPC.Checkout.pullPayments();
 			}
 		}else{
 			//FIX FOR MAGENTO 1.8 - NEED LOAD PAYTMENT METHOD BY AJAX
-			//WSU.OPC.Checkout.pullPayments();
+			WSU.OPC.Checkout.pullPayments();
 		}		
 		WSU.OPC.initPayment();
 	},
