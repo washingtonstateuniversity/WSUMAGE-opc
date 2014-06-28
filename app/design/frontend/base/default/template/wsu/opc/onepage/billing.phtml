@@ -17,26 +17,32 @@ $helper = $this->helper('wsu_opc');
         <fieldset>
             <input type="hidden" name="billing[address_id]" value="<?php echo $this->getAddress()->getId() ?>" id="billing:address_id" />
             <ul>
-                <li class="fields"><?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?></li>
                 <li class="fields">
+					<?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
+                </li>
                 
-			<?php if(Mage::getStoreConfig('customer/extras/show_company')): ?>
+                <?php if(Mage::getStoreConfig('customer/extras/show_company')): ?>
+                <li class="fields">
                     <div class="field">
                         <label for="billing:company"><?php echo $this->__('Company') ?></label>
                         <div class="input-box">
                             <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text <?php echo $helper->getAttributeValidationClass('company') ?>" />
                         </div>
                     </div>
-			<?php endif; ?>
-            <?php if(!$this->isCustomerLoggedIn()): ?>
-                    <div class="field">
+                </li>
+				<?php endif; ?>
+                
+   				<?php if(!$this->isCustomerLoggedIn()): ?>             
+                <li class="fields">
+                    <div class="field" style="width:100%">
                         <label for="billing:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
                         <div class="input-box">
                             <input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
                         </div>
                     </div>
-        	<?php endif; ?>
                 </li>
+                <?php endif; ?>
+                
         <?php $_streetValidationClass = $helper->getAttributeValidationClass('street'); ?>
                 <li class="wide">
                     <label for="billing:street1" class="required"><em>*</em><?php echo $this->__('Address') ?></label>
