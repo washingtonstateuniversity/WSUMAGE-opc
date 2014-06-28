@@ -277,7 +277,8 @@ WSU.OPC.Checkout = {
 		WSU.OPC.Shipping.init();	
 		WSU.OPC.initMessages();
 		WSU.OPC.initSaveOrder();
-
+		WSU.OPC.Checkout.pullPayments();
+		
 		if (this.config.isLoggedIn===1){
 			var addressId = jQuery('#billing-address-select').val();
 			if (addressId!='' && addressId!=undefined ){
