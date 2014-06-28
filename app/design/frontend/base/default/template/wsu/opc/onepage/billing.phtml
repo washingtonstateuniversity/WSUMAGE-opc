@@ -19,20 +19,23 @@ $helper = $this->helper('wsu_opc');
             <ul>
                 <li class="fields"><?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?></li>
                 <li class="fields">
+                
+			<?php if(Mage::getStoreConfig('customer/extras/show_company')): ?>
                     <div class="field">
                         <label for="billing:company"><?php echo $this->__('Company') ?></label>
                         <div class="input-box">
                             <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text <?php echo $helper->getAttributeValidationClass('company') ?>" />
                         </div>
                     </div>
-        <?php if(!$this->isCustomerLoggedIn()): ?>
+			<?php endif; ?>
+            <?php if(!$this->isCustomerLoggedIn()): ?>
                     <div class="field">
                         <label for="billing:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
                         <div class="input-box">
                             <input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
                         </div>
                     </div>
-        <?php endif; ?>
+        	<?php endif; ?>
                 </li>
         <?php $_streetValidationClass = $helper->getAttributeValidationClass('street'); ?>
                 <li class="wide">
