@@ -284,11 +284,11 @@ WSU.OPC.Checkout = {
 				WSU.OPC.Billing.save();
 			}else{
 				//FIX FOR MAGENTO 1.8 - NEED LOAD PAYTMENT METHOD BY AJAX
-				//WSU.OPC.Checkout.pullPayments();
+				WSU.OPC.Checkout.pullPayments();
 			}
 		}else{
 			//FIX FOR MAGENTO 1.8 - NEED LOAD PAYTMENT METHOD BY AJAX
-			//WSU.OPC.Checkout.pullPayments();
+			WSU.OPC.Checkout.pullPayments();
 		}		
 		WSU.OPC.initPayment();
 	},
@@ -306,7 +306,15 @@ WSU.OPC.Checkout = {
 		}
 		
 		if(typeof(response.exists) != "undefined" && response.exists===true){
-			jQuery('#opc-address-form-billing .form-list').before('<b>This email exists.  Try loging in above</b>');
+			if(jQuery("#existing").length<=0){
+				jQuery('#opc-address-form-billing .form-list').before('<b id="existing">This email exists.  Try loging in above</b>');
+			}
+			jQuery("#existing").removeClass('unhighlight');
+			jQuery("#existing").addClass("highlight");
+			setTimeout(function(){
+				jQuery("#existing").addClass('unhighlight');
+				jQuery("#existing").removeClass('highlight');
+			}, 900);
 		}
 
 		if (typeof(response.shipping) != "undefined"){
@@ -325,6 +333,7 @@ WSU.OPC.Checkout = {
 		WSU.OPC.Checkout.updatePaymentBlock = true;
 		WSU.OPC.Checkout.hideLoader("#opc-address-form-billing");
 		WSU.OPC.Checkout.hideLoader("#opc-address-form-shipping");
+		WSU.OPC.Checkout.pullPayments();
 		if (WSU.OPC.Checkout.isVirtual===false){
 			if(WSU.OPC.ready_shipping_method===false){
 				WSU.OPC.Shipping.saveShippingMethod();

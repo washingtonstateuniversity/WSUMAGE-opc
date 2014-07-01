@@ -329,10 +329,10 @@
   -webkit-box-shadow: 0 0 35px rgba(16, 2, 2, 0.8);
   -moz-box-shadow: 0 0 35px rgba(16, 2, 2, 0.8);
   box-shadow: 0 0 35px rgba(16, 2, 2, 0.8);
-  -webkit-animation: spin-right 0.5s 0 linear infinite normal;
-  -moz-animation: spin-right 0.5s 0 linear infinite normal;
-  -ms-animation: spin-right 0.5s 0 linear infinite normal;
-  animation: spin-right 0.5s 0 linear infinite normal;
+  -webkit-animation: spin-right 0.5s 0s linear infinite normal;
+  -moz-animation: spin-right 0.5s 0s linear infinite normal;
+  -ms-animation: spin-right 0.5s 0s linear infinite normal;
+  animation: spin-right 0.5s 0s linear infinite normal;
   margin: 0 auto;
 }
 .loader .inner {
@@ -350,10 +350,10 @@
 	position: relative;
 	top: -40px;
 	margin: 0 auto;
-	-webkit-animation: spin-left 0.5s 0 linear infinite normal;
-	-moz-animation: spin-left 0.5s 0 linear infinite normal;
-	-ms-animation: spin-left 0.5s 0 linear infinite normal;
-	animation: spin-left 0.5s 0 linear infinite normal;
+	-webkit-animation: spin-left 0.5s 0s linear infinite normal;
+	-moz-animation: spin-left 0.5s 0s linear infinite normal;
+	-ms-animation: spin-left 0.5s 0s linear infinite normal;
+	animation: spin-left 0.5s 0s linear infinite normal;
 }
 @keyframes spin-right {
   from {
@@ -441,6 +441,7 @@
 }
 [class*="-block"] {
   position: relative;
+  display:block;
 }
 [class*="-block"] .opc-ajax-loader {
   position: absolute;
@@ -458,8 +459,8 @@
 
  /* highlights */
 .price_change_highlight tbody .cart-price *,
-.price_change_highlight tfoot  .a-right.last *
-
+.price_change_highlight tfoot  .a-right.last *,
+.highlight
 {
 	color:#C30003;
 -webkit-transition: color 750ms ease;
@@ -470,7 +471,8 @@ transition: color 750ms ease;
 }
 
 .un_highlight tbody .cart-price *,
-.un_highlight tfoot  .a-right.last *
+.un_highlight tfoot  .a-right.last *,
+.unhighlight
 {
 	color:#393939;
 -webkit-transition: color 750ms ease;
@@ -480,7 +482,7 @@ transition: color 750ms ease;
 transition: color 750ms ease;
 }
 
-
+.opc-index-index .right.last{float: right !important;}
 
 
 

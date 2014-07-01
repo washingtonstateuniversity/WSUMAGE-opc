@@ -3,6 +3,7 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 
 	const TITLE = 'wsu_opc/global/title';
 	const DEFAULT_PAYMENT = 'wsu_opc/default/payment';
+	const CHECK_EMAIL = 'wsu_opc/default/check_email';
 
 	/**
 	 * Get one page checkout model
@@ -64,10 +65,8 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 			$this->_redirect('checkout/cart');
 			return;
 		}
-
+		
 		Mage::app()->getCacheInstance()->cleanType('layout');
-
-		$this->updateDefaultPayment();
 
 		if (!$quote->validateMinimumAmount()) {
 			$error = Mage::getStoreConfig('sales/minimum_order/error_message') ?
@@ -81,6 +80,7 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 		Mage::getSingleton('checkout/session')->setCartWasUpdated(false);
 		Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_secure' => true)));
 		$this->getOnepage()->initCheckout();
+		$this->updateDefaultPayment();
 		$this->loadLayout();
 		$this->_initLayoutMessages('customer/session');
 		$this->getLayout()->getBlock('head')->setTitle($this->__(Mage::getStoreConfig(self::TITLE)));
