@@ -8,9 +8,13 @@ class Wsu_Opc_Block_Links extends Mage_Core_Block_Template{
 		$parentBlock = $this->getParentBlock();
 		$text = $this->__('Checkout');
 		if (Mage::helper('wsu_opc')->isEnable()){
-			$parentBlock->addLink($text, 'onepage', $text, true, array('_secure'=>true), 60, null, 'class="top-link-checkout"');
+			if($parentBlock){
+				$parentBlock->addLink($text, 'onepage', $text, true, array('_secure'=>true), 60, null, 'class="top-link-checkout"');
+			}
 		}else{
-			$parentBlock->addLink($text, 'checkout', $text, true, array('_secure'=>true), 60, null, 'class="top-link-checkout"');
+			if($parentBlock){
+				$parentBlock->addLink($text, 'checkout', $text, true, array('_secure'=>true), 60, null, 'class="top-link-checkout"');
+			}
 		}
 		return $this;
 	}
