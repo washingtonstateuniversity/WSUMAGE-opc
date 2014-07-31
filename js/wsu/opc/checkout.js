@@ -714,11 +714,15 @@ WSU.OPC.Shipping = {
 	},
 	validateShippingMethod: function(){			
 		var shippingChecked = false;
-		jQuery('#opc-co-shipping-method-form input').each(function(){				
-			if (jQuery(this).prop('checked')){							
-				shippingChecked =  true;
-			}
-		});
+		if(jQuery('#opc-co-shipping-method-form #checkout-shipping-method-load input').length){
+			jQuery('#opc-co-shipping-method-form #checkout-shipping-method-load input').each(function(){				
+				if (jQuery(this).prop('checked')){							
+					shippingChecked =  true;
+				}
+			});
+		}else{
+			shippingChecked =  true;
+		}
 		return shippingChecked;
 	}
 };
