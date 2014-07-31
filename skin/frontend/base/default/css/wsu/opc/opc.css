@@ -454,7 +454,7 @@
   position: absolute;
   right: 15px;
 }
-
+[class*="-block"].hidden{display:none;}
 
 
  /* highlights */
