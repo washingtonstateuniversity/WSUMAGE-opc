@@ -226,7 +226,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				
 				$methods_after = Mage::helper('wsu_opc')->getAvailablePaymentMethods();
 				
-				$use_method = Mage::helper('wsu_opc')->checkUpdatedPaymentMethods($methods_before, $methods_after);
+				$use_method = ($methods_after!==null && !empty($methods_after)) ? Mage::helper('wsu_opc')->checkUpdatedPaymentMethods($methods_before, $methods_after) : $methods_after;
 				if($use_method != -1) {
 					if(empty($use_method)){
 						$use_method = -1;
