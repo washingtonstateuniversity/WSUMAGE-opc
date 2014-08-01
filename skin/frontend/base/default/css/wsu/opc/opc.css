@@ -218,6 +218,17 @@
 .opc-wrapper-opc .opc-newsletter li{margin-bottom:0}
 .opc-wrapper-opc .opc-newsletter li label{color:#676767; font-size:14px;font-weight:normal;}
 
+/* payment method style */
+.opc-wrapper-opc #co-payment-form dd ul{}
+.opc-wrapper-opc #co-payment-form dd ul li{font-size:1.0em;}
+.opc-wrapper-opc #co-payment-form dd ul li label {
+  font-size: 1.25em;
+  font-weight: bold;
+  width: 100%;
+}
+
+
+
 
 /** COMMENT BLOCK **/
 .opc-wrapper-opc .comment-block{margin-top:40px;}

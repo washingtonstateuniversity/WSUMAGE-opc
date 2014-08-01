@@ -93,8 +93,10 @@ WSU.OPC = {
 	/** INIT CHAGE PAYMENT METHOD **/
 	initPayment: function(){
 		WSU.OPC.bindChangePaymentFields();
+		jQuery( '#co-payment-form input[type="radio"]').removeAttr('onClick');
 		jQuery(document).on('click', '#co-payment-form input[type="radio"]', function(e){
-			e.preventDefault();
+			jQuery('#co-payment-form').find('dd ul').hide();
+			jQuery(this).closest('dt').next('dd').find('ul').show();
 			WSU.OPC.validatePayment();
 		});
 	},
@@ -162,6 +164,9 @@ WSU.OPC = {
 
 		if (typeof(response.review)!= "undefined" && WSU.OPC.saveOrderStatus===false){					
 			jQuery('#review-block').html(response.review);
+			if(jQuery( "tr:contains('Free Shipping - Free')" ).length){
+				jQuery( "tr:contains('Free Shipping - Free')" ).hide();
+			}
 			WSU.OPC.Checkout.removePrice();
 		}
 
@@ -333,16 +338,17 @@ WSU.OPC.Checkout = {
 		WSU.OPC.Checkout.updatePaymentBlock = true;
 		WSU.OPC.Checkout.hideLoader("#opc-address-form-billing");
 		WSU.OPC.Checkout.hideLoader("#opc-address-form-shipping");
-		WSU.OPC.Checkout.pullPayments();
-		if (WSU.OPC.Checkout.isVirtual===false){
-			if(WSU.OPC.ready_shipping_method===false){
-				WSU.OPC.Shipping.saveShippingMethod();
+		WSU.OPC.Checkout.pullPayments(function(){
+			if (WSU.OPC.Checkout.isVirtual===false){
+				if(WSU.OPC.ready_shipping_method===false){
+					WSU.OPC.Shipping.saveShippingMethod();
+				}
+			}else{
+				jQuery('.shipping-block').hide();
+				jQuery('.payment-block').addClass('clear-margin');
 			}
-		}else{
-			jQuery('.shipping-block').hide();
-			jQuery('.payment-block').addClass('clear-margin');
-			WSU.OPC.Checkout.pullPayments();
-		}
+		});
+
 	},
 
 	/** PARSE RESPONSE FROM AJAX SAVE SHIPPING METHOD **/
@@ -430,12 +436,15 @@ WSU.OPC.Checkout = {
 				jQuery('#review-block').html(response.review);
 				WSU.OPC.Checkout.removePrice();
 			}
+			if(jQuery( "tr:contains('Free Shipping - Free')" ).length){
+				jQuery( "tr:contains('Free Shipping - Free')" ).hide();
+			}
 			WSU.OPC.Agreement.init();
 		});
 	},
 	
 	/** PULL PAYMENTS METHOD AFTER LOAD PAGE **/
-	pullPayments: function(){
+	pullPayments: function(callback){
 		WSU.OPC.Checkout.showLoader('.payment-block',"<h1>Getting payment choices</h1>");
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/payments',function(response){
 			WSU.OPC.Checkout.hideLoader('.payment-block');
@@ -450,6 +459,7 @@ WSU.OPC.Checkout = {
 				WSU.OPC.bindChangePaymentFields();
 			};
 			WSU.OPC.Checkout.pullReview();
+			(callback||null)?callback():null;
 		},'json');
 	}
 };
