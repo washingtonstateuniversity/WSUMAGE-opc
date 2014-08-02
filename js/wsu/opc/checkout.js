@@ -241,7 +241,7 @@ WSU.OPC.Checkout = {
 	ajaxProgress:false,
 	xhr: null,
 	isVirtual: false,
-	
+	disabledSave: false,
 	saveOrderUrl: null,
 
 	
