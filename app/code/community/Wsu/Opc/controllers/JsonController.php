@@ -208,6 +208,9 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 
 			$this->checkNewslatter();
 
+			$methods_before = Mage::helper('wsu_opc')->getAvailablePaymentMethods();
+
+
 			$customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
 	
 
