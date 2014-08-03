@@ -14,7 +14,7 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
 
 <script type="text/javascript">
 	var countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?>;
-	var update_type = <?=$block_notice_update?>
+	var update_type = "<?=$block_notice_update?>";
 </script>
 <div class="opc-wrapper-opc">
 	<div id="general_message"><?=$loading?></div>
