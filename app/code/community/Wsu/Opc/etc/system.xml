@@ -156,16 +156,16 @@
 			<show_in_store>1</show_in_store>
 			<expanded>1</expanded>
 			<fields>
-				<form_location>
+				<block_notice_update>
 					<label>Block Update Notice Type</label>
 					<frontend_type>select</frontend_type>
-					<source_model>wsu_opc/system_config_source_form</source_model>
+					<source_model>wsu_opc/system_config_source_notice_block_update</source_model>
 					<isrequired>true</isrequired>
 					<sort_order>40</sort_order>
 					<show_in_default>1</show_in_default>
 					<show_in_website>1</show_in_website>
 					<show_in_store>1</show_in_store>
-				</form_location>
+				</block_notice_update>
 			</fields>
 		</display>		
 		<geo>
