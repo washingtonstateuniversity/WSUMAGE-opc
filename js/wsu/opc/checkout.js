@@ -248,8 +248,10 @@ WSU.OPC.Checkout = {
 	showLoader: function(parentBlock,message){
 		var jObj = parentBlock!=="undefined" ? parentBlock:"#general_message";
 		var html = message!=="undefined" ? message:"";
-		if(jQuery(jObj+' .opc-ajax-loader .loader').length<=0){
+		if(jQuery(jObj+' .opc-ajax-loader .loader .message').length<=0){
 			jQuery(jObj+' .opc-ajax-loader .loader').append("<div class='message'>"+html+"</div>");
+		}else{
+			jQuery(jObj+' .opc-ajax-loader .loader .message').html(html);
 		}
 		jQuery(jObj+' .opc-ajax-loader').show();
 		jQuery('.opc-btn-checkout').attr("disabled",true);
