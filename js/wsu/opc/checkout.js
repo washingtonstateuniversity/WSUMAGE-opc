@@ -64,6 +64,7 @@ WSU.OPC = {
 			if (!addressForm.validator.validate()){				
 				return;
 			}
+			WSU.OPC.Billing.save();
 			if (!jQuery('input[name="billing[use_for_shipping]"]').prop('checked')){
 				var addressForm = new VarienForm('opc-address-form-shipping');
 				if (!addressForm.validator.validate()){				
@@ -202,7 +203,7 @@ WSU.OPC = {
 		if (WSU.OPC.Checkout.config.comment!=="0"){
 			WSU.OPC.saveCustomerComment();
 		}
-
+		
 		WSU.OPC.Plugin.dispatch('saveOrder');
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.saveOrderUrl ,form, WSU.OPC.prepareOrderResponse,'json');
 	},
