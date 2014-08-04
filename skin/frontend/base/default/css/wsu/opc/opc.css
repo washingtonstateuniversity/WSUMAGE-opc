@@ -476,7 +476,7 @@
 
 
 
-[class*="-block"].hidden{ position:absolute; top:-9999em; left:-9999em;}
+[class*="-block"].hidden{ position:absolute !important; top:-9999em  !important; left:-9999em  !important;}
 
 
  /* highlights */
