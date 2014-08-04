@@ -50,7 +50,29 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 		$_quote->setTotalsCollectedFlag(false)->collectTotals();
 		$_quote->save();
 	}
+	protected function initDefaultAddress(){
+		$billing_address = $this->getOnepage()->getQuote()->getBillingAddress();
+		
+		$bill_country = $billing_address->getCountryId();
+		if(!empty($bill_country))
+			return;
+		
+		$countryId = Mage::helper('core')->getDefaultCountry();
+		$ip_country =  Mage::getStoreConfig(self::XML_PATH_GEO_COUNTRY) ? Mage::helper('opc/country')->get() : $countryId;
+		$countryId =  !empty($ip_country)?$ip_country:$countryId;
+		$ip_city =  Mage::getStoreConfig(self::XML_PATH_GEO_CITY) ? Mage::helper('opc/city')->get() : false;
 
+		$default_billing_addr	= array(
+			'country_id'   => $countryId,
+			'city'      => !empty($ip_city)?$ip_city:null,
+		);
+
+		$billing_address->addData($default_billing_addr);
+		$billing_address->implodeStreetAddress();
+		$this->getOnepage()->getQuote()->collectTotals()->save();
+	
+		return $this;
+	}
 	/**
 	 * Checkout page
 	 */
@@ -65,9 +87,10 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 			$this->_redirect('checkout/cart');
 			return;
 		}
-		
+		// init default address
+        $this->initDefaultAddress();
 		Mage::app()->getCacheInstance()->cleanType('layout');
-
+		$this->updateDefaultPayment();
 		if (!$quote->validateMinimumAmount()) {
 			$error = Mage::getStoreConfig('sales/minimum_order/error_message') ?
 				Mage::getStoreConfig('sales/minimum_order/error_message') :
