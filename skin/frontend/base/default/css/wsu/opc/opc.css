@@ -476,7 +476,7 @@
 
 
 
-[class*="-block"].hidden{display:none;}
+[class*="-block"].hidden{ position:absolute; top:-9999em; left:-9999em;}
 
 
  /* highlights */
