@@ -223,7 +223,7 @@ WSU.OPC = {
 	/** CHECK RESPONSE FROM AJAX AFTER SAVE ORDER **/
 	prepareOrderResponse: function(response){
 		if (typeof(response.error) != "undefined"){
-			WSU.OPC.Checkout.hideLoader();
+			WSU.OPC.Checkout.hideLoader("#general_message");
 			WSU.OPC.saveOrderStatus = false;
 			WSU.OPC.popup_message(response.error);
 			return;
