@@ -4,6 +4,8 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 	const TITLE = 'wsu_opc/global/title';
 	const DEFAULT_PAYMENT = 'wsu_opc/default/payment';
 	const CHECK_EMAIL = 'wsu_opc/default/check_email';
+	const XML_PATH_GEO_COUNTRY = 'wsu_opc/geo/country';	
+	const XML_PATH_GEO_CITY = 'wsu_opc/geo/city';
 
 	/**
 	 * Get one page checkout model
