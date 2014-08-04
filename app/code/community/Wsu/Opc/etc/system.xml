@@ -56,7 +56,7 @@
 				<payment translate="label">
 					<label>Default Payment Method</label>
 					<frontend_type>select</frontend_type>
-					<source_model>wsu_opc/system_config_source_payment_allmethods</source_model>
+					<source_model>adminhtml/system_config_source_payment_allmethods</source_model>
 					<isrequired>true</isrequired>
 					<sort_order>10</sort_order>
 					<show_in_default>1</show_in_default>

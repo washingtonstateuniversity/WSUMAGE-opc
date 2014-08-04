@@ -5,7 +5,7 @@ class Wsu_Opc_Model_System_Config_Source_Payment_Allmethods extends Mage_Payment
 		$sorted=true;
 		$asLabelValue=true;
 		$withGroups=true;
-		return array(array('value'=>'', 'label'=>''));
+		//return array(array('value'=>'', 'label'=>''));
 		
 		$store=Mage::app()->getStore();
 		$methodsobj=$this->getPaymentMethods($store);

@@ -107,7 +107,6 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 		Mage::getSingleton('checkout/session')->setCartWasUpdated(false);
 		Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_secure' => true)));
 		$this->getOnepage()->initCheckout();
-		$this->updateDefaultPayment();
 		$this->loadLayout();
 		$this->_initLayoutMessages('customer/session');
 		$this->getLayout()->getBlock('head')->setTitle($this->__(Mage::getStoreConfig(self::TITLE)));
