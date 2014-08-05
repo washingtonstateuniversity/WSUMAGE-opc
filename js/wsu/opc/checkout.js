@@ -64,7 +64,7 @@ WSU.OPC = {
 			if (!addressForm.validator.validate()){				
 				return;
 			}
-			WSU.OPC.Billing.save();
+			//WSU.OPC.Billing.save();
 			if (!jQuery('input[name="billing[use_for_shipping]"]').prop('checked')){
 				var addressForm = new VarienForm('opc-address-form-shipping');
 				if (!addressForm.validator.validate()){				
