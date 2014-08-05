@@ -95,9 +95,11 @@ WSU.OPC = {
 		WSU.OPC.bindChangePaymentFields();
 		jQuery( '#co-payment-form input[type="radio"]').removeAttr('onClick');
 		jQuery(document).on('click', '#co-payment-form input[type="radio"]', function(e){
-			jQuery('#co-payment-form input:disabled').attr("disabled",true);
+			
 			jQuery('#co-payment-form').find('dd ul').hide();
-			jQuery(this).closest('dt').next('dd').find('ul').show();
+			jQuery(this).closest('dt').next('dd').find('ul').show(function(){
+				jQuery(this).find('input:disabled').attr("disabled",true);	
+			});
 			WSU.OPC.validatePayment();
 		});
 	},
