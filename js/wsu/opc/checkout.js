@@ -98,7 +98,7 @@ WSU.OPC = {
 			
 			jQuery('#co-payment-form').find('dd ul').hide();
 			jQuery(this).closest('dt').next('dd').find('ul').show(function(){
-				jQuery(this).find('input:disabled').attr("disabled",true);	
+				jQuery(this).find('input:disabled').attr("disabled",false);	
 			});
 			WSU.OPC.validatePayment();
 		});
