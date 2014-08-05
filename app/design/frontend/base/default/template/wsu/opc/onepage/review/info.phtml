@@ -31,7 +31,7 @@
         <?php foreach($this->getItems() as $_item): ?>
             <?=$this->getItemHtml($_item)?>
         <?php endforeach ?>
-        <tr><td   colspan="<?=($colspan+1)?>"><a href="<?=Mage::getUrl('checkout/cart')?>" class="spine-button full" style="width:100%; text-align:center;">Edit Cart</a></td></tr>
+        <tr><td   colspan="3"><a href="<?=Mage::getUrl('checkout/cart')?>" class="spine-button full" style="width: 100%; text-align: center; padding: 0.15em 0.75em;">Edit Cart</a></td></tr>
         </tbody>
     </table>
 </div>
