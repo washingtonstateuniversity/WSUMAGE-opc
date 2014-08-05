@@ -64,7 +64,6 @@ WSU.OPC = {
 			if (!addressForm.validator.validate()){				
 				return;
 			}
-			//WSU.OPC.Billing.save();
 			if (!jQuery('input[name="billing[use_for_shipping]"]').prop('checked')){
 				var addressForm = new VarienForm('opc-address-form-shipping');
 				if (!addressForm.validator.validate()){				
@@ -96,6 +95,7 @@ WSU.OPC = {
 		WSU.OPC.bindChangePaymentFields();
 		jQuery( '#co-payment-form input[type="radio"]').removeAttr('onClick');
 		jQuery(document).on('click', '#co-payment-form input[type="radio"]', function(e){
+			jQuery('#co-payment-form input:disabled').attr("disabled",true);
 			jQuery('#co-payment-form').find('dd ul').hide();
 			jQuery(this).closest('dt').next('dd').find('ul').show();
 			WSU.OPC.validatePayment();
@@ -115,6 +115,7 @@ WSU.OPC = {
 	/** BIND CHANGE PAYMENT FIELDS **/ 
 	bindChangePaymentFields: function(){
 		WSU.OPC.unbindChangePaymentFields();
+		
 		jQuery('#co-payment-form input').on('keyup',function(e){
 			e.preventDefault();
 			clearTimeout(WSU.OPC.Checkout.formChanging);
