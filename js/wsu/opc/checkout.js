@@ -62,7 +62,9 @@ WSU.OPC = {
 	
 		 return {
 			addReq:  function(opt) {
-				if( jQuery.inArray(opt, requests) !==-1){ //not this assums that the first one is what we wnt to use
+				if( jQuery.inArray(opt, requests) !==-1){ 
+				//not this assums that the first one is what we wnt to use
+				}else{
 					requests.push(opt);
 				}
 			},
