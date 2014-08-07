@@ -67,8 +67,8 @@ WSU.OPC = {
 				}else{
 					requests.push(action);
 					requests_obj[action]=opt;
-					console.log(requests);
-					console.log(requests_obj);
+					//console.log(requests);
+					//console.log(requests_obj);
 				}
 			},
 			removeReq:  function(action,opt) {
@@ -89,7 +89,7 @@ WSU.OPC = {
 						 if( typeof(oriSuc) === 'function' ) oriSuc();
 						 requests.shift();
 						 self.run.apply(self, []);
-						 console.log(requests);
+						 //console.log(requests);
 					};   
 	
 					jQuery.ajax(post_obj);

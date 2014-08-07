@@ -1,7 +1,7 @@
 WSU.OPC.Plugin = {
 	observer: {},
 	dispatch: function(event, data){
-		console.debug('DISPATCH::EVENT::' + event);			
+		//console.debug('DISPATCH::EVENT::' + event);			
 		if (typeof(WSU.OPC.Plugin.observer[event]) !="undefined"){
 			var callback = WSU.OPC.Plugin.observer[event];
 			callback(data);
