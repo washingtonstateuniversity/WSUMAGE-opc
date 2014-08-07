@@ -738,18 +738,18 @@ WSU.OPC.Billing = {
 	/** METHOD CREATE AJAX REQUEST FOR UPDATE SHIPPING METHOD **/
 	save: function(){
 		
-			var form = jQuery('#opc-address-form-billing').serializeArray();
-			form = WSU.OPC.Checkout.applyShippingMethod(form);		 			
-			form = WSU.OPC.Checkout.applySubscribed(form); 
-			form.push({ "name":"billing[use_for_shipping]", "value": jQuery('[name*=use_for_shipping]:checked').length });
-			WSU.OPC.Checkout.showLoader("#opc-address-form-billing","<h1>Saving billing information</h1>");
-			WSU.OPC.ajaxManager.addReq({
-			   type: 'POST',
-			   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/payments',
-			   dataType: 'json',
-			   data: form,
-			   success:WSU.OPC.Checkout.prepareAddressResponse
-		   });
+		var form = jQuery('#opc-address-form-billing').serializeArray();
+		form = WSU.OPC.Checkout.applyShippingMethod(form);		 			
+		form = WSU.OPC.Checkout.applySubscribed(form); 
+		form.push({ "name":"billing[use_for_shipping]", "value": jQuery('[name*=use_for_shipping]:checked').length });
+		WSU.OPC.Checkout.showLoader("#opc-address-form-billing","<h1>Saving billing information</h1>");
+		WSU.OPC.ajaxManager.addReq({
+		   type: 'POST',
+		   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveBilling',
+		   dataType: 'json',
+		   data: form,
+		   success:WSU.OPC.Checkout.prepareAddressResponse
+	   });
 		
 		
 		/*
