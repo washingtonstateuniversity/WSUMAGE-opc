@@ -58,36 +58,41 @@ WSU.OPC = {
 		jQuery( "#mess" ).dialog(defaultParams);
 	},
 	ajaxManager: (function() {
-		 var requests = [];
-	
+		var requests = [];
+		var requests_obj = {};
 		 return {
-			addReq:  function(opt) {
-				if( jQuery.inArray(opt, requests) !==-1){ 
-				//not this assums that the first one is what we wnt to use
+			addReq:  function(action,opt) {
+				if( jQuery.inArray(action, requests) > -1 ){
+					//not this assums that the first one is what we wnt to use
 				}else{
-					requests.push(opt);
+					requests.push(action);
+					requests_obj[action]=opt;
+					console.log(requests);
+					console.log(requests_obj);
 				}
 			},
-			removeReq:  function(opt) {
+			removeReq:  function(action,opt) {
 				if( jQuery.inArray(opt, requests) > -1 ){
-					requests.splice(jQuery.inArray(opt, requests), 1);
+					requests.splice(jQuery.inArray(action, requests), 1);
+					delete requests_obj[action]; 
 				}
 			},
 			run: function() {
-				var self = this,
-					oriSuc;
+				var self = this, oriSuc;
 	
 				if( requests.length ) {
-					oriSuc = requests[0].complete;
+					var action = requests[0];
+					var post_obj = requests_obj[action];
+					oriSuc = post_obj.complete;
 	
-					requests[0].complete = function() {
+					post_obj.complete = function() {
 						 if( typeof(oriSuc) === 'function' ) oriSuc();
 						 requests.shift();
 						 self.run.apply(self, []);
 						 console.log(requests);
 					};   
 	
-					jQuery.ajax(requests[0]);
+					jQuery.ajax(post_obj);
 				} else {
 				  self.tid = setTimeout(function() {
 					 self.run.apply(self, []);
@@ -96,6 +101,7 @@ WSU.OPC = {
 			},
 			stop:  function() {
 				requests = [];
+				requests_obj = {};
 				clearTimeout(this.tid);
 			}
 		 };
@@ -203,7 +209,7 @@ WSU.OPC = {
 		var form = jQuery('#co-payment-form').serializeArray();
 		WSU.OPC.Checkout.showLoader('.payment-block',"<h1>Saving payment choice</h1>");
 		
-		WSU.OPC.ajaxManager.addReq({
+		WSU.OPC.ajaxManager.addReq("savePayment",{
            type: 'POST',
            url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',
 		   dataType: 'json',
@@ -266,7 +272,7 @@ WSU.OPC = {
 		WSU.OPC.Plugin.dispatch('saveOrder');
 		WSU.OPC.savingOrder=true;
 		
-		WSU.OPC.ajaxManager.addReq({
+		WSU.OPC.ajaxManager.addReq("saveOrder",{
            type: 'POST',
            url: WSU.OPC.Checkout.saveOrderUrl,
 		   dataType: 'json',
@@ -280,7 +286,7 @@ WSU.OPC = {
 	/** SAVE CUSTOMER COMMNET **/
 	saveCustomerComment: function(){
 		
-		WSU.OPC.ajaxManager.addReq({
+		WSU.OPC.ajaxManager.addReq("saveComment",{
            type: 'POST',
            url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/comment',
 		   dataType: 'json',
@@ -515,7 +521,7 @@ WSU.OPC.Checkout = {
 		WSU.OPC.Checkout.showLoader('#review-block',"<h1>Recalulating</h1>");
 		
 		
-		WSU.OPC.ajaxManager.addReq({
+		WSU.OPC.ajaxManager.addReq("saveReview",{
            type: 'POST',
            url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/review',
 		   dataType: 'json',
@@ -551,7 +557,7 @@ WSU.OPC.Checkout = {
 	pullPayments: function(callback){
 		WSU.OPC.Checkout.showLoader('.payment-block',"<h1>Getting payment choices</h1>");
 		
-		WSU.OPC.ajaxManager.addReq({
+		WSU.OPC.ajaxManager.addReq("savePayments",{
            type: 'POST',
            url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/payments',
 		   dataType: 'json',
@@ -748,7 +754,7 @@ WSU.OPC.Billing = {
 		form = WSU.OPC.Checkout.applySubscribed(form); 
 		form.push({ "name":"billing[use_for_shipping]", "value": jQuery('[name*=use_for_shipping]:checked').length });
 		WSU.OPC.Checkout.showLoader("#opc-address-form-billing","<h1>Saving billing information</h1>");
-		WSU.OPC.ajaxManager.addReq({
+		WSU.OPC.ajaxManager.addReq("saveBilling",{
 		   type: 'POST',
 		   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveBilling',
 		   dataType: 'json',
@@ -838,7 +844,7 @@ WSU.OPC.Shipping = {
 			var form = jQuery('#opc-address-form-shipping').serializeArray();
 			form = WSU.OPC.Checkout.applyShippingMethod(form);
 			WSU.OPC.Checkout.showLoader("#opc-address-form-shipping","<h1>Saving shipping address</h1>");
-			WSU.OPC.ajaxManager.addReq({
+			WSU.OPC.ajaxManager.addReq("saveShipping",{
 			   type: 'POST',
 			   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShipping',
 			   dataType: 'json',
@@ -872,7 +878,7 @@ WSU.OPC.Shipping = {
 		var form = jQuery('#opc-co-shipping-method-form').serializeArray();
 		form = WSU.OPC.Checkout.applySubscribed(form); 
 		WSU.OPC.Checkout.showLoader(".shipping-method-block","<h1>Saving shipping choice</h1>");
-		WSU.OPC.ajaxManager.addReq({
+		WSU.OPC.ajaxManager.addReq("saveShippingMethod",{
 		   type: 'POST',
 		   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShippingMethod',
 		   dataType: 'json',
@@ -933,7 +939,7 @@ WSU.OPC.Coupon = {
 		WSU.OPC.Checkout.showLoader('.discount-block');
 		
 
-		WSU.OPC.ajaxManager.addReq({
+		WSU.OPC.ajaxManager.addReq("couponPost",{
 		   type: 'POST',
 		   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/coupon/couponPost',
 		   dataType: 'json',
