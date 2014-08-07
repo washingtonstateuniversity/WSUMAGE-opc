@@ -6,6 +6,7 @@ var WSU=WSU||{};
 WSU.OPC = {
 	agreements : null,
 	saveOrderStatus:false,
+	savingOrder:false,
 	ready_billing:false,
 	ready_shipping:false,
 	ready_shipping_method:false,
@@ -56,6 +57,43 @@ WSU.OPC = {
 		defaultParams = jQuery.extend(defaultParams,sizeObj);
 		jQuery( "#mess" ).dialog(defaultParams);
 	},
+	ajaxManager: (function() {
+		 var requests = [];
+	
+		 return {
+			addReq:  function(opt) {
+				requests.push(opt);
+			},
+			removeReq:  function(opt) {
+				if( jQuery.inArray(opt, requests) > -1 )
+					requests.splice(jQuery.inArray(opt, requests), 1);
+			},
+			run: function() {
+				var self = this,
+					oriSuc;
+	
+				if( requests.length ) {
+					oriSuc = requests[0].complete;
+	
+					requests[0].complete = function() {
+						 if( typeof(oriSuc) === 'function' ) oriSuc();
+						 requests.shift();
+						 self.run.apply(self, []);
+					};   
+	
+					jQuery.ajax(requests[0]);
+				} else {
+				  self.tid = setTimeout(function() {
+					 self.run.apply(self, []);
+				  }, 1000);
+				}
+			},
+			stop:  function() {
+				requests = [];
+				clearTimeout(this.tid);
+			}
+		 };
+	}()),
 	/** CREATE EVENT FOR SAVE ORDER **/
 	initSaveOrder: function(){
 		jQuery(document).on('click', '.opc-btn-checkout', function(e){
@@ -158,7 +196,18 @@ WSU.OPC = {
 		}
 		var form = jQuery('#co-payment-form').serializeArray();
 		WSU.OPC.Checkout.showLoader('.payment-block',"<h1>Saving payment choice</h1>");
-		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',form, WSU.OPC.preparePaymentResponse,'json');
+		
+		WSU.OPC.ajaxManager.addReq({
+           type: 'POST',
+           url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',
+		   dataType: 'json',
+           data: form,
+           success: WSU.OPC.preparePaymentResponse
+       });
+		
+		
+		
+		//WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',form, WSU.OPC.preparePaymentResponse,'json');
 	},
 	/** CHECK RESPONSE FROM AJAX AFTER SAVE PAYMENT METHOD **/
 	preparePaymentResponse: function(response){
@@ -209,6 +258,7 @@ WSU.OPC = {
 		}
 		
 		WSU.OPC.Plugin.dispatch('saveOrder');
+		WSU.OPC.savingOrder=true;
 		WSU.OPC.Checkout.xhr = jQuery.post(WSU.OPC.Checkout.saveOrderUrl ,form, WSU.OPC.prepareOrderResponse,'json');
 	},
 
@@ -277,6 +327,7 @@ WSU.OPC.Checkout = {
 		if (this.config==null){
 			return;
 		}
+		WSU.OPC.ajaxManager.run(); 
 		//base config
 		this.config = jQuery.parseJSON(this.config);
 		
