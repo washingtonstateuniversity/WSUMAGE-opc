@@ -4,6 +4,8 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 	const TITLE = 'wsu_opc/global/title';
 	const DEFAULT_PAYMENT = 'wsu_opc/default/payment';
 	const CHECK_EMAIL = 'wsu_opc/default/check_email';
+	const XML_PATH_GEO_COUNTRY = 'wsu_opc/geo/country';	
+	const XML_PATH_GEO_CITY = 'wsu_opc/geo/city';
 
 	/**
 	 * Get one page checkout model
@@ -46,11 +48,35 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 		$defaultPaymentMethod = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
 		$_cart = $this->_getCart();
 		$_quote = $_cart->getQuote();
-		$_quote->getPayment()->setMethod($defaultPaymentMethod);
+		if($defaultPaymentMethod!=null){
+			$_quote->getPayment()->setMethod($defaultPaymentMethod);
+		}
 		$_quote->setTotalsCollectedFlag(false)->collectTotals();
 		$_quote->save();
 	}
+	protected function initDefaultAddress(){
+		$billing_address = $this->getOnepage()->getQuote()->getBillingAddress();
+		
+		$bill_country = $billing_address->getCountryId();
+		if(!empty($bill_country))
+			return;
+		
+		$countryId = Mage::helper('core')->getDefaultCountry();
+		$ip_country =  Mage::getStoreConfig(self::XML_PATH_GEO_COUNTRY) ? Mage::helper('opc/country')->get() : $countryId;
+		$countryId =  !empty($ip_country)?$ip_country:$countryId;
+		$ip_city =  Mage::getStoreConfig(self::XML_PATH_GEO_CITY) ? Mage::helper('opc/city')->get() : false;
 
+		$default_billing_addr	= array(
+			'country_id'   => $countryId,
+			'city'      => !empty($ip_city)?$ip_city:null,
+		);
+
+		$billing_address->addData($default_billing_addr);
+		$billing_address->implodeStreetAddress();
+		$this->getOnepage()->getQuote()->collectTotals()->save();
+	
+		return $this;
+	}
 	/**
 	 * Checkout page
 	 */
@@ -65,9 +91,10 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 			$this->_redirect('checkout/cart');
 			return;
 		}
-		
+		// init default address
+        $this->initDefaultAddress();
 		Mage::app()->getCacheInstance()->cleanType('layout');
-
+		$this->updateDefaultPayment();
 		if (!$quote->validateMinimumAmount()) {
 			$error = Mage::getStoreConfig('sales/minimum_order/error_message') ?
 				Mage::getStoreConfig('sales/minimum_order/error_message') :
@@ -80,7 +107,6 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action{
 		Mage::getSingleton('checkout/session')->setCartWasUpdated(false);
 		Mage::getSingleton('customer/session')->setBeforeAuthUrl(Mage::getUrl('*/*/*', array('_secure' => true)));
 		$this->getOnepage()->initCheckout();
-		$this->updateDefaultPayment();
 		$this->loadLayout();
 		$this->_initLayoutMessages('customer/session');
 		$this->getLayout()->getBlock('head')->setTitle($this->__(Mage::getStoreConfig(self::TITLE)));

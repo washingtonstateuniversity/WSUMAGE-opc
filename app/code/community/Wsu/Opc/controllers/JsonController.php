@@ -146,7 +146,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$layout->generateXml();
 		$layout->generateBlocks();	
 		$output = $layout->getOutput();
-		return $output.print_r($_quote->getPayment()->getMethodInstance()->getCode(),true);
+		return $output;//.print_r($_quote->getPayment()->getMethodInstance()->getCode(),true);
 	}
 	
 	/**
@@ -405,7 +405,12 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				}
 				$this->getOnepage()->getQuote()->getPayment()->importData($data);
 			}
+			// save comments
+			$comment  = Mage::getSingleton('core/session')->getOpcOrderComment();
+			$this->getOnepage()->getQuote()->setCustomerNote($comment);
+
 			$this->getOnepage()->saveOrder();
+			
 			$redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
 		} catch (Mage_Payment_Model_Info_Exception $e) {
 			$message = $e->getMessage()." ::Mage_Payment_Model_Info_Exception";
