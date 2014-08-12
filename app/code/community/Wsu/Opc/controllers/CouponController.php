@@ -109,16 +109,13 @@ class Wsu_Opc_CouponController extends Mage_Core_Controller_Front_Action {
 			$methods_after = Mage::helper('wsu_opc')->getAvailablePaymentMethods();
 			$use_method = Mage::helper('wsu_opc')->checkUpdatedPaymentMethods($methods_before, $methods_after);
 			
-			$result['payments'] = $this->_getPaymentMethodsHtml($methods_before);
-				$result['reload_payments'] = true; 
-			/*
 			if($use_method != -1) {
 				if(empty($use_method)){
 					$use_method = -1;
 				}
-				$result['payments'] = $this->_getPaymentMethodsHtml($use_method);
-				$result['reload_payments'] = true; 
-			}*/
+				$responseData['payments'] = $this->_getPaymentMethodsHtml($use_method);
+				$responseData['reload_payments'] = true; 
+			}
 			
 		} catch (Mage_Core_Exception $e) {
 			$this->_getSession()->addError($e->getMessage());
