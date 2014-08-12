@@ -953,6 +953,8 @@ WSU.OPC.Coupon = {
 		WSU.OPC.Checkout.hideLoader(".discount-block");
 		if (typeof(response.message) != "undefined"){
 			WSU.OPC.popup_message(response.message);
+			WSU.OPC.ready_payment_method=false;
+			WSU.OPC.Checkout.pullPayments();
 			WSU.OPC.Checkout.pullReview();
 		}
 		if (typeof(response.coupon) != "undefined" && response.coupon!==""){
