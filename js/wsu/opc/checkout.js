@@ -569,7 +569,7 @@ WSU.OPC.Checkout = {
 					return;
 				}
 				if (typeof(response.payments)!="undefined"){
-					jQuery('#checkout-payment-method-load').html(response.payments);
+					jQuery('#co-payment-form').html("<fieldset>".response.payments."</fieldset>");
 					payment.initWhatIsCvvListeners();
 					WSU.OPC.bindChangePaymentFields();
 				};
