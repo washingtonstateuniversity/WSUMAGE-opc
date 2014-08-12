@@ -91,7 +91,7 @@ WSU.OPC = {
 						 self.run.apply(self, []);
 						 //console.log(requests);
 					};   
-	
+					jQuery.ajaxSetup({ cache: false });
 					jQuery.ajax(post_obj);
 				} else {
 				  self.tid = setTimeout(function() {
