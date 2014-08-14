@@ -20,12 +20,7 @@ $loading = '<div class="opc-ajax-loader '.$block_notice_update.' " style="displa
 	<div id="general_message"><?=$loading?></div>
 	<h2><?=$this->__('Checkout')?></h2>
 	<p><?=$this->__('Fill in the Fields below to complete your purchase!')?></p>
-	<!--
-	<?php if (!Mage::getSingleton('customer/session')->isLoggedIn()):?>
-		<?=//$this->getChildHtml('login');?>	
-	<?php endif;?>
-	<div class="clear"></div>
--->
+
     <div class="opc-col-left">
 		<?=($form_location=='billing_above'?$form:"")?>
 		<form id="opc-address-form-billing" class="billing-block">
