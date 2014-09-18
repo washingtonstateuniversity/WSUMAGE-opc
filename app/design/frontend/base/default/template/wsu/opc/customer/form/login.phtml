@@ -39,7 +39,7 @@
                     <p><?php echo $this->__('If you have an account with us, please log in.') ?></p>
                     <ul class="form-list">
                         <li>
-                            <label for="email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
+                            <label for="email" class=""><em>*</em><?php echo $this->__('Email Address/Username') ?></label>
                             <div class="input-box">
                                 <input type="text" name="login[username]" value="<?php echo $this->htmlEscape($this->getUsername()) ?>" id="email" class="input-text required-entry validate-email" title="<?php echo $this->__('Email Address') ?>" />
                             </div>
@@ -76,7 +76,7 @@
     </form>
     <script type="text/javascript">
     //<![CDATA[
-        var dataForm = new VarienForm('login-form', true);
+        //var dataForm = new VarienForm('login-form', true);
     //]]>
     </script>
 </div>
