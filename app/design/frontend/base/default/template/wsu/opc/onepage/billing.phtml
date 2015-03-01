@@ -1,7 +1,6 @@
 <?php
 $helper = $this->helper('wsu_opc');
 ?>
-
 <div id="co-billing-form">
     <h3><?php echo $this->__('Billing Information')?></h3>
     <ul class="form-list">
@@ -19,9 +18,8 @@ $helper = $this->helper('wsu_opc');
             <ul>
                 <li class="fields">
 					<?php echo $this->getLayout()->createBlock('customer/widget_name')->setObject($this->getAddress()->getFirstname() ? $this->getAddress() : $this->getQuote()->getCustomer())->setForceUseCustomerRequiredAttributes(!$this->isCustomerLoggedIn())->setFieldIdFormat('billing:%s')->setFieldNameFormat('billing[%s]')->toHtml() ?>
-                </li>
-                
-                <?php if(Mage::getStoreConfig('customer/extras/show_company')): ?>
+				</li>
+				<?php if(Mage::getStoreConfig('customer/extras/show_company')): ?>
                 <li class="fields">
                     <div class="field">
                         <label for="billing:company"><?php echo $this->__('Company') ?></label>
@@ -29,21 +27,20 @@ $helper = $this->helper('wsu_opc');
                             <input type="text" id="billing:company" name="billing[company]" value="<?php echo $this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?php echo $this->__('Company') ?>" class="input-text <?php echo $helper->getAttributeValidationClass('company') ?>" />
                         </div>
                     </div>
-                </li>
+				</li>
 				<?php endif; ?>
-                
-   				<?php if(!$this->isCustomerLoggedIn()): ?>             
-                <li class="fields">
-                    <div class="field" style="width:100%">
+					 
+				<?php if(!$this->isCustomerLoggedIn()): ?>
+				<li class="fields">
+                    <div class="field">
                         <label for="billing:email" class="required"><em>*</em><?php echo $this->__('Email Address') ?></label>
                         <div class="input-box">
                             <input type="text" name="billing[email]" id="billing:email" value="<?php echo $this->escapeHtml($this->getAddress()->getEmail()) ?>" title="<?php echo $this->__('Email Address') ?>" class="input-text validate-email required-entry" />
                         </div>
                     </div>
                 </li>
-                <?php endif; ?>
-                
-        <?php $_streetValidationClass = $helper->getAttributeValidationClass('street'); ?>
+				<?php endif; ?>
+        		<?php $_streetValidationClass = $helper->getAttributeValidationClass('street'); ?>
                 <li class="wide">
                     <label for="billing:street1" class="required"><em>*</em><?php echo $this->__('Address') ?></label>
                     <div class="input-box">
@@ -70,13 +67,13 @@ $helper = $this->helper('wsu_opc');
                     <div class="field">
                         <label for="billing:city" class="required"><em>*</em><?php echo $this->__('City') ?></label>
                         <div class="input-box">
-                            <input type="text" title="<?php echo $this->__('City') ?>" name="billing[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?php echo $helper->getAttributeValidationClass('city') ?>  shipping_method_value" id="billing:city" />
+							<input type="text" title="<?php echo $this->__('City') ?>" name="billing[city]" value="<?php echo $this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?php echo $helper->getAttributeValidationClass('city') ?> shipping_method_value" id="billing:city" />
                         </div>
                     </div>
                     <div class="field">
-                        <label for="billing:region_id" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
+						<label for="billing:region_id" class="required"><em>*</em><?php echo $this->__('State/Province') ?></label>
                         <div class="input-box">
-                            <select id="billing:region_id" name="billing[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select  shipping_method_value" style="display:none;">
+                            <select id="billing:region_id" name="billing[region_id]" title="<?php echo $this->__('State/Province') ?>" class="validate-select shipping_method_value" style="display:none;">
                                 <option value=""><?php echo $this->__('Please select region, state or province') ?></option>
                             </select>
                             <script type="text/javascript">
@@ -84,7 +81,7 @@ $helper = $this->helper('wsu_opc');
                                 $('billing:region_id').setAttribute('defaultValue',  "<?php echo $this->getAddress()->getRegionId() ?>");
                             //]]>
                             </script>
-                            <input type="text" id="billing:region" name="billing[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text <?php echo $helper->getAttributeValidationClass('region') ?>  shipping_method_value" style="display:none;" />
+                            <input type="text" id="billing:region" name="billing[region]" value="<?php echo $this->escapeHtml($this->getAddress()->getRegion()) ?>"  title="<?php echo $this->__('State/Province') ?>" class="input-text <?php echo $helper->getAttributeValidationClass('region') ?> shipping_method_value" style="display:none;" />
                         </div>
                     </div>
                 </li>
@@ -92,7 +89,7 @@ $helper = $this->helper('wsu_opc');
                     <div class="field">
                         <label for="billing:postcode" class="required"><em>*</em><?php echo $this->__('Zip/Postal Code') ?></label>
                         <div class="input-box">
-                            <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="billing[postcode]" id="billing:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $helper->getAttributeValidationClass('postcode') ?>  shipping_method_value" />
+                            <input type="text" title="<?php echo $this->__('Zip/Postal Code') ?>" name="billing[postcode]" id="billing:postcode" value="<?php echo $this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?php echo $helper->getAttributeValidationClass('postcode') ?> shipping_method_value" />
                         </div>
                     </div>
                     <div class="field">
@@ -145,6 +142,7 @@ $helper = $this->helper('wsu_opc');
                     
                 <?php endif; ?>
                 <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
+                	<div class="clear"></div>
                     <li class="control">
                         <input type="checkbox" name="billing[save_in_address_book]" value="1" title="<?php echo $this->__('Save in address book') ?>" id="billing:save_in_address_book" onchange="if(window.shipping) shipping.setSameAsBilling(false);"<?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /><label for="billing:save_in_address_book"><?php echo $this->__('Save in address book') ?></label>
                     </li>
@@ -158,24 +156,33 @@ $helper = $this->helper('wsu_opc');
     <?php /* Extensions placeholder */ ?>
     <?php echo $this->getChildHtml('checkout.onepage.billing.extra')?>
     <?php if(!$this->isCustomerLoggedIn()): ?>
+    
+    	<?php
+    	$guest_allowed = $this->getQuote()->isAllowedGuestCheckout();
+    	if($guest_allowed): ?>
 	    <li class="control">
 	            <input type="checkbox" name="billing[create_account]" id="billing:create_account" value="1" title="<?php echo  $this->__('Create an account for later use') ?>"  class="checkbox" /><label for="billing:create_account"><?php echo  $this->__('Create an account for later use') ?></label>
 	    </li>
+	    <?php else:?>
+	    	<input type="hidden" name="billing[create_account]" id="billing:create_account" value="1" />
+	    <?php endif;?>
         
-		<li class="fields hidden" id="register-customer-password">
+		<li class="fields <?php if($guest_allowed):?>hidden<?php endif;?>" id="register-customer-password">
 			<div class="field">
 				<label for="billing:customer_password" class="required"><em>*</em><?php echo $this->__('Password') ?></label>
 				<div class="input-box">
-					<input type="password" name="billing[customer_password]" id="billing:customer_password" title="<?php echo $this->__('Password') ?>" class="input-text validate-password" autocomplete="off"/>
+					<input type="password" name="billing[customer_password]" id="billing:customer_password" title="<?php echo $this->__('Password') ?>" class="input-text validate-password <?php if(!$guest_allowed):?>required-entry<?php endif;?>" autocomplete="off"/>
 				</div>
 			</div>
 			<div class="field">
 				<label for="billing:confirm_password" class="required"><em>*</em><?php echo $this->__('Confirm Password') ?></label>
 				<div class="input-box">
-					<input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="input-text validate-cpassword" autocomplete="off"/>
+					<input type="password" name="billing[confirm_password]" title="<?php echo $this->__('Confirm Password') ?>" id="billing:confirm_password" class="input-text validate-cpassword <?php if(!$guest_allowed):?>required-entry<?php endif;?>" autocomplete="off"/>
 				</div>
 			</div>
-		</li>    				
+		</li>
+		<div class="clear"></div>
+    
     <?php endif;?>
     
     <?php if ($this->canShip()): ?>
