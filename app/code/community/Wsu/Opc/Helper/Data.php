@@ -1,14 +1,13 @@
 <?php
 class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract {
-
 	private $_version = 'CE';
-
-	const VAT_FRONTEND_VISIBILITY = 'customer/create_account/vat_frontend_visibility';
-	const SHIPPING_VISIBILITY = 'wsu_opc/default/show_shipping';
-	const TERMS_TYPE = 'wsu_opc/default/terms_type';
-	const COMMENT = 'wsu_opc/default/comment';
-	const PAYPAL_LIGHTBOX_SANDBOX = 'wsu_opc/paypal/sandbox';
-	const PAYPAL_LIGHTBOX_ENABLED = 'wsu_opc/paypal/status';
+	const XML_PATH_VAT_FRONTEND_VISIBILITY = 'customer/create_account/vat_frontend_visibility';
+	const XML_PATH_SHIPPING_VISIBILITY = 'wsu_opc/default/show_shipping';
+	const XML_PATH_TERMS_TYPE = 'wsu_opc/default/terms_type';
+	const XML_PATH_COMMENT = 'wsu_opc/default/comment';
+	const XML_PATH_DISCOUNT = 'wsu_opc/default/discount';
+	const XML_PAYPAL_LIGHTBOX_SANDBOX = 'wsu_opc/paypal/sandbox';
+	const XML_PAYPAL_LIGHTBOX_ENABLED = 'wsu_opc/paypal/status';
 
 	public function isAvailableVersion(){
 		$mage  = new Mage();
@@ -18,26 +17,19 @@ class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract {
 			$edition = Mage::getEdition();
 		}
 		unset($mage);
+			
 		if ($edition=='Enterprise' && $this->_version=='CE'){
 			return false;
 		}
 		return true;
+	
 	}
-
+	
 	public function isEnable(){
 		$status = Mage::getStoreConfig('wsu_opc/global/status');		
 		return $status;
 	}
-
-	public function hasCheckoutForm(){
-		if(Mage::getStoreConfig('webformscrf/registration/enable') && Mage::getStoreConfig('webformscrf/registration/form'))
-			return true;
-		return false;	
-		
-	}
-
-
-
+	
 	/**
 	 * Get string with frontend validation classes for attribute
 	 *
@@ -46,79 +38,88 @@ class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract {
 	 */
 	public function getAttributeValidationClass($attributeCode){
 		/** @var $attribute Mage_Customer_Model_Attribute */
-		if( isset($this->_attributes[$attributeCode]) ){
-			$attribute = $this->_attributes[$attributeCode];
-		}else{
-			$attribute = Mage::getSingleton('eav/config')->getAttribute('customer_address', $attributeCode);
-		}
-
+		$attribute = isset($this->_attributes[$attributeCode]) ? $this->_attributes[$attributeCode]
+		: Mage::getSingleton('eav/config')->getAttribute('customer_address', $attributeCode);
 		$class = $attribute ? $attribute->getFrontend()->getClass() : '';
-
+	
 		if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
 			if ($class && !$attribute->getIsVisible()) {
 				$class = ''; // address attribute is not visible thus its validation rules are not applied
 			}
-
+	
+			/** @var $customerAttribute Mage_Customer_Model_Attribute */
 			$customerAttribute = Mage::getSingleton('eav/config')->getAttribute('customer', $attributeCode);
-			
-			$class .= '';
-			if( $customerAttribute && $customerAttribute->getIsVisible() ){
-				$class .= $customerAttribute->getFrontend()->getClass();
-			}
+			$class .= $customerAttribute && $customerAttribute->getIsVisible()
+			? $customerAttribute->getFrontend()->getClass() : '';
 			$class = implode(' ', array_unique(array_filter(explode(' ', $class))));
 		}
+	
 		return $class;
 	}
 	
 	public function isVatAttributeVisible(){
-		return (bool)Mage::getStoreConfig(self::VAT_FRONTEND_VISIBILITY);
+		return (bool)Mage::getStoreConfig(self::XML_PATH_VAT_FRONTEND_VISIBILITY);
 	}
-
-	/* thinking ahead here */
+	
+	
 	public function isEnterprise(){
-		return Mage::getConfig()->getModuleConfig('Enterprise_Enterprise') 
-				&& Mage::getConfig()->getModuleConfig('Enterprise_AdminGws') 
-				&& Mage::getConfig()->getModuleConfig('Enterprise_Checkout') 
-				&& Mage::getConfig()->getModuleConfig('Enterprise_Customer');
+		return Mage::getConfig()->getModuleConfig('Enterprise_Enterprise') && Mage::getConfig()->getModuleConfig('Enterprise_AdminGws') && Mage::getConfig()->getModuleConfig('Enterprise_Checkout') && Mage::getConfig()->getModuleConfig('Enterprise_Customer');
 	}
-
+	
+	
 	public function isShowShippingForm(){
-		return (bool) Mage::getStoreConfig(self::SHIPPING_VISIBILITY);
+		return (bool) Mage::getStoreConfig(self::XML_PATH_SHIPPING_VISIBILITY);
 	}
-
+	
 	public function getTermsType(){
-		return Mage::getStoreConfig(self::TERMS_TYPE);
+		return Mage::getStoreConfig(self::XML_PATH_TERMS_TYPE);
 	}
-
+	
 	public function isShowComment(){
-		return Mage::getStoreConfig(self::COMMENT);
+		return Mage::getStoreConfig(self::XML_PATH_COMMENT);
 	}
 
-	public function getPayPalExpressUrl(){
-		return 'https://www.'.(Mage::getStoreConfig(self::PAYPAL_LIGHTBOX_SANDBOX)?'sandbox.':'').'paypal.com/checkoutnow?token=';
+	public function isShowDiscount(){
+		return Mage::getStoreConfig(self::XML_PATH_DISCOUNT);
+	}
+	
+	public function getPayPalExpressUrl($token){
+		
+		if (Mage::getStoreConfig(self::XML_PAYPAL_LIGHTBOX_SANDBOX)){
+			return 'https://www.sandbox.paypal.com/checkoutnow?token='.$token;
+		}else{
+			return 'https://www.paypal.com/checkoutnow?token='.$token;
+		}
+	
 	}
 	
 	public function getPayPalLightboxEnabled(){
-		return (bool)Mage::getStoreConfig(self::PAYPAL_LIGHTBOX_ENABLED);
+		return (bool)Mage::getStoreConfig(self::XML_PAYPAL_LIGHTBOX_ENABLED);
 	}
 	
-	
-	public function getAvailablePaymentMethods() {
+	public function getAvailablePaymentMethods(){
 		$payment_methods = array();
 		$methods = Mage::app()->getLayout()->createBlock('checkout/onepage_payment_methods')->getMethods();
-		foreach ($methods as $_method) {
+		foreach ($methods as $_method){
 			$_code = $_method->getCode();
 			$payment_methods[] = $_code;
 		}
+	
 		return $payment_methods;
 	}
 	
-	public function getSelectedPaymentMethod() {
+	public function getSelectedPaymentMethod(){
 		return Mage::app()->getLayout()->createBlock('checkout/onepage_payment_methods')->getSelectedMethodCode();
 	}
 	
-
-	public function checkUpdatedPaymentMethods($methods_before, $methods_after) {
+	/**
+	 * check if list of available methods was changed
+	 * 
+	 * @param array $methods_before
+	 * @param array $methods_after
+	 * @return string - method to use
+	 */
+	public function checkUpdatedPaymentMethods($methods_before, $methods_after){
 		// check if need to reload payment methods
 		$selected_method_code = $this->getSelectedPaymentMethod();
 		if(!in_array($selected_method_code, $methods_after)){
@@ -131,24 +132,33 @@ class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract {
 		}
 		
 		$free_available = false;
-		foreach($methods_after as $_code) {
-			if($_code == 'free')
+		foreach($methods_after as $_code){
+			if($_code == 'free'){
 				$free_available = $_code;
-			if(!$pm_changed) {
-				if(!in_array($_code, $methods_before))
+			}
+			if(!$pm_changed){
+				if(!in_array($_code, $methods_before)){
 					$pm_changed = true;
+				}
 			}
 		}
 		
-		if($pm_changed) {
+		if($pm_changed){
 			$use_method = $selected_method_code;
-			if($free_available)
+			if($free_available){
 				$use_method = $free_available;
+			}
 			return $use_method;
 		}
+
 		return -1; // no changes 
 	}	
 	
-	
+	public function getGrandTotal(){
+	    $quote = Mage::getModel('checkout/session')->getQuote();
+	    $total = $quote->getGrandTotal();
+	     
+	    return Mage::helper('checkout')->formatPrice($total);
+	}
 	
 }

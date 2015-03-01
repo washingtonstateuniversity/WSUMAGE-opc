@@ -1,5 +1,7 @@
 <?php
 class Wsu_Opc_Model_Paypal_Express extends Mage_Paypal_Model_Express{
+
+
 	/**
 	 * Checkout redirect URL getter for onepage checkout (hardcode)
 	 *
@@ -8,10 +10,12 @@ class Wsu_Opc_Model_Paypal_Express extends Mage_Paypal_Model_Express{
 	 * @return string
 	 */
 	public function getCheckoutRedirectUrl() {
-		if(Mage::getStoreConfig('wsu_opc/paypal/status')){
+		if(Mage::getStoreConfig('opc_paypal_status')){
 			return Mage::getUrl('onepage/express/start');
 		}
-
+		
 		return parent::getCheckoutRedirectUrl();
 	}
+
+	
 }

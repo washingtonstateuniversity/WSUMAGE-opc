@@ -1,12 +1,14 @@
 <?php
-class Wsu_Opc_Block_Onepage_Link extends Mage_Core_Block_Template{
+class Wsu_Opc_Block_Onepage_Link extends Mage_Core_Block_Template {
+	
 	public function getCheckoutUrl() {
-		if (Mage::helper('wsu_opc')->isEnable()) {
+		if (Mage::helper('wsu_opc')->isEnable()){
 			return $this->getUrl('onepage', array('_secure'=>true));
 		}else{
 			return $this->getUrl('checkout/onepage', array('_secure'=>true));
 		}
 	}
+
 	public function isDisabled() {
 		return !Mage::getSingleton('checkout/session')->getQuote()->validateMinimumAmount();
 	}

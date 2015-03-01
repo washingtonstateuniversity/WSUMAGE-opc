@@ -1,18 +1,21 @@
 <?php
 class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
+	const XML_PATH_DEFAULT_PAYMENT = 'wsu_opc/default/payment';
+	const XML_PATH_CHECK_EMAIL = 'wsu_opc/default/check_email';
 
-	const DEFAULT_PAYMENT = 'wsu_opc/default/payment';
-	const CHECK_EMAIL = 'wsu_opc/default/check_email';
-
-	/* @var $_order Mage_Sales_Model_Order */
+	/**
+	 * @var $_order Mage_Sales_Model_Order
+	 * @access protected
+	 */
 	protected $_order;
 
 	/**
 	 * Get Order by quoteId
 	 *
 	 * @return Mage_Sales_Model_Order
+	 * @access protected
 	 */
-	protected function _getOrder() {
+	protected function _getOrder(){
 		if (is_null($this->_order)) {
 			$this->_order = Mage::getModel('sales/order')->load($this->getOnepage()->getQuote()->getId(), 'quote_id');
 			if (!$this->_order->getId()) {
@@ -27,7 +30,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 	 *
 	 * @return Mage_Sales_Model_Order_Invoice
 	 */
-	protected function _initInvoice() {
+	protected function _initInvoice(){
 		$items = array();
 		foreach ($this->_getOrder()->getAllItems() as $item) {
 			$items[$item->getId()] = $item->getQtyOrdered();
@@ -40,54 +43,71 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		return $invoice;
 	}
 
-	protected function _getCart() {
+	/**
+	 * @access protected
+	 */
+	protected function _getCart(){
 		return Mage::getSingleton('checkout/cart');
 	}
 
-	protected function _getSession() {
+	/**
+	 * @access protected
+	 */
+	protected function _getSession(){
 		return Mage::getSingleton('checkout/session');
 	}
 
-	protected function _getQuote() {
+	/**
+	 * @access protected
+	 */
+	protected function _getQuote(){
 		return $this->_getCart()->getQuote();
 	}
-
+	
 	/**
 	 * Get one page checkout model
 	 *
 	 * @return Mage_Checkout_Model_Type_Onepage
 	 */
-	public function getOnepage() {
+	public function getOnepage(){
 		return Mage::getSingleton('checkout/type_onepage');
 	}
 
-	protected function _ajaxRedirectResponse() {
+	/**
+	 * @access protected
+	 */
+	protected function _ajaxRedirectResponse(){
 		$this->getResponse()
 			->setHeader('HTTP/1.1', '403 Session Expired')
 			->setHeader('Login-Required', 'true')
 			->sendResponse();
 		return $this;
 	}
-
+	
 	/**
 	 * Validate ajax request and redirect on failure
 	 *
 	 * @return bool
+	 * @access protected
 	 */
 	protected function _expireAjax(){
+		
 		if (!$this->getRequest()->isAjax()){
 			$this->_redirectUrl(Mage::getBaseUrl('link', true));
 			return;
 		}
+		
 		if (!$this->getOnepage()->getQuote()->hasItems() || $this->getOnepage()->getQuote()->getHasError() || $this->getOnepage()->getQuote()->getIsMultiShipping()) {
 			$this->_ajaxRedirectResponse();
 			return true;
 		}
+		
 		$action = $this->getRequest()->getActionName();
 		if (Mage::getSingleton('checkout/session')->getCartWasUpdated(true) && !in_array($action, array('index', 'progress'))) {
 				$this->_ajaxRedirectResponse();
 				return true;
 		}
+	
 		return false;
 	}
 
@@ -95,6 +115,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 	 * Get shipping method step html
 	 *
 	 * @return string
+	 * @access protected
 	 */
 	protected function _getShippingMethodsHtml(){
 		$layout = $this->getLayout();
@@ -107,25 +128,24 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		return $shippingMethods->toHtml();
 	}
 
-
-	
 	/**
 	 * Get payments method step html
 	 *
 	 * @return string
+	 * @access protected
 	 */
 	protected function _getPaymentMethodsHtml($use_method = false, $just_save = false){
 	
 		/** UPDATE PAYMENT METHOD **/
 		if($use_method && $use_method != -1){
 			$apply_method = $use_method;
-		}else {
+		}else{
 			if($use_method == -1){
-				$apply_method = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
+				$apply_method = Mage::getStoreConfig(self::XML_PATH_DEFAULT_PAYMENT);
 			}else{
 				$apply_method = Mage::helper('wsu_opc')->getSelectedPaymentMethod();
 				if(empty($apply_method)){
-					$apply_method = Mage::getStoreConfig(self::DEFAULT_PAYMENT);
+					$apply_method = Mage::getStoreConfig(self::XML_PATH_DEFAULT_PAYMENT);
 				}
 			}
 		}
@@ -136,9 +156,8 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$_quote->setTotalsCollectedFlag(false)->collectTotals();
 		$_quote->save();
 
-		if($just_save){
+		if($just_save)
 			return '';
-		}
 
 		$layout = $this->getLayout();
 		$update = $layout->getUpdate();
@@ -146,15 +165,20 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$layout->generateXml();
 		$layout->generateBlocks();	
 		$output = $layout->getOutput();
-		return $output;//.print_r($_quote->getPayment()->getMethodInstance()->getCode(),true);
+		return $output;
 	}
-	
+
 	/**
 	 * Get review step html
 	 *
 	 * @return string
+	 * @access protected
 	 */
-	protected function _getReviewHtml() {
+	protected function _getReviewHtml(){
+		
+		//clear cache
+		Mage::app()->getCacheInstance()->cleanType('layout');
+		
 		$layout = $this->getLayout();
 		$update = $layout->getUpdate();
 		$update->load('checkout_onepage_review');
@@ -162,9 +186,13 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$layout->generateBlocks();
 		$review = $layout->getBlock('root');
 		$review->setTemplate('wsu/opc/onepage/review/info.phtml');
+		
+		//clear cache
+		Mage::app()->getCacheInstance()->cleanType('layout');
 		return $review->toHtml();
 	}
-
+	
+	
 	private function checkNewslatter(){
 		$data = $this->getRequest()->getParams();
 		if (isset($data['is_subscribed']) && $data['is_subscribed']==1){
@@ -174,21 +202,20 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		}
 	}
 
-	public function saveBillingAction() {
+	public function saveBillingAction(){
+
 		if ($this->_expireAjax()) {
 			return;
 		}
 
-
-
-
 		if ($this->getRequest()->isPost()) {
-
+			
 			$data = $this->getRequest()->getPost('billing', array());
 			if (isset($data['email'])) {
 				$data['email'] = trim($data['email']);
 			}
 			$exists="";
+
 			if (!Mage::getSingleton('customer/session')->isLoggedIn()){
 				if(Mage::getStoreConfig(self::CHECK_EMAIL)){				
 					$customer_email = $data['email'];
@@ -205,15 +232,25 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			}else{
 				$this->getOnepage()->saveCheckoutMethod(Mage_Checkout_Model_Type_Onepage::METHOD_CUSTOMER);
 			}
-
+			
+			
+			
 			$this->checkNewslatter();
+			
+			
+			$customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
 
+			if (isset($data['email'])) {
+				$data['email'] = trim($data['email']);
+			}
+
+			// get grand totals before
+			$totals_before = $this->_getSession()->getQuote()->getGrandTotal();
+			
+			// get list of available methods before billing changes
 			$methods_before = Mage::helper('wsu_opc')->getAvailablePaymentMethods();
 
-
-			$customerAddressId = $this->getRequest()->getPost('billing_address_id', false);
-	
-
+			
 			$result = $this->getOnepage()->saveBilling($data, $customerAddressId);
 	
 			if (!isset($result['error'])) {
@@ -221,24 +258,39 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				if ($this->getOnepage()->getQuote()->isVirtual()) {
 					$result['isVirtual'] = true;
 				};
+
 				//load shipping methods block if shipping as billing;
 				$data = $this->getRequest()->getPost('billing', array());
 				if (isset($data['use_for_shipping']) && $data['use_for_shipping'] == 1) {				
 					$result['shipping'] = $this->_getShippingMethodsHtml();
 				}
-				
+
+				// get list of available methods after discount changes
 				$methods_after = Mage::helper('wsu_opc')->getAvailablePaymentMethods();
+
 				
+				// check if need to reload payment methods
 				$use_method = Mage::helper('wsu_opc')->checkUpdatedPaymentMethods($methods_before, $methods_after);
-				if($use_method != -1) {
-					if(empty($use_method)){
+
+				if($use_method != -1)
+				{
+					if(empty($use_method))
 						$use_method = -1;
-					}
+					
+					// just save new method, (because retuned html is empty) 
 					$result['payments'] = $this->_getPaymentMethodsHtml($use_method, true);
+					// and need to send reload method request
 					$result['reload_payments'] = true; 
 				}
+
+				// get grand totals after
+				$totals_after = $this->_getSession()->getQuote()->getGrandTotal();
+				
+				if($totals_before != $totals_after)
+					$result['reload_totals'] = true;
 				
 			}else{
+				
 				$responseData['error'] = true;
 				$responseData['message'] = $result['message'];
 			}
@@ -247,7 +299,8 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 		}
 	}
-
+	
+	
 	/**
 	 * Shipping save action
 	 */
@@ -255,27 +308,168 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		if ($this->_expireAjax()) {
 			return;
 		}
-
+	
 		//TODO create response if post not exist
 		$responseData = array();
+	
+		$result = array();
 
-		if ($this->getRequest()->isPost()) {
+		if ($this->getRequest()->isPost()) {			
+			// get grand totals after
+			$totals_before = $this->_getSession()->getQuote()->getGrandTotal();
+
 			$data = $this->getRequest()->getPost('shipping', array());
 			$customerAddressId = $this->getRequest()->getPost('shipping_address_id', false);
 			$result = $this->getOnepage()->saveShipping($data, $customerAddressId);
+
+			if (isset($result['error'])){
+				$responseData['error'] = true;
+				$responseData['message'] = $result['message'];
+				$responseData['messageBlock'] = 'shipping';
+			}else{
+					
+				$responseData['shipping'] = $this->_getShippingMethodsHtml();
+				
+				// get grand totals after
+				$totals_after = $this->_getSession()->getQuote()->getGrandTotal();
+				
+				if($totals_before != $totals_after)
+					$responseData['reload_totals'] = true;
+			}
 		}
 
-		if (isset($resultBilling['error'])){
-			$responseData['error'] = true;
-			$responseData['message'] = $result['message'];
-			$responseData['messageBlock'] = 'shipping';
-		}else{
-			$responseData['shipping'] = $this->_getShippingMethodsHtml();
-		}
 		$this->getResponse()->setHeader('Content-type','application/json', true);
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
+	
 	}
+	
+	/**
+	 * reload available shipping methods based on address
+	 */
+	public function reloadShippingsPaymentsAction(){
+	
+		if ($this->_expireAjax()) {
+			return;
+		}
+	
+		if ($this->getRequest()->isPost()) {
+			
+			$result = array();
+			
+			$address_type = false;
+			$billing = $this->getRequest()->getPost('billing', array());
+			if(!empty($billing) && is_array($billing) && isset($billing['address_id'])){
+				$address_type = 'billing';
+				$data = $billing;
+			}else{
+				$address_type = 'shipping';
+				$data = $this->getRequest()->getPost('shipping', array());
+			}
 
+			// get grand totals after
+			$totals_before = $this->_getSession()->getQuote()->getGrandTotal();
+			
+			// get list of available methods before billing changes
+			$methods_before = Mage::helper('wsu_opc')->getAvailablePaymentMethods();
+			
+					
+			$customerAddressId = $this->getRequest()->getPost($address_type.'_address_id', false);
+			$cust_addr_id = $customerAddressId;
+	
+			if($address_type == 'billing'){
+				$address = $this->getOnepage()->getQuote()->getBillingAddress();
+			}else{
+				$address = $this->getOnepage()->getQuote()->getShippingAddress();
+			}
+			
+			if (!empty($cust_addr_id)) {
+				$cust_addr = Mage::getModel('customer/address')->load($cust_addr_id);
+				if ($cust_addr->getId()) {
+					if ($cust_addr->getCustomerId() != $this->getOnepage()->getQuote()->getCustomerId()){
+						$result = array('error' => 1, 'message' => Mage::helper('checkout')->__('Customer Address is not valid.'));
+					}else{
+						$address->importCustomerAddress($cust_addr);
+					}
+				}
+			}else{
+				unset($data['address_id']);
+				$address->addData($data);
+			}
+
+			if(!isset($result['error'])){
+				$address->implodeStreetAddress();
+				
+				$ufs = 0;
+				
+				if($address_type == 'billing'){
+					if (!$this->getOnepage()->getQuote()->isVirtual()) {
+						if(isset($data['use_for_shipping'])){
+							$ufs = (int) $data['use_for_shipping'];
+						}
+						switch($ufs) {
+							case 0:
+								$ship = $this->getOnepage()->getQuote()->getShippingAddress();
+								$ship->setSameAsBilling(0);
+								break;
+							case 1:
+								$bill = clone $address;
+								$bill->unsAddressId()->unsAddressType();
+								$ship = $this->getOnepage()->getQuote()->getShippingAddress();
+								$ship_method = $ship->getShippingMethod();
+								$ship->addData($bill->getData());
+								$ship->setSameAsBilling(1)->setShippingMethod($ship_method)->setCollectShippingRates(true);
+								break;
+						}
+					}
+				} else {					
+					$address->setCollectShippingRates(true);
+				}
+
+				$this->getOnepage()->getQuote()->collectTotals()->save();
+
+				if ($this->getOnepage()->getQuote()->isVirtual()){
+					$result['isVirtual'] = true;
+				}
+	
+				if(($address_type == 'billing' && $ufs == 1) || $address_type == 'shipping'){
+					$result['shipping'] = $this->_getShippingMethodsHtml();
+				}
+	
+				/// get list of available methods after discount changes
+				$methods_after = Mage::helper('wsu_opc')->getAvailablePaymentMethods();
+
+				// check if need to reload payment methods
+				$use_method = Mage::helper('wsu_opc')->checkUpdatedPaymentMethods($methods_before, $methods_after);
+
+				if($use_method != -1) {
+					if(empty($use_method)){
+						$use_method = -1;
+					}
+						
+					// just save new method, (because retuned html is empty)
+					$result['payments'] = $this->_getPaymentMethodsHtml($use_method, true);
+					// and need to send reload method request
+					$result['reload_payments'] = true;
+				}else{
+					// get grand totals after
+					$totals_after = $this->_getSession()->getQuote()->getGrandTotal();
+					
+					if($totals_before != $totals_after){
+						$result['reload_totals'] = true;
+					}
+				}
+
+			}else{
+				$result['error'] = true;
+				$result['message'] = $result['message'];
+			}
+			
+			$this->getResponse()->setHeader('Content-type','application/json', true);
+			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+		}
+	}
+	
+	
 	/**
 	 * Shipping method save action
 	 */
@@ -286,8 +480,9 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$responseData = array();
 		
 		if ($this->getRequest()->isPost()) {
+			
 			$this->checkNewslatter();
-
+			
 			$data = $this->getRequest()->getPost('shipping_method', '');
 			$result = $this->getOnepage()->saveShippingMethod($data);
 			/*
@@ -303,28 +498,33 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 	
 				$responseData['review'] = $this->_getReviewHtml();
+				$responseData['grandTotal'] = Mage::helper('wsu_opc')->getGrandTotal();
 				/*$result['update_section'] = array(
 						'name' => 'payment-method',
 						'html' => $this->_getPaymentMethodsHtml()
 				);*/
 			}
 			$this->getOnepage()->getQuote()->collectTotals()->save();
-
+			
+			
+			
 			$this->getResponse()->setHeader('Content-type','application/json', true);
 			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
 		}
 	}
-
+	
 	public function reviewAction(){
 		if ($this->_expireAjax()) {
 			return;
 		}
 		$responseData = array();
 		$responseData['review'] = $this->_getReviewHtml();
+		$responseData['grandTotal'] = Mage::helper('wsu_opc')->getGrandTotal();
 		$this->getResponse()->setHeader('Content-type','application/json', true);
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
 	}
-
+	
+	
 	public function paymentsAction(){
 		if ($this->_expireAjax()) {
 			return;
@@ -334,13 +534,19 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$this->getResponse()->setHeader('Content-type','application/json', true);
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
 	}
-
-	public function savePaymentAction() {
+	
+	
+	public function savePaymentAction(){
 		if ($this->_expireAjax()) {
 			return;
 		}
-
+		
 		try {
+			/*if (!$this->getRequest()->isPost()) {
+				$this->_ajaxRedirectResponse();
+				return;
+			}*/
+	
 			// set payment to quote
 			$result = array();
 			$data = $this->getRequest()->getPost('payment', array());
@@ -348,9 +554,10 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 	
 			// get section and redirect data
 			$redirectUrl = $this->getOnepage()->getQuote()->getPayment()->getCheckoutRedirectUrl();
-			if (empty($result['error']) && !$redirectUrl) {
+			if (empty($result['error'])) {
 				$this->loadLayout('checkout_onepage_review');
 				$result['review'] = $this->_getReviewHtml();
+				$result['grandTotal'] = Mage::helper('wsu_opc')->getGrandTotal();
 			}
 			if ($redirectUrl) {
 				$result['redirect'] = $redirectUrl;
@@ -366,32 +573,37 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			Mage::logException($e);
 			$result['error'] = $this->__('Unable to set Payment Method.');
 		}
-
+		
 		$this->getResponse()->setHeader('Content-type','application/json', true);
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 	}
-
-	public function saveOrderAction() {
-
+	
+	
+	
+	/**
+	* Create order action
+	*/
+	public function saveOrderAction(){
 		if ($this->_expireAjax()) {
 			return;
 		}
 
+	
 		$version = Mage::getVersionInfo();
-
+	
 		$result = array();
 		try {
-			$requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds();
-			if ($requiredAgreements) {
+			if ($requiredAgreements = Mage::helper('checkout')->getRequiredAgreementIds()) {
 				$postedAgreements = array_keys($this->getRequest()->getPost('agreement', array()));
-				$diff = array_diff($requiredAgreements, $postedAgreements);
-				if ($diff) {
+				if ($diff = array_diff($requiredAgreements, $postedAgreements)) {                    
 					$result['error'] = $this->__('Please agree to all the terms and conditions before placing the order.');
 					$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 					return;
 				}
 			}
-			$data = $this->getRequest()->getPost('payment', array());
+
+	
+			$data = $this->getRequest()->getPost('payment', false);
 			if ($data) {
 				/** Magento CE 1.8 version**/
 				if ($version['minor'] == 8){
@@ -405,25 +617,38 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				}
 				$this->getOnepage()->getQuote()->getPayment()->importData($data);
 			}
+	
 			// save comments
-			$comment  = Mage::getSingleton('core/session')->getOpcOrderComment();
-			$this->getOnepage()->getQuote()->setCustomerNote($comment);
+			if (Mage::helper('wsu_opc')->isShowComment()) {
+				$comment = $this->getRequest()->getPost('customer_comment', '');
+				if(empty($comment))
+					$comment  = Mage::getSingleton('core/session')->getOpcOrderComment();
+				else
+					Mage::getSingleton('core/session')->setOpcOrderComment($comment);
+			}
+			///
 
 			$this->getOnepage()->saveOrder();
-			
+
 			$redirectUrl = $this->getOnepage()->getCheckout()->getRedirectUrl();
+			
 		} catch (Mage_Payment_Model_Info_Exception $e) {
-			$message = $e->getMessage()." ::Mage_Payment_Model_Info_Exception";
+
+			$message = $e->getMessage();
+
 			if (!empty($message)) {
-				$result['error_messages'] = $message;
+				$result['error'] = $message;
 			}
+
 			$result['payment'] = $this->_getPaymentMethodsHtml();
+
 		} catch (Mage_Core_Exception $e) {
 			Mage::logException($e);
+			
 			Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
-
-			$result['error'] = $e->getMessage()." ::Mage_Core_Exception";
-
+			
+			$result['error'] = $e->getMessage();
+	
 			$gotoSection = $this->getOnepage()->getCheckout()->getGotoSection();
 			if ($gotoSection) {
 				$this->getOnepage()->getCheckout()->setGotoSection(null);
@@ -434,34 +659,31 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			if ($updateSection) {				
 				$this->getOnepage()->getCheckout()->setUpdateSection(null);
 			}
-			
 		} catch (Exception $e) {
 			Mage::logException($e);
 			Mage::helper('checkout')->sendPaymentFailedEmail($this->getOnepage()->getQuote(), $e->getMessage());
 			$result['error'] = $this->__('There was an error processing your order. Please contact us or try again later.');
-		}
-		
+		}		
 		$this->getOnepage()->getQuote()->save();
 		/**
 		 * when there is redirect to third party, we don't want to save order yet.
 		 * we will save the order in return action.
 		*/
-		if (isset($redirectUrl)) {
+		if (isset($redirectUrl) && !empty($redirectUrl)) {
 			$result['redirect'] = $redirectUrl; 
 		}else{
 			$result['redirect'] = Mage::getUrl('checkout/onepage/success', array('_secure'=>true)) ;
 		}
-
+		
 		$this->getResponse()->setHeader('Content-type','application/json', true);
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 	}
 
-	
 	/** TODO MOVE TO CUSTOMER CONTROLLER **/
 	protected function _getSessionCustomer(){
 		return Mage::getSingleton('customer/session');
 	}
-	
+
 	public function forgotpasswordAction(){
 		$response = array();
 		$email = (string) $this->getRequest()->getPost('email');
@@ -469,7 +691,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		if ($email) {
 			if (!Zend_Validate::is($email, 'EmailAddress')) {
 				$this->_getSessionCustomer()->setForgottenEmail($email);
-	
+
 				$response['error'] = 1;
 				$response['message'] = $this->__('Invalid email address.');
 				$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($response));

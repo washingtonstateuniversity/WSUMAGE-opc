@@ -1,5 +1,6 @@
 <?php
-class Wsu_Opc_Model_Resource_Paypal_Customer extends Mage_Core_Model_Resource_Db_Abstract {
+class Wsu_Opc_Model_Resource_Paypal_Customer extends Mage_Core_Model_Resource_Db_Abstract{
+	
 	/**
 	 * Paypal customer resource model initialization
 	 *
@@ -8,6 +9,7 @@ class Wsu_Opc_Model_Resource_Paypal_Customer extends Mage_Core_Model_Resource_Db
 	public function _construct(){
 		$this->_init('wsu_opc/customer', 'id');
 	}
+
 	/**
 	 * Unlinks (native magento customer entity and paypal customer entity)
 	 *
@@ -18,6 +20,7 @@ class Wsu_Opc_Model_Resource_Paypal_Customer extends Mage_Core_Model_Resource_Db
 		$this->_getWriteAdapter()->delete($this->getMainTable(), "customer_id={$customerId}");
 		return $this;
 	}
+
 	/**
 	 * Check PayPal customer existing in the database
 	 *
@@ -27,6 +30,7 @@ class Wsu_Opc_Model_Resource_Paypal_Customer extends Mage_Core_Model_Resource_Db
 	public function isPaypalCustomerExists($field, $value){
 		return (bool)$this->getPaypalCustomerDataByField($field, $value);
 	}
+
 	/**
 	 * Return payer_id(PayPal customer id) and customer_id
 	 *
@@ -42,4 +46,5 @@ class Wsu_Opc_Model_Resource_Paypal_Customer extends Mage_Core_Model_Resource_Db
 
 		return $result;
 	}
+
 }
