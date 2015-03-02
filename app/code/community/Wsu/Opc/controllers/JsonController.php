@@ -217,7 +217,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			$exists="";
 
 			if (!Mage::getSingleton('customer/session')->isLoggedIn()){
-				if(Mage::getStoreConfig(self::CHECK_EMAIL)){				
+				if(Mage::getStoreConfig(self::XML_PATH_CHECK_EMAIL)){				
 					$customer_email = $data['email'];
 					$customer = Mage::getModel("customer/customer")->setWebsiteId(Mage::app()->getWebsite()->getId())->loadByEmail($customer_email);
 					$exists = ($customer->getId()>0);

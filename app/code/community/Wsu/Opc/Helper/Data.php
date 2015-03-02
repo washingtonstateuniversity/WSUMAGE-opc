@@ -29,7 +29,13 @@ class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract {
 		$status = Mage::getStoreConfig('wsu_opc/global/status');		
 		return $status;
 	}
-	
+	public function hasCheckoutForm(){
+		if(Mage::getStoreConfig('webformscrf/registration/enable') && Mage::getStoreConfig('webformscrf/registration/form')){
+			return true;
+		}
+		return false;	
+		
+	}	
 	/**
 	 * Get string with frontend validation classes for attribute
 	 *

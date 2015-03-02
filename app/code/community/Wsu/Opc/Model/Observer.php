@@ -1,24 +1,24 @@
 <?php
 class Wsu_Opc_Model_Observer{
-	
-	public function checkRequiredModules($observer){
-		$cache = Mage::app()->getCache();
+
+	public function applyComment($observer){
+		$order = $observer->getData('order');
 		
-		if (Mage::getSingleton('admin/session')->isLoggedIn()) {
-			if (!Mage::getConfig()->getModuleConfig('Wsu_All')->is('active', 'true')){
-				if ($cache->load("wsu_opc")===false){
-					$message = 'Important: Please setup Wsu_ALL in order to finish <strong>Wsu One Page Checkout</strong> installation.<br />
-						Please download <a href="http://wsuextensions.com/media/modules/wsu_all.tgz" target="_blank">Wsu_ALL</a> and setup it via Magento Connect.';
-				
-					Mage::getSingleton('adminhtml/session')->addNotice($message);
-					$cache->save('true', 'wsu_opc', array("wsu_opc"), $lifeTime=5);
-				}
-			}
+		$comment = Mage::getSingleton('core/session')->getOpcOrderComment();
+		if (!Mage::helper('wsu_opc')->isShowComment() || empty($comment)){
+			return;
+		}
+		try{
+			$order->setCustomerComment($comment);
+			$order->setCustomerNoteNotify(true);
+			$order->setCustomerNote($comment);
+			$order->addStatusHistoryComment($comment)->setIsVisibleOnFront(true)->setIsCustomerNotified(true);
+			$order->save();
+			$order->sendOrderUpdateEmail(true, $comment);
+		}catch(Exception $e){
+			Mage::logException($e);
 		}
 	}
-	
-	
-	
 	public function newsletter($observer){
 		$_session = Mage::getSingleton('core/session');
 
@@ -38,24 +38,4 @@ class Wsu_Opc_Model_Observer{
 		}
 		
 	}
-	
-	public function applyComment($observer){
-		$order = $observer->getData('order');
-		
-		$comment = Mage::getSingleton('core/session')->getOpcOrderComment();
-		if (!Mage::helper('wsu_opc')->isShowComment() || empty($comment)){
-			return;
-		}
-		try{
-			$order->setCustomerComment($comment);
-			$order->setCustomerNoteNotify(true);
-			$order->setCustomerNote($comment);
-			$order->addStatusHistoryComment($comment)->setIsVisibleOnFront(true)->setIsCustomerNotified(true);
-			$order->save();
-			$order->sendOrderUpdateEmail(true, $comment);
-		}catch(Exception $e){
-			Mage::logException($e);
-		}
-	}
-
 }

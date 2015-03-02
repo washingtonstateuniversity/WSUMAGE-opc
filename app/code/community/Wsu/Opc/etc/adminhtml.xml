@@ -8,10 +8,10 @@
 						<children>
 							<config>
 								<children>
-									<opc translate="title" module="opc">
+									<wsu_opc translate="title" module="wsu_opc">
 										<title>Wsu One Page Checkout</title>
 										<sort_order>70</sort_order>
-									</opc>
+									</wsu_opc>
 								</children>
 							</config>
 						</children>
