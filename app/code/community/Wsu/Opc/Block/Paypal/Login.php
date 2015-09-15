@@ -1,5 +1,5 @@
 <?php
-class Wsu_Opc_Block_Paypal_login extends Mage_Core_Block_Template{
+class Wsu_Opc_Block_Paypal_login extends Mage_Core_Block_Template {
 	protected function _toHtml(){
 		$isExtensionEnabled = Mage::getStoreConfigFlag('wsu_opc/paypallogin/status');
 		if ($isExtensionEnabled) {
@@ -7,7 +7,9 @@ class Wsu_Opc_Block_Paypal_login extends Mage_Core_Block_Template{
 		}
 		return '';
 	}
+
 	public function getPayPalButtonUrl(){
 		return Mage::helper('wsu_opc/paypal')->getPayPalButtonUrl();
 	}
+
 }

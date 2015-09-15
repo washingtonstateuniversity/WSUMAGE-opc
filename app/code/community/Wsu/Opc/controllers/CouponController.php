@@ -1,13 +1,15 @@
 <?php
-class Wsu_Opc_CouponController extends Mage_Core_Controller_Front_Action {
 
+class Wsu_Opc_CouponController extends Mage_Core_Controller_Front_Action {
 	const XML_PATH_DEFAULT_PAYMENT = 'wsu_opc/default/payment';
+
 	/**
 	 * Retrieve shopping cart model object
 	 *
 	 * @return Mage_Checkout_Model_Cart
+	 * @access protected
 	 */
-	protected function _getCart() {
+	protected function _getCart(){
 		return Mage::getSingleton('checkout/cart');
 	}
 
@@ -15,8 +17,9 @@ class Wsu_Opc_CouponController extends Mage_Core_Controller_Front_Action {
 	 * Get checkout session model instance
 	 *
 	 * @return Mage_Checkout_Model_Session
+	 * @access protected
 	 */
-	protected function _getSession() {
+	protected function _getSession(){
 		return Mage::getSingleton('checkout/session');
 	}
 
@@ -24,11 +27,18 @@ class Wsu_Opc_CouponController extends Mage_Core_Controller_Front_Action {
 	 * Get current active quote instance
 	 *
 	 * @return Mage_Sales_Model_Quote
+	 * @access protected
 	 */
-	protected function _getQuote() {
+	protected function _getQuote(){
 		return $this->_getCart()->getQuote();
 	}
-	
+
+	/**
+	 * Get payments method step html
+	 *
+	 * @return string
+	 * @access protected
+	 */
 	protected function _getPaymentMethodsHtml($use_method = false){
 	
 		/** UPDATE PAYMENT METHOD **/
@@ -51,35 +61,36 @@ class Wsu_Opc_CouponController extends Mage_Core_Controller_Front_Action {
 		
 		$output = $layout->getOutput();
 		return $output;
-	}	
-	public function couponPostAction() {
-		
+	}
+
+	/**
+	 * coupon post action
+	 */	
+	public function couponPostAction(){
+
 		$responseData = array();
-		/**
-		 * No reason continue with empty shopping cart
-		 */
+		//No reason continue with empty shopping cart 
 		if (!$this->_getCart()->getQuote()->getItemsCount()) {
 			$this->_redirect('checkout/cart');
 			return;
 		}
-	
+
 		$couponCode = (string) $this->getRequest()->getParam('coupon_code');
 		if ($this->getRequest()->getParam('remove') == 1) {
 			$couponCode = '';
 		}
 		$oldCouponCode = $this->_getQuote()->getCouponCode();
-	
+
 		if (!strlen($couponCode) && !strlen($oldCouponCode)) {
 			$responseData['message'] = $this->__('Coupon code is not valid.');
 			$this->getResponse()->setHeader('Content-type','application/json', true);
 			$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
 			return;
 		}
-	
+
 		/// get list of available methods before discount changes
 		$methods_before = Mage::helper('wsu_opc')->getAvailablePaymentMethods();
-	
-	
+
 		try {
 			$this->_getQuote()->getShippingAddress()->setCollectShippingRates(true);
 			$this->_getQuote()->setCouponCode(strlen($couponCode) ? $couponCode : '')
@@ -98,25 +109,17 @@ class Wsu_Opc_CouponController extends Mage_Core_Controller_Front_Action {
 			} else {
 				$responseData['message'] =  $this->__('Coupon code was canceled.');
 			}
-			
+
 			$layout= $this->getLayout();
 			$block = $layout->createBlock('checkout/cart_coupon');
 			$block->setTemplate('wsu/opc/onepage/coupon.phtml');
 			$responseData['coupon'] = $block->toHtml();
 			
 			// check if need to reload payment methods
-
-			$methods_after = Mage::helper('wsu_opc')->getAvailablePaymentMethods();
 			$use_method = Mage::helper('wsu_opc')->checkUpdatedPaymentMethods($methods_before, $methods_after);
-			
-			if($use_method != -1) {
-				if(empty($use_method)){
-					$use_method = -1;
-				}
+			if($use_method != -1)
 				$responseData['payments'] = $this->_getPaymentMethodsHtml($use_method);
-				$responseData['reload_payments'] = true; 
-			}
-			
+
 		} catch (Mage_Core_Exception $e) {
 			$this->_getSession()->addError($e->getMessage());
 		} catch (Exception $e) {
@@ -126,6 +129,6 @@ class Wsu_Opc_CouponController extends Mage_Core_Controller_Front_Action {
 
 		$this->getResponse()->setHeader('Content-type','application/json', true);
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
-		
+
 	}
 }

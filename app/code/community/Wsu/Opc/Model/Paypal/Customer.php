@@ -1,11 +1,14 @@
 <?php
-class Wsu_Opc_Model_Paypal_Customer extends Mage_Core_Model_Abstract {
+class Wsu_Opc_Model_Paypal_Customer extends Mage_Core_Model_Abstract{
+
 	public function _construct(){
 		parent::_construct();
 		$this->_init('wsu_opc/paypal_customer');
 	}
+
 	/**
 	 * Log in Magento
+	 *
 	 * @return Mage_Core_Model_Abstract
 	 */
 	public function logInMagentoCustomerAccount($customerId){
@@ -15,8 +18,10 @@ class Wsu_Opc_Model_Paypal_Customer extends Mage_Core_Model_Abstract {
 		Mage::getModel('customer/session')->setCustomerAsLoggedIn($magentoCustomer);
 		return $magentoCustomer;
 	}
+
 	/**
 	 * Unlink (native magento customer entity and paypal customer entity) from dashboard
+	 *
 	 * @return Paypalauth_Identity_Model_Paypal_Customer
 	 */
 	public function unlinkAccount(){
@@ -24,6 +29,7 @@ class Wsu_Opc_Model_Paypal_Customer extends Mage_Core_Model_Abstract {
 		$this->_getResource()->unlinkAccount($customerId);
 		return $this;
 	}
+
 	/**
 	 * Check paypalauth account existing in the database.
 	 * Method returns true if exists, false - otherwise.
@@ -35,8 +41,9 @@ class Wsu_Opc_Model_Paypal_Customer extends Mage_Core_Model_Abstract {
 	public function isPaypalCustomerExists($field, $value){
 	   return (bool) $this->_getResource()->isPaypalCustomerExists((string) $field, (string) $value);
 	}
+
 	/**
-	 * Return data array from paypal_customer table
+	 * Return data array from paypalauth_customer table
 	 *
 	 * @param $field
 	 * @param $value
@@ -46,4 +53,5 @@ class Wsu_Opc_Model_Paypal_Customer extends Mage_Core_Model_Abstract {
 		$data = $this->_getResource()->getPaypalCustomerDataByField($field, $value);
 		return $data;
 	}
+
 }
