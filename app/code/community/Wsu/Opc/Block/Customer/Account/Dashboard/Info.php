@@ -1,11 +1,15 @@
 <?php
 class Wsu_Opc_Block_Customer_Account_Dashboard_Info extends Mage_Customer_Block_Account_Dashboard_Info{
+	
+	
 	/**
 	 * Add paypalauth block to the customer dashboard
+	 *
 	 * @return string
 	 */
 	protected function _toHtml(){
 		$isExtensionEnabled = Mage::getStoreConfigFlag('wsu_opc/paypallogin/status');
+
 		$html = $this->getChildHtml('paypalauth_dashboard');
 		if (!$isExtensionEnabled) {
 			return parent::_toHtml();
@@ -16,6 +20,7 @@ class Wsu_Opc_Block_Customer_Account_Dashboard_Info extends Mage_Customer_Block_
 
 	/**
 	 * Check if this customer account linked with PayPal account
+	 *
 	 * @return bool
 	 */
 	public function getPaypalCustomerEmail(){
@@ -30,6 +35,7 @@ class Wsu_Opc_Block_Customer_Account_Dashboard_Info extends Mage_Customer_Block_
 
 	/**
 	 * Return action url for unlinking (native magento customer entity and paypal customer entity)
+	 *
 	 * @return string
 	 */
 	public function getUnlinkUrl(){
@@ -38,6 +44,7 @@ class Wsu_Opc_Block_Customer_Account_Dashboard_Info extends Mage_Customer_Block_
 
 	/**
 	 * Return action url for authorized magento customer
+	 *
 	 * @return string
 	 */
 	public function getAuthLoginUrl(){

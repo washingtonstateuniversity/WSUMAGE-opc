@@ -3,18 +3,21 @@ class Wsu_Opc_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp {
 
 	/**
 	 * Return Paypal Api version
+	 *
 	 * @return string
 	 */
 	public function getVersion() {
 		return '94.0';
 	}
 
+
 	/**
 	 * SetExpressCheckout call
 	 * @link https://cms.paypal.com/us/cgi-bin/?&cmd=_render-content&content_ID=developer/e_howto_api_nvp_r_SetExpressCheckout
 	 * TODO: put together style and giropay settings
 	 */
-	public function callSetExpressCheckout() {
+	public function callSetExpressCheckout(){
+
 		$this->_prepareExpressCheckoutCallRequest($this->_setExpressCheckoutRequest);
 		$request = $this->_exportToRequest($this->_setExpressCheckoutRequest);
 		$this->_exportLineItems($request);
@@ -39,12 +42,19 @@ class Wsu_Opc_Model_Api_Nvp extends Mage_Paypal_Model_Api_Nvp {
 			$i++;
 		}
 
+		
+	   
 		$paypaltoken = Mage::helper('wsu_opc/paypal')->refreshAccessToken();        	
 		if(isset($paypaltoken->access_token) && !empty($paypaltoken->access_token)) {
 			$request["IDENTITYACCESSTOKEN"] = $paypaltoken->access_token;
 		}
-
+	   
+		
+			
+		
 		$response = $this->call(self::SET_EXPRESS_CHECKOUT, $request);
 		$this->_importFromResponse($this->_setExpressCheckoutResponse, $response);
 	}
+
+   
 }

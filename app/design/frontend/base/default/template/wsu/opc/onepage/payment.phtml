@@ -1,19 +1,19 @@
 <script type="text/javascript">
 //<![CDATA[
-    var quoteBaseGrandTotal = <?php echo (float)$this->getQuoteBaseGrandTotal(); ?>;
+    var quoteBaseGrandTotal = <?=(float)$this->getQuoteBaseGrandTotal(); ?>;
     var checkQuoteBaseGrandTotal = quoteBaseGrandTotal;
-    var payment = new Payment('co-payment-form', '<?php echo $this->getUrl('checkout/onepage/savePayment') ?>');
+    var payment = new Payment('co-payment-form', '<?=$this->getUrl('checkout/onepage/savePayment', array('_secure' => $this->getRequest()->isSecure())) ?>');
     var lastPrice;
 //]]>
 </script>
 <form action="" id="co-payment-form">	
-    <fieldset>
-        <?php echo $this->getChildHtml('methods') ?>
+    <fieldset id="checkout-payment-method-load">
+        <?=$this->getChildHtml('methods') ?>
     </fieldset>
 </form>
 <div class="tool-tip" id="payment-tool-tip" style="display:none;">
-    <div class="btn-close"><a href="#" id="payment-tool-tip-close" title="<?php echo $this->__('Close') ?>"><?php echo $this->__('Close') ?></a></div>
-    <div class="tool-tip-content"><img src="<?php echo $this->getSkinUrl('images/cvv.gif') ?>" alt="<?php echo $this->__('Card Verification Number Visual Reference') ?>" title="<?php echo $this->__('Card Verification Number Visual Reference') ?>" /></div>
+    <div class="btn-close"><a href="#" id="payment-tool-tip-close" title="<?=$this->__('Close') ?>"><?=$this->__('Close') ?></a></div>
+    <div class="tool-tip-content"><img src="<?=$this->getSkinUrl('images/cvv.gif') ?>" alt="<?=$this->__('Card Verification Number Visual Reference') ?>" title="<?=$this->__('Card Verification Number Visual Reference') ?>" /></div>
 </div>
 <script type="text/javascript">
 //<![CDATA[
@@ -34,6 +34,6 @@
 </script>
 <script type="text/javascript">
 //<![CDATA[
-    payment.currentMethod = "<?php echo $this->getChild('methods')->getSelectedMethodCode() ?>";
+    payment.currentMethod = "<?=$this->getChild('methods')->getSelectedMethodCode() ?>";
 //]]>
 </script>

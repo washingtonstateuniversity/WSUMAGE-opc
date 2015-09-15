@@ -9,17 +9,17 @@ if(strlen($cp_id)){
 */
 $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loader"><div class="outer"></div><div class="inner"></div></div></div>';
 ?>
-<form id="opc-discount-coupon-form" action="<?php echo $this->getUrl('checkout/cart/couponPost') ?>" method="post">
+<form id="opc-discount-coupon-form" action="<?=$this->getUrl('checkout/cart/couponPost', array('_secure' => $this->getRequest()->isSecure())) ?>" method="post">
     <div class="discount">
         <div class="discount-form">
-            <label for="coupon_code"><?php echo $this->__('Enter your coupon code:') ?></label>            
+            <label for="coupon_code"><?=$this->__('Enter your coupon code:') ?></label>            
             <div class="input-box">
-                <input class="input-text" id="coupon_code" type="text" name="coupon_code" value="<?php echo $this->htmlEscape($cp_id) ?>" autocomplete="off"/>
+                <input class="input-text" id="coupon_code" type="text" name="coupon_code" value="<?=$this->htmlEscape($cp_id) ?>" autocomplete="off"/>
             </div>
             <div class="buttons-set">
-                <button type="button" title="<?php echo $this->__('Apply') ?>" class="button apply-coupon"  value="<?php echo $this->__('Apply') ?>"><span><span><?php echo $this->__('Apply') ?></span></span></button>
+                <button type="button" title="<?=$this->__('Apply') ?>" class="button apply-coupon"  value="<?=$this->__('Apply') ?>"><span><span><?=$this->__('Apply') ?></span></span></button>
                 <?php if(strlen($cp_id)): ?>
-                    &nbsp; <button type="button" title="<?php echo $this->__('Cancel') ?>" class="button remove-coupon right"  value="<?php echo $this->__('Cancel') ?>"><span><span><?php echo $this->__('Cancel') ?></span></span></button>
+                    &nbsp; <button type="button" title="<?=$this->__('Cancel') ?>" class="button remove-coupon right"  value="<?=$this->__('Cancel') ?>"><span><span><?=$this->__('Cancel') ?></span></span></button>
                 <?php endif;?>
             </div>
         </div>

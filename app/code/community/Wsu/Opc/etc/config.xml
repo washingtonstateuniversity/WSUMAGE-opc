@@ -2,7 +2,7 @@
 <config>
 	<modules>
 		<Wsu_Opc>
-			<version>0.1.0</version>
+			<version>0.2.0</version>
 		</Wsu_Opc>
 	</modules>
 	<global>
@@ -17,14 +17,25 @@
 			</customer>
 			<checkout>
 				<rewrite>
-					<onepage_link>Wsu_Opc_Block_Onepage_Link</onepage_link>                   
+					<onepage_link>Wsu_Opc_Block_Onepage_Link</onepage_link>
 				</rewrite>
 			</checkout>
+			<paypal>
+				<rewrite>
+					<standard_form>Wsu_Opc_Block_Paypal_Standard_Form</standard_form>
+					<express_form>Wsu_Opc_Block_Paypal_Express_Form</express_form>
+				</rewrite>
+			</paypal>
 		</blocks>
 		<helpers>
 			<wsu_opc>
 				<class>Wsu_Opc_Helper</class>
 			</wsu_opc>
+			<checkout>
+				<rewrite>
+					<url>Wsu_Opc_Helper_Url</url>
+				</rewrite>
+			</checkout>
 		</helpers>
 		<models>
 			<wsu_opc>
@@ -38,16 +49,22 @@
 					<config>Wsu_Opc_Model_Paypal_Config</config>
 				</rewrite>
 			</paypal>
+			<braintree_payments>
+				<rewrite>
+					<paymentmethod>Wsu_Opc_Model_Braintree_Paymentmethod</paymentmethod>
+				</rewrite>
+			</braintree_payments>
+
 			<opc_resource>
 				<class>Wsu_Opc_Model_Resource</class>
 				<entities>
 					<customer>
-						<table>paypal_customer</table>
+						<table>paypalauth_customer</table>
 					</customer>
 				</entities>
 			</opc_resource>
 		</models>
-		<resources>		
+		<resources>
 			<opc_write>
 				<connection>
 					<use>core_write</use>
@@ -76,29 +93,9 @@
 				</wsu_opc>
 			</updates>
 		</layout>
-		<translate>
-			<modules>
-				<Wsu_Opc>
-					<files>
-						<default>Wsu_Opc.csv</default>
-					</files>
-				</Wsu_Opc>
-			</modules>
-		</translate>
-		<events>
-			<!--<controller_action_predispatch>
-				<observers>
-					<opc_check_related>
-						<type>singleton</type>
-						<class>opc/observer</class>
-						<method>checkRequiredModules</method>
-					</opc_check_related>
-				</observers>
-			</controller_action_predispatch>-->
-		</events>
 	</adminhtml>
 	<frontend>
-		 <routers>
+		<routers>
 			<opc>
 				<use>standard</use>
 				<args>
@@ -106,6 +103,13 @@
 					<frontName>onepage</frontName>
 				</args>
 			</opc>
+			<checkout>
+				<args>
+					<modules>
+						<opc before="Mage_Checkout_OnepageController">Wsu_Opc_Checkout</opc>
+					</modules>
+				</args>
+			</checkout>
 		</routers>
 		<layout>
 			<updates>
@@ -124,14 +128,6 @@
 			</modules>
 		</translate>
 		<events>
-			 <checkout_submit_all_after>
-				<observers>
-					<opc_checkout_submit_all_after>
-						<class>wsu_opc/observer</class>
-						<method>applyComment</method>
-					</opc_checkout_submit_all_after>
-				</observers>
-			</checkout_submit_all_after>
 			<controller_action_postdispatch_opc_json_saveOrder>
 				<observers>
 					<hss_save_order_onepage>
@@ -148,40 +144,47 @@
 					</newsletter_order_place_after>
 				</observers>
 			</sales_order_place_after>
-			
-			 <controller_action_predispatch_checkout_onepage_index>
+			<checkout_type_onepage_save_order>
 				<observers>
-					<load_opc>
-						<class>wsu_opc/observer</class>
-						<method>redirect_to_opc</method>
-					</load_opc>
+					<checkout_type_onepage_save_order>
+						<class>opc/observer</class>
+						<method>applyComment</method>
+					</checkout_type_onepage_save_order>
 				</observers>
-			</controller_action_predispatch_checkout_onepage_index>
+			</checkout_type_onepage_save_order>
 		</events>
 	</frontend>
 	<default>
-		<wsu_opc>
+		<opc>
 			<global>
+				<title>Onepage Checkout</title>
 				<status>1</status>
-				<title>Checkout</title>
 			</global>
 			<default>
-				<payment>checkmo</payment>
-				<show_shipping>1</show_shipping>
 				<shipping>freeshipping_freeshipping</shipping>
-				<terms_type>1</terms_type>
-				<comment>0</comment>
+				<payment>checkmo</payment>
 				<subscribe>0</subscribe>
 				<subscribe_default>0</subscribe_default>
+				<show_shipping>1</show_shipping>
+				<terms_type>1</terms_type>
+				<comment>0</comment>
 				<check_email>1</check_email>
+				<discount>1</discount>
 			</default>
 			<geo>
+				<country>0</country>
+				<country_file>GeoIP.dat</country_file>
+				<city>0</city>
+				<city_file>GeoLiteCity.dat</city_file>
 			</geo>
 			<paypal>
 				<status>1</status>
 				<sandbox>0</sandbox>
-				<detailed>1</detailed>
 			</paypal>
-		</wsu_opc>
+			<paypallogin>
+				<status>0</status>
+				<sandbox>0</sandbox>
+			</paypallogin>
+		</opc>
 	</default>
 </config>

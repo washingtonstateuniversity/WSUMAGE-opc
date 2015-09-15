@@ -1,46 +1,51 @@
 <?php
 class Wsu_Opc_PaypalController extends Mage_Core_Controller_Front_Action{
-
+	/**
+	 * @access protected
+	 */
 	protected function _getSession() {
-		return Mage::getSingleton ( 'customer/session' );
+		return Mage::getSingleton( 'customer/session' );
 	}
-
+	
+	/**
+	 * @access protected
+	 */
 	protected  function _getHelper() {
-		return Mage::helper ( 'wsu_opc/paypal' );
+		return Mage::helper( 'wsu_opc/paypal' );
 	}
 
 	/** SHOW LOGIN FORM - REDIRECT FROM MAGENTO STORE TO PAYPAL LOGIN URL**/
 	public function loginAction() {
 		$_helper = $this->_getHelper ();
-		$this->_redirectUrl($_helper->getAuthUrl ());
+		$this->_redirectUrl($_helper->getAuthUrl());
 	}
 
 	public function returnAction() {
-		$_helper = $this->_getHelper ();
+		$_helper = $this->_getHelper();
 		$_params = $this->getRequest()->getParams();
+
 		try{
 			if (isset($_params['code'])){
-				$_helper->getAccessToken ($_params);
-				$profile = $_helper->getPayPalProfile ();
+				$_helper->getAccessToken($_params);
+				$profile = $_helper->getPayPalProfile();
 			}else{
 				if (isset ( $_params ['error_uri'] )) {
-					$this->_getSession ()->addError ( $_params['error_description']);
-					$this->_closePopup ( $this->_getloginPostRedirect () );
-					return;;
-				} else {
-					$url = $_helper->getAuthUrl ();
+					$this->_getSession()->addError( $_params['error_description']);
+					$this->_closePopup( $this->_getloginPostRedirect() );
+					return;
+				}else{
+					$url = $_helper->getAuthUrl();
 					$this->_redirectUrl($url);
-					return;;
+					return;
 				}
 			}
-				
 		}catch(Exception $e){
-			$this->_getSession ()->addError ( $this->__($e->getMessage()) );
-			$this->_closePopup ( $this->_getloginPostRedirect () );
-			return;;
+			$this->_getSession()->addError( $this->__($e->getMessage()) );
+			$this->_closePopup( $this->_getloginPostRedirect () );
+			return;
 		}
 
-		$paypalCustomerData = Mage::getModel ( 'wsu_opc/paypal_customer' )->getPaypalCustomerDataByField ( 'payer_id', $profile->getUserId() );
+		$paypalCustomerData = Mage::getModel('wsu_opc/paypal_customer' )->getPaypalCustomerDataByField ( 'payer_id', $profile->getUserId() );
 	
 		if (! $paypalCustomerData) {
 			// No Link exists create the link
@@ -59,16 +64,23 @@ class Wsu_Opc_PaypalController extends Mage_Core_Controller_Front_Action{
 			Mage::getSingleton('customer/session')->addSuccess ( $this->__ ( "Your %s account has been linked with your PayPal login.<br /><br />You account details are displayed below. No financial information will ever be shared by PayPal.<br /><br />Simply use Login with PayPal to login when you visit.", Mage::app ()->getStore ()->getFrontendName () ) );
 				
 		} else {
-			$paypalCustomer = Mage::getModel ( 'wsu_opc/paypal_customer' );
+				
+			// link exists so login to store
+			$paypalCustomer = Mage::getModel('wsu_opc/paypal_customer' );
 			$customer = $paypalCustomer->logInMagentoCustomerAccount ( $paypalCustomerData ['customer_id'] );
 		}
+	
 		$url = $this->_getloginPostRedirect ();
 		$this->_closePopup ( $url );
+	
+	
 	}
 	
 	/**
 	 * Define and return target URL and redirect customer after logging in
+	 *
 	 * @return
+	 *
 	 */
 	protected function _getloginPostRedirect() {
 		$session = $this->_getSession ();
@@ -144,29 +156,34 @@ class Wsu_Opc_PaypalController extends Mage_Core_Controller_Front_Action{
 		}
 		return $redirectUrl;
 	}
-
+	
+	
 	public function unlinkAction() {
 		if ($this->_getSession ()->getCustomer ()->getId ()) {
-			$paypalCustomer = Mage::getModel ( 'wsu_opc/paypal_customer' )->unlinkAccount ();
+			$paypalCustomer = Mage::getModel('wsu_opc/paypal_customer' )->unlinkAccount ();
 			$this->_getSession ()->addSuccess ( $this->_getHelper ()->__ ( "Your %s account is no longer linked with your PayPal login.", Mage::app ()->getStore ()->getFrontendName () ) );
 		}
+	
 		$this->_redirect ( 'customer/account' );
 		return;
 	}
-
+	
+	
 	public function askLinkAction() {
 		$paypalData = $this->_getSession ()->getData ( 'paypalData' );
 		if (! $paypalData) {
 			$this->_redirect ( 'customer/account' );
 			return;
 		}
+	
 		$msg = $this->_getSession ()->getMessages ( true );
 		$this->loadLayout ();
 		$this->getLayout ()->getMessagesBlock ()->addMessages ( $msg );
 		$this->_initLayoutMessages ( 'core/session' );
 		$this->renderLayout ();
 	}
-
+	
+	
 	public function askLinkPostAction() {
 	
 		$params = $this->getRequest ()->getParams ();
@@ -176,15 +193,15 @@ class Wsu_Opc_PaypalController extends Mage_Core_Controller_Front_Action{
 			$this->_redirect ( 'customer/account' );
 			return;
 		}
-
+	
 		$askLinkUrl = 'onepage/paypal/askLink';
-
+	
 		if (array_key_exists ( 'send', $params )) {
 			$login = $this->getRequest ()->getPost ( 'login' );
 			$email = $login ['username'];
 			$customerId = $this->_getCustomerIdByEmail ( $email );
 	
-			$isPaypalCustomerExists = Mage::getModel ( 'wsu_opc/paypal_customer' )->isPaypalCustomerExists ( 'customer_id', $customerId );
+			$isPaypalCustomerExists = Mage::getModel('wsu_opc/paypal_customer' )->isPaypalCustomerExists ( 'customer_id', $customerId );
 	
 			if ($isPaypalCustomerExists) {
 				$this->_getSession ()->addError ( $this->_getHelper ()->__ ( "Your %s account is already linked with your PayPal login.", Mage::app ()->getStore ()->getFrontendName () ) );
@@ -232,7 +249,8 @@ class Wsu_Opc_PaypalController extends Mage_Core_Controller_Front_Action{
 		$this->_redirectUrl ( $url );
 		return;
 	}
-
+	
+	
 	protected function _getCustomerIdByEmail($email) {
 		$customer = Mage::getModel ( 'customer/customer' );
 		$customer->setWebsiteId ( Mage::app ()->getStore ()->getWebsiteId () )->loadByEmail ( $email );
@@ -241,7 +259,8 @@ class Wsu_Opc_PaypalController extends Mage_Core_Controller_Front_Action{
 		}
 		return false;
 	}
-
+	
+	
 	protected function _closePopUp($url = null) {
 		echo '<script type="text/javascript">window.opener.location.href="' . $url . '";self.close();</script>';
 	}

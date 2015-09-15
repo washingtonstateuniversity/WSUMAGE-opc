@@ -8,12 +8,13 @@ class Wsu_Opc_Model_System_Config_Source_Shipping_Allmethods{
 	 * @param bool $isActiveOnlyFlag
 	 * @return array
 	 */
-	public function toOptionArray($isActiveOnlyFlag=false) {
+	public function toOptionArray($isActiveOnlyFlag=false)
+	{
 		$methods = array(array('value'=>'', 'label'=>''));
 		$carriers = Mage::getSingleton('shipping/config')->getAllCarriers();
 		foreach ($carriers as $carrierCode=>$carrierModel) {
 			//fix for 1.7 magento - or view dhl first need setup config
-			if ($carrierCode=='dhl' || $carrierCode=='dhlint'){
+			if ($carrierCode=='dhl'){
 				continue;
 			}
 			if (!$carrierModel->isActive() && (bool)$isActiveOnlyFlag === true) {
@@ -35,6 +36,7 @@ class Wsu_Opc_Model_System_Config_Source_Shipping_Allmethods{
 				);
 			}
 		}
+
 		return $methods;
 	}
 }
