@@ -621,10 +621,11 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			// save comments
 			if (Mage::helper('wsu_opc')->isShowComment()) {
 				$comment = $this->getRequest()->getPost('customer_comment', '');
-				if(empty($comment))
+				if(empty($comment)) {
 					$comment  = Mage::getSingleton('core/session')->getOpcOrderComment();
-				else
+				} else {
 					Mage::getSingleton('core/session')->setOpcOrderComment($comment);
+				}
 			}
 			///
 

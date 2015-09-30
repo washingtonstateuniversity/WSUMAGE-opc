@@ -295,6 +295,27 @@
 				<show_in_default>1</show_in_default>
 				<expanded>1</expanded>
 				<fields>
+					<custom_css>
+						<label>Provide Theme based styling?</label>
+						<frontend_type>select</frontend_type>
+						<source_model>adminhtml/system_config_source_yesno</source_model>
+						<sort_order>10</sort_order>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>1</show_in_store>
+					</custom_css>
+					<alter_default_style>
+						<label>Alter Style Defaults</label>
+						<frontend_type>select</frontend_type>
+						<source_model>adminhtml/system_config_source_yesno</source_model>
+						<sort_order>10</sort_order>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>1</show_in_store>
+						<depends>
+							<custom_css>0</custom_css>
+						</depends>
+					</alter_default_style>
 					<plbgcolor translate="label">
 						<label>Place Order and Login buttons background color</label>
 						<frontend_type>text</frontend_type>
@@ -305,6 +326,10 @@
 						<comment>
 							<![CDATA[<span>Please enter color HEX code, or leave empty.</span>]]>
 						</comment>
+						<depends>
+							<custom_css>0</custom_css>
+							<alter_default_style>1</alter_default_style>
+						</depends>
 					</plbgcolor>
 					<plovercolor translate="label">
 						<label>Place Order and Login buttons rollover color</label>
@@ -316,6 +341,10 @@
 						<comment>
 							<![CDATA[<span>Please enter color HEX code, or leave empty.</span>]]>
 						</comment>
+						<depends>
+							<custom_css>0</custom_css>
+							<alter_default_style>1</alter_default_style>
+						</depends>
 					</plovercolor>
 					<pltextcolor translate="label">
 						<label>Place Order and Login buttons text color</label>
@@ -327,6 +356,10 @@
 						<comment>
 							<![CDATA[<span>Please enter color HEX code, or leave empty.</span>]]>
 						</comment>
+						<depends>
+							<custom_css>0</custom_css>
+							<alter_default_style>1</alter_default_style>
+						</depends>
 					</pltextcolor>
 					<plhovertextcolor translate="label">
 						<label>Place Order and Login buttons text rollover color</label>
@@ -338,6 +371,10 @@
 						<comment>
 							<![CDATA[<span>Please enter color HEX code, or leave empty.</span>]]>
 						</comment>
+						<depends>
+							<custom_css>0</custom_css>
+							<alter_default_style>1</alter_default_style>
+						</depends>
 					</plhovertextcolor>
 					<btnbgcolor translate="label">
 						<label>Other buttons background color</label>
@@ -349,6 +386,10 @@
 						<comment>
 							<![CDATA[<span>Please enter color HEX code, or leave empty.</span>]]>
 						</comment>
+						<depends>
+							<custom_css>0</custom_css>
+							<alter_default_style>1</alter_default_style>
+						</depends>
 					</btnbgcolor>
 					<btnovercolor translate="label">
 						<label>Other buttons rollover color</label>
@@ -360,6 +401,10 @@
 						<comment>
 							<![CDATA[<span>Please enter color HEX code, or leave empty.</span>]]>
 						</comment>
+						<depends>
+							<custom_css>0</custom_css>
+							<alter_default_style>1</alter_default_style>
+						</depends>
 					</btnovercolor>
 					<btntextcolor translate="label">
 						<label>Other buttons text color</label>
@@ -371,6 +416,10 @@
 						<comment>
 							<![CDATA[<span>Please enter color HEX code, or leave empty.</span>]]>
 						</comment>
+						<depends>
+							<custom_css>0</custom_css>
+							<alter_default_style>1</alter_default_style>
+						</depends>
 					</btntextcolor>
 					<btnhovertextcolor translate="label">
 						<label>Other buttons text rollover color</label>
@@ -382,6 +431,10 @@
 						<comment>
 							<![CDATA[<span>Please enter color HEX code, or leave empty.</span>]]>
 						</comment>
+						<depends>
+							<custom_css>0</custom_css>
+							<alter_default_style>1</alter_default_style>
+						</depends>
 					</btnhovertextcolor>
 				</fields>
 			</design>
