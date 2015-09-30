@@ -5,6 +5,7 @@ if($this->helper('wsu_opc')->hasCheckoutForm()){
 }
 $form_location = Mage::getStoreConfig('wsu_opc/default/form_location');
 $block_notice_update = Mage::getStoreConfig('wsu_opc/display/block_notice_update');
+$use_custom_css = Mage::getStoreConfig('wsu_opc/design/custom_css');
 
 
 
@@ -16,7 +17,7 @@ echo $this->getDesignStyles();
 $package = Mage::getDesign()->getPackageName();
 $theme = Mage::getDesign()->getTheme('frontend');
 ?>
-<div class="opc-wrapper-opc design_package_<?=$package;?> design_theme_<?=$theme;?>">
+<div class="opc-wrapper-opc <?=$use_custom_css==1?"":"defaulted_css"?> design_package_<?=$package;?> design_theme_<?=$theme;?>">
 	<h2><?=$this->__('Checkout')?></h2>
 	<p><?=$this->__('Fill in the Fields below to complete your purchase!')?></p>
 	<div class="opc-menu">
