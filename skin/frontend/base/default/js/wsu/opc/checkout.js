@@ -624,7 +624,7 @@ jQuery.WSU=jQuery.WSU||{};
 			WSU.OPC.initMessages();
 			WSU.OPC.initSaveOrder();
 			
-			
+			$('#co-payment-form input[type="radio"]:checked').closest('dt').addClass('active');
 			if (this.config.isLoggedIn===1){
 				var addressId = $('#billing-address-select').val();
 				if (addressId!=='' && addressId!=undefined ){
