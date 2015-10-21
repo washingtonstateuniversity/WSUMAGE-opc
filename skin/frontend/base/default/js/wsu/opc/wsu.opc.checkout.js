@@ -9,35 +9,7 @@
 		xhr2: null,
 		updateShippingPaymentProgress: false,
 
-		createLoader: function(parentBlock,message){
-			var jObj = parentBlock!=="undefined" ? parentBlock:"#general_message";
-			if($(jObj+' .opc-ajax-loader').length<=0){
-				$(jObj).append("<div class='opc-ajax-loader'></div>");
-			}
-			if($(jObj+' .opc-ajax-loader .loader').length<=0){
-				$(jObj+' .opc-ajax-loader').append("<div class='loader'></div>");
-			}
-			if($(jObj+' .opc-ajax-loader .loader .message').length<=0){
-				$(jObj+' .opc-ajax-loader .loader').append("<div class='message'></div>");
-			}
-		},	
-		showLoader: function(parentBlock,message){
-			var jObj = parentBlock!=="undefined" ? parentBlock:"#general_message";
-			var html = message!=="undefined" ? message:"";
-			WSU.OPC.Checkout.createLoader(parentBlock, message);
-			$(jObj+' .opc-ajax-loader .loader .message').html(html);
-			$(jObj+' .opc-ajax-loader').show();
-			$('.opc-btn-checkout').attr("disabled",true);
-			//console.log("masking "+jObj+" with a message of "+html);
-		},
-		
-		hideLoader: function(parentBlock){
-			var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
-			$(jObj+' .opc-ajax-loader').hide();
-			$(jObj+' .opc-ajax-loader .loader .message').remove();
-			$('.opc-btn-checkout').removeAttr("disabled");
-			//console.log("hidgin mask of "+jObj+" with a message of ");
-		},
+
 		
 		/*showLoader: function(){
 			$('.opc-ajax-loader').show();
@@ -93,8 +65,8 @@
 		/** PARSE RESPONSE FROM AJAX SAVE BILLING AND SHIPPING METHOD **/
 		prepareAddressResponse: function(response){
 			console.log(response);
-			WSU.OPC.Checkout.hideLoader("#opc-address-form-billing");
-			WSU.OPC.Checkout.hideLoader("#opc-address-form-shipping");
+			WSU.OPC.Decorator.hideLoader("#opc-address-form-billing");
+			WSU.OPC.Decorator.hideLoader("#opc-address-form-shipping");
 			//WSU.OPC.Checkout.xhr = null;
 			
 			if (typeof(response.error) !== "undefined"){
@@ -119,7 +91,7 @@
 			/* WSU ADDRESS VALIDATION  */
 			if (typeof(response.address_validation) !== "undefined"){
 				$('#checkout-address-validation-load').empty().html(response.address_validation);
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();
 				return;
 			}
@@ -162,7 +134,7 @@
 		/** PARSE RESPONSE FROM AJAX SAVE SHIPPING METHOD **/
 		prepareShippingMethodResponse: function(response){
 			WSU.OPC.Checkout.xhr = null;
-			WSU.OPC.Checkout.hideLoader(".shipping-method-block");
+			WSU.OPC.Decorator.hideLoader(".shipping-method-block");
 			if (typeof(response.error) !== "undefined"){
 				WSU.OPC.Checkout.unlockPlaceOrder();
 				WSU.OPC.Plugin.dispatch('error');
@@ -241,7 +213,7 @@
 		
 		/** PULL REVIEW **/
 		pullReview: function(){
-			WSU.OPC.Checkout.showLoader('#review-block',"<h1>Recalulating</h1>");
+			WSU.OPC.Decorator.showLoader('#review-block',"<h1>Recalulating</h1>");
 			
 			
 			WSU.OPC.ajaxManager.addReq("saveReview",{
@@ -249,7 +221,7 @@
 			   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/review',
 			   dataType: 'json',
 			   success:function(response){
-					WSU.OPC.Checkout.hideLoader('.review-block');
+					WSU.OPC.Decorator.hideLoader('.review-block');
 					if (typeof(response.review)!="undefined"){
 						$('#review-block').html(response.review);
 						WSU.OPC.Checkout.removePrice();
@@ -285,7 +257,7 @@
 					$('.opc-message-container').html(response.error);
 					$('.opc-message-wrapper').show();
 					WSU.OPC.saveOrderStatus = false;
-					WSU.OPC.Checkout.hideLoader();
+					WSU.OPC.Decorator.hideLoader();
 					WSU.OPC.Checkout.unlockPlaceOrder();					
 					return;
 				}
@@ -303,14 +275,14 @@
 			},'json');*/
 			
 			WSU.OPC.Checkout.lockPlaceOrder();
-			WSU.OPC.Checkout.showLoader('.payment-block',"<h1>Getting payment choices</h1>");
+			WSU.OPC.Decorator.showLoader('.payment-block',"<h1>Getting payment choices</h1>");
 			
 			WSU.OPC.ajaxManager.addReq("savePayments",{
 			   type: 'POST',
 			   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/payments',
 			   dataType: 'json',
 			   success:function(response){
-					/*WSU.OPC.Checkout.hideLoader('.payment-block');
+					/*WSU.OPC.Decorator.hideLoader('.payment-block');
 					if (typeof(response.error)!="undefined"){
 						WSU.OPC.popup_message(response.error);
 						WSU.OPC.saveOrderStatus = false;
@@ -324,11 +296,11 @@
 					WSU.OPC.Checkout.pullReview();*/
 					
 					
-					WSU.OPC.Checkout.hideLoader('.payment-block');	
+					WSU.OPC.Decorator.hideLoader('.payment-block');	
 					if (typeof(response.error)!=="undefined"){
 						WSU.OPC.popup_message(response.error);
 						WSU.OPC.saveOrderStatus = false;
-						WSU.OPC.Checkout.hideLoader();
+						WSU.OPC.Decorator.hideLoader();
 						WSU.OPC.Checkout.unlockPlaceOrder();					
 						return;
 					}
@@ -369,7 +341,7 @@
 				WSU.OPC.Checkout.xhr.abort();
 				
 				WSU.OPC.saveOrderStatus = false;
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();
 			}
 		},
@@ -396,7 +368,7 @@
 			
 			 */
 			
-			WSU.OPC.Checkout.showLoader('.payment-block',"<h1>Getting payment choices</h1>");
+			WSU.OPC.Decorator.showLoader('.payment-block',"<h1>Getting payment choices</h1>");
 			WSU.OPC.ajaxManager.addReq("savePayments",{
 			   type: 'POST',
 			   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/reloadShippingsPayments',
@@ -413,7 +385,7 @@
 			if (typeof(response.error) !== "undefined"){
 				$('.opc-message-container').html(response.message);
 				$('.opc-message-wrapper').show();
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();
 				return;
 			}
@@ -533,7 +505,7 @@
 			$('#forgotpassword-button-set .btn').on('click',function(e){
 				e.preventDefault();
 				var form = $('#form-validate-email').serializeArray();
-				WSU.OPC.Checkout.showLoader();
+				WSU.OPC.Decorator.showLoader();
 				WSU.OPC.Checkout.xhr = $.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/forgotpassword',form, WSU.OPC.Login.prepareResponse,'json');
 			});
 			
@@ -548,7 +520,7 @@
 		
 		prepareResponse: function(response){
 			WSU.OPC.Checkout.xhr = null;
-			WSU.OPC.Checkout.hideLoader();
+			WSU.OPC.Decorator.hideLoader();
 			if (typeof(response.error)!=="undefined"){
 				alert(response.message);
 			}else{
@@ -558,38 +530,5 @@
 		}
 	};
 	
-	WSU.OPC.Decorator = {
-		initReviewBlock: function(){
-			$('a.review-total').on('click',function(e){
-				e.preventDefault();
-				if ($(this).hasClass('open')){
-					$(this).removeClass('open')
-					$('#opc-review-block').addClass('hidden');
-				}else{
-					$(this).addClass('open')
-					$('#opc-review-block').removeClass('hidden');
-				}
-			});
-		},
-		updateGrandTotal: function(response){
-			$('.opc-review-actions h5 span').html(response.grandTotal);
-			$('.review-total span').html(response.grandTotal);
-		},
-		
-		setActivePayment: function(){
-			//check and setup current active method 
-			this.setCurrentPaymentActive();
-			
-			$(document).on('click','#checkout-payment-method-load dt', function(){
-				$('#checkout-payment-method-load dt').removeClass('active');
-				$(this).addClass('active');
-			});
-		},
-		
-		setCurrentPaymentActive: function(){
-			var method = payment.currentMethod;
-			$('#co-payment-form input[type="radio"]:checked').closest('dt').addClass('active');
-			$('#p_method_'+method).parent().addClass('active');
-		}
-	};
+
 })(jQuery,jQuery.WSU||{});

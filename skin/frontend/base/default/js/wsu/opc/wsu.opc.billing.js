@@ -6,7 +6,7 @@
 		
 		init: function(){
 			WSU.OPC.Billing.bill_need_update = true;
-			WSU.OPC.Checkout.createLoader("#opc-address-form-billing");
+			WSU.OPC.Decorator.createLoader("#opc-address-form-billing");
 			//set flag use billing for shipping and init change flag
 			var use_for_ship = false;
 			var el = $('input[name="billing[use_for_shipping]"]');
@@ -241,7 +241,7 @@
 					}
 					
 					if($('input[name="billing[use_for_shipping]"]').is(':checked'))
-						WSU.OPC.Checkout.showLoader();
+						WSU.OPC.Decorator.showLoader();
 					else
 						WSU.OPC.Checkout.lockPlaceOrder(1);
 					
@@ -258,13 +258,13 @@
 			form = WSU.OPC.Checkout.applySubscribed(form); 
 			form.push({ "name":"billing[use_for_shipping]", "value": jQuery('[name*=use_for_shipping]:checked').length });
 			if($('input[name="billing[use_for_shipping]"]').is(':checked')){
-				WSU.OPC.Checkout.showLoader();
+				WSU.OPC.Decorator.showLoader();
 			}else{
 				WSU.OPC.Checkout.lockPlaceOrder(1);
 			}
 			
 			WSU.OPC.Billing.bill_need_update = false;		
-			WSU.OPC.Checkout.showLoader("#opc-address-form-billing","<h1>Saving billing information</h1>");
+			WSU.OPC.Decorator.showLoader("#opc-address-form-billing","<h1>Saving billing information</h1>");
 			WSU.OPC.ajaxManager.addReq("saveBilling",{
 			   type: 'POST',
 			   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveBilling',

@@ -133,7 +133,7 @@ jQuery.WSU=jQuery.WSU||{};
 				if(mis_aggree){
 					$('.opc-message-container').html($('#agree_error').html());
 					$('.opc-message-wrapper').show();
-					WSU.OPC.Checkout.hideLoader();
+					WSU.OPC.Decorator.hideLoader();
 					WSU.OPC.Checkout.unlockPlaceOrder();
 					WSU.OPC.saveOrderStatus = false;
 					return false;
@@ -220,7 +220,7 @@ jQuery.WSU=jQuery.WSU||{};
 			if(!WSU.OPC.saveOrderStatus){
 				if(is_empty){
 					WSU.OPC.saveOrderStatus = false;
-					WSU.OPC.Checkout.hideLoader();
+					WSU.OPC.Decorator.hideLoader();
 					WSU.OPC.Checkout.unlockPlaceOrder();				
 					return false;
 				}
@@ -229,7 +229,7 @@ jQuery.WSU=jQuery.WSU||{};
 			var vp = payment.validate();
 			if(!vp){
 				WSU.OPC.saveOrderStatus = false;
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();
 				return false;
 			}
@@ -240,7 +240,7 @@ jQuery.WSU=jQuery.WSU||{};
 				WSU.OPC.savePayment();
 			}else{
 				WSU.OPC.saveOrderStatus = false;
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();
 				
 				WSU.OPC.bindChangePaymentFields();
@@ -298,7 +298,7 @@ jQuery.WSU=jQuery.WSU||{};
 			WSU.OPC.Checkout.lockPlaceOrder();
 			if (payment.currentMethod !== 'stripe') {
 				var form = $('#co-payment-form').serializeArray();
-				WSU.OPC.Checkout.showLoader('#co-payment-form',"<h1>Saving payment choice</h1>");
+				WSU.OPC.Decorator.showLoader('#co-payment-form',"<h1>Saving payment choice</h1>");
 				WSU.OPC.ajaxManager.addReq("savePayment",{
 				   type: 'POST',
 				   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',
@@ -316,14 +316,14 @@ jQuery.WSU=jQuery.WSU||{};
 					exp_year: $('stripe_cc_expiration_year').value
 				}, function(status, response) {
 					if (response.error) {
-						WSU.OPC.Checkout.hideLoader();
+						WSU.OPC.Decorator.hideLoader();
 						WSU.OPC.Checkout.xhr = null;
 						WSU.OPC.Checkout.unlockPlaceOrder();
 						alert(response.error.message);
 					} else {
 						$('stripe_token').value = response['id'];
 						var form = $('#co-payment-form').serializeArray();
-						WSU.OPC.Checkout.showLoader('.payment-block',"<h1>Saving payment choice</h1>");
+						WSU.OPC.Decorator.showLoader('.payment-block',"<h1>Saving payment choice</h1>");
 						
 						WSU.OPC.ajaxManager.addReq("savePayment",{
 						   type: 'POST',
@@ -339,7 +339,7 @@ jQuery.WSU=jQuery.WSU||{};
 		
 		/** CHECK RESPONSE FROM AJAX AFTER SAVE PAYMENT METHOD **/
 		preparePaymentResponse: function(response){
-			WSU.OPC.Checkout.hideLoader('.payment-block');	
+			WSU.OPC.Decorator.hideLoader('.payment-block');	
 			WSU.OPC.Checkout.xhr = null;
 			
 			WSU.OPC.agreements = $('#checkout-agreements').serializeArray();
@@ -364,7 +364,7 @@ jQuery.WSU=jQuery.WSU||{};
 			if (typeof(response.error) !== "undefined"){
 				WSU.OPC.Plugin.dispatch('error');
 				WSU.OPC.popup_message(response.error);
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();
 				WSU.OPC.saveOrderStatus = false;
 				WSU.OPC.ready_payment_method=false;
@@ -379,7 +379,7 @@ jQuery.WSU=jQuery.WSU||{};
 				if (WSU.OPC.Checkout.xhr==null){
 					setLocation(response.redirect);
 				} else {
-					WSU.OPC.Checkout.hideLoader();
+					WSU.OPC.Decorator.hideLoader();
 					WSU.OPC.Checkout.unlockPlaceOrder();					
 				}
 				return;
@@ -388,7 +388,7 @@ jQuery.WSU=jQuery.WSU||{};
 			if (WSU.OPC.saveOrderStatus===true){
 				WSU.OPC.saveOrder();				
 			} else {
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();				
 			}
 			
@@ -402,7 +402,7 @@ jQuery.WSU=jQuery.WSU||{};
 			form  = WSU.OPC.checkSubscribe(form);
 			form  = WSU.OPC.getComment(form);
 			
-			WSU.OPC.Checkout.showLoader("#general_message","<h1>Processing order.</h1>");
+			WSU.OPC.Decorator.showLoader("#general_message","<h1>Processing order.</h1>");
 			WSU.OPC.Checkout.lockPlaceOrder();				
 
 			if (WSU.OPC.Checkout.config.comment!=="0"){
@@ -503,7 +503,7 @@ jQuery.WSU=jQuery.WSU||{};
 		prepareOrderResponse: function(response){
 			WSU.OPC.Checkout.xhr = null;
 			if (typeof(response.error) !== "undefined" && response.error!==false){
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();
 
 				WSU.OPC.saveOrderStatus = false;
@@ -514,7 +514,7 @@ jQuery.WSU=jQuery.WSU||{};
 			}
 			
 			if (typeof(response.error_messages) !== "undefined" && response.error_messages!==false){
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();				
 				
 				WSU.OPC.saveOrderStatus = false;
@@ -532,7 +532,7 @@ jQuery.WSU=jQuery.WSU||{};
 			}
 			
 			if (typeof(response.update_section) !== "undefined"){
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();				
 				
 				//create catch for default logic  - for not spam errors to console
@@ -548,7 +548,7 @@ jQuery.WSU=jQuery.WSU||{};
 				$('#hss-iframe').show();
 				
 			}
-			WSU.OPC.Checkout.hideLoader();
+			WSU.OPC.Decorator.hideLoader();
 			WSU.OPC.Checkout.unlockPlaceOrder();				
 			
 			WSU.OPC.Plugin.dispatch('responseSaveOrder', response);
