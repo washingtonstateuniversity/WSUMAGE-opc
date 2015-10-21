@@ -54,6 +54,7 @@ class Wsu_Opc_IndexController extends Mage_Checkout_Controller_Action {
 		$defaultPaymentMethod = Mage::getStoreConfig(self::XML_PATH_DEFAULT_PAYMENT);
 		$_cart = $this->_getCart();
 		$_quote = $_cart->getQuote();
+		
 		if($defaultPaymentMethod!=null){
 			$_quote->getPayment()->setMethod($defaultPaymentMethod);
 		}

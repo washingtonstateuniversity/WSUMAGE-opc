@@ -20,9 +20,15 @@
 			<action method="setTemplate"><template>page/1column.phtml</template></action>
 		</reference>
 		
-		<reference name="head">		
-			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/checkout.js?11</name></action>
+		<reference name="head">
+			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.js?11</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.checkout.js?11</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.billing.js?11</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.shipping.js?11</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.coupon.js?11</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.comment.js?11</name></action>
 			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/extend.js?11</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.ready.js?11</name></action>
 			<action method="addJs"><file>mage/directpost.js</file></action>        
 			<action method="addItem"><type>skin_js</type><name>js/opcheckout.js</name></action>
 			<action method="addItem" ifconfig="wsu_opc/paypal/status"><type>skin_js</type><name>js/wsu/opc/lipp.js?11</name></action>
