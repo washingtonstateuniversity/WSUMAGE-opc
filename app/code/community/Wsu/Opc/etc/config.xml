@@ -147,7 +147,7 @@
 			<checkout_type_onepage_save_order>
 				<observers>
 					<checkout_type_onepage_save_order>
-						<class>opc/observer</class>
+						<class>wsu_opc/observer</class>
 						<method>applyComment</method>
 					</checkout_type_onepage_save_order>
 				</observers>
