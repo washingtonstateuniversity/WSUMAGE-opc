@@ -1,6 +1,13 @@
 <?php
 class Wsu_Opc_Model_Observer{
 
+	public function setCheckoutType($observer){
+		if( Mage::getStoreConfig('wsu_opc/global/status') ){		
+			if ( false !== strpos( Mage::helper('core/url')->getCurrentUrl(),'/checkout/') ) {
+				Mage::app()->getResponse()->setRedirect(Mage::getUrl("onepage"));
+			}
+		}
+	}
 	public function applyComment($observer){
 		$order = $observer->getData('order');
 		
