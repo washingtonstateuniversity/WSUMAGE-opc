@@ -147,11 +147,27 @@
 			<checkout_type_onepage_save_order>
 				<observers>
 					<checkout_type_onepage_save_order>
-						<class>opc/observer</class>
+						<class>wsu_opc/observer</class>
 						<method>applyComment</method>
 					</checkout_type_onepage_save_order>
 				</observers>
 			</checkout_type_onepage_save_order>
+			<controller_action_predispatch_checkout_onepage_index>
+				<observers>
+					<set_checkout_type>
+						<class>wsu_opc/observer</class>
+						<method>setCheckoutType</method>
+					</set_checkout_type>
+				</observers>
+			</controller_action_predispatch_checkout_onepage_index>
+			<controller_action_predispatch_checkout_index_index>
+				<observers>
+					<set_checkout_type>
+						<class>wsu_opc/observer</class>
+						<method>setCheckoutType</method>
+					</set_checkout_type>
+				</observers>
+			</controller_action_predispatch_checkout_index_index>
 		</events>
 	</frontend>
 	<default>
