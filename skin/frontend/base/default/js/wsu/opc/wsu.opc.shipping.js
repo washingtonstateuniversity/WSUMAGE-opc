@@ -5,7 +5,7 @@
 		
 		init: function(){
 			WSU.OPC.Shipping.ship_need_update = true;
-			WSU.OPC.Checkout.createLoader("#opc-co-shipping-method-form");
+			WSU.OPC.Decorator.createLoader("#opc-co-shipping-method-form");
 			this.initChangeAddress();
 			this.initChangeSelectAddress();
 			this.initChangeShippingMethod();
@@ -120,7 +120,7 @@
 		save: function(){
 			var form = $('#opc-address-form-shipping').serializeArray();
 				form = WSU.OPC.Checkout.applyShippingMethod(form);
-				WSU.OPC.Checkout.showLoader("#opc-co-shipping-method-form","<h1>Saving shipping address</h1>");
+				WSU.OPC.Decorator.showLoader("#opc-co-shipping-method-form","<h1>Saving shipping address</h1>");
 				WSU.OPC.ajaxManager.addReq("saveShipping",{
 				   type: 'POST',
 				   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShipping',
@@ -136,7 +136,7 @@
 					WSU.OPC.popup_message($('#pssm_msg').html());
 				}
 				WSU.OPC.saveOrderStatus = false;
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				if(typeof(update_payments) !== 'undefined' && update_payments !== undefined && update_payments){
 					// if was request to reload payments
 					WSU.OPC.Checkout.pullPayments();
@@ -155,13 +155,13 @@
 
 			if (WSU.OPC.Shipping.validateShippingMethod()===false){
 				WSU.OPC.popup_message('Please specify shipping method');
-				WSU.OPC.Checkout.hideLoader();
+				WSU.OPC.Decorator.hideLoader();
 				return;
 			}
 			
 			var form = $('#opc-co-shipping-method-form').serializeArray();
 			form = WSU.OPC.Checkout.applySubscribed(form); 
-			WSU.OPC.Checkout.showLoader(".shipping-method-block","<h1>Saving shipping choice</h1>");
+			WSU.OPC.Decorator.showLoader(".shipping-method-block","<h1>Saving shipping choice</h1>");
 			WSU.OPC.ajaxManager.addReq("saveShippingMethod",{
 			   type: 'POST',
 			   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShippingMethod',

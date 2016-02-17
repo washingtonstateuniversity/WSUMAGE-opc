@@ -22,6 +22,7 @@
 		
 		<reference name="head">
 			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.js?11</name></action>
+			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.decorator.js?11</name></action>
 			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.checkout.js?11</name></action>
 			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.billing.js?11</name></action>
 			<action method="addItem"><type>skin_js</type><name>js/wsu/opc/wsu.opc.shipping.js?11</name></action>

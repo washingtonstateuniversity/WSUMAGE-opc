@@ -31,7 +31,7 @@
 			}else{
 				form.push({"name":"remove", "value":"1"});
 			}
-			WSU.OPC.Checkout.showLoader('.discount-block');
+			WSU.OPC.Decorator.showLoader('.discount-block');
 			
 	
 			WSU.OPC.ajaxManager.addReq("couponPost",{
@@ -44,7 +44,7 @@
 		},
 		
 		prepareResponse: function(response){
-			WSU.OPC.Checkout.hideLoader(".discount-block");
+			WSU.OPC.Decorator.hideLoader(".discount-block");
 			if (typeof(response.message) != "undefined"){
 				WSU.OPC.popup_message(response.message);
 				WSU.OPC.ready_payment_method=false;

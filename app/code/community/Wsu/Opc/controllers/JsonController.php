@@ -272,10 +272,10 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				// check if need to reload payment methods
 				$use_method = Mage::helper('wsu_opc')->checkUpdatedPaymentMethods($methods_before, $methods_after);
 
-				if($use_method != -1)
-				{
-					if(empty($use_method))
+				if($use_method != -1) {
+					if(empty($use_method)){
 						$use_method = -1;
+					}
 					
 					// just save new method, (because retuned html is empty) 
 					$result['payments'] = $this->_getPaymentMethodsHtml($use_method, true);
@@ -286,8 +286,9 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				// get grand totals after
 				$totals_after = $this->_getSession()->getQuote()->getGrandTotal();
 				
-				if($totals_before != $totals_after)
+				if($totals_before != $totals_after){
 					$result['reload_totals'] = true;
+				}
 				
 			}else{
 				
@@ -333,8 +334,9 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				// get grand totals after
 				$totals_after = $this->_getSession()->getQuote()->getGrandTotal();
 				
-				if($totals_before != $totals_after)
+				if($totals_before != $totals_after){
 					$responseData['reload_totals'] = true;
+				}
 			}
 		}
 
