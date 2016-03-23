@@ -12,11 +12,11 @@ $block_notice_update = Mage::getStoreConfig('wsu_opc/display/block_notice_update
 $use_custom_css = Mage::getStoreConfig('wsu_opc/design/custom_css');
 
 if($logged_in){
-    $title = $this->__('Checkout as Guest');
-    $message = $this->__('Fill in the Fields below to complete your purchase!  If you have an account please feel free to sign in.');
-}else{
     $title = $this->__('Checkout');
     $message = $this->__('Fill in the Fields below to complete your purchase!');
+}else{
+    $title = $this->__('Checkout as Guest');
+    $message = $this->__('Fill in the Fields below to complete your purchase!  If you have an account please feel free to sign in.');
 }
 if($logged_in){
     $custom_title = Mage::getStoreConfig('wsu_opc/design/custom_loggedin_title');
