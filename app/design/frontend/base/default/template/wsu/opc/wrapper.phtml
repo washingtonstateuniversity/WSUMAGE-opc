@@ -3,11 +3,34 @@ $form="";
 if($this->helper('wsu_opc')->hasCheckoutForm()){
 	$form = $this->getChildHtml('webformscrf.form'); 
 }
+
+$logged_in = Mage::getSingleton('customer/session')->isLoggedIn();
+
+
 $form_location = Mage::getStoreConfig('wsu_opc/default/form_location');
 $block_notice_update = Mage::getStoreConfig('wsu_opc/display/block_notice_update');
 $use_custom_css = Mage::getStoreConfig('wsu_opc/design/custom_css');
 
-
+if($logged_in){
+    $title = $this->__('Checkout as Guest');
+    $message = $this->__('Fill in the Fields below to complete your purchase!  If you have an account please feel free to sign in.');
+}else{
+    $title = $this->__('Checkout');
+    $message = $this->__('Fill in the Fields below to complete your purchase!');
+}
+if($logged_in){
+    $custom_title = Mage::getStoreConfig('wsu_opc/design/custom_loggedin_title');
+    $custom_message = Mage::getStoreConfig('wsu_opc/design/custom_loggedin_message');
+}else{
+    $custom_title = Mage::getStoreConfig('wsu_opc/design/custom_title');
+    $custom_message = Mage::getStoreConfig('wsu_opc/design/custom_message');
+}
+if( "" !== $custom_title && NULL !== $custom_title){
+    $title = $custom_title;
+}
+if( "" !== $custom_message && NULL !== $custom_message){
+    $message = $custom_message;
+}
 
 $loading = '<div class="opc-ajax-loader '.$block_notice_update.' " style="display:none;"><div class="loader"><div class="outer"></div><div class="inner"></div></div></div>';
 ?>
@@ -18,8 +41,8 @@ $package = Mage::getDesign()->getPackageName();
 $theme = Mage::getDesign()->getTheme('frontend');
 ?>
 <div class="opc-wrapper-opc <?=$use_custom_css==1?"":"defaulted_css"?> design_package_<?=$package;?> design_theme_<?=$theme;?>">
-	<h2><?=$this->__('Checkout')?></h2>
-	<p><?=$this->__('Fill in the Fields below to complete your purchase!')?></p>
+	<h2><?=$title?></h2>
+	<p><?=$message?></p>
 	<div class="opc-menu">
 	
 		<?=$this->getChildHtml('paypal.button')?>

@@ -295,6 +295,62 @@
 				<show_in_default>1</show_in_default>
 				<expanded>1</expanded>
 				<fields>
+                
+					<custom_messages>
+						<label>Use custom messages and titles?</label>
+						<frontend_type>select</frontend_type>
+						<source_model>adminhtml/system_config_source_yesno</source_model>
+						<sort_order>1</sort_order>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>1</show_in_store>
+					</custom_messages>     
+                    
+					<custom_loggedin_title translate="label">
+						<label>custom title when logged in</label>
+						<frontend_type>text</frontend_type>
+						<sort_order>2</sort_order>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>1</show_in_store>
+						<depends>
+							<custom_messages>1</custom_messages>
+						</depends>
+					</custom_loggedin_title>
+					<custom_loggedin_message translate="label">
+						<label>custom message when logged in</label>
+						<frontend_type>text</frontend_type>
+						<sort_order>3</sort_order>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>1</show_in_store>
+						<depends>
+							<custom_messages>1</custom_messages>
+						</depends>
+					</custom_loggedin_message>                    
+					<custom_title translate="label">
+						<label>custom title when NOT logged in</label>
+						<frontend_type>text</frontend_type>
+						<sort_order>4</sort_order>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>1</show_in_store>
+						<depends>
+							<custom_messages>1</custom_messages>
+						</depends>
+					</custom_title>                       
+  					<custom_message translate="label">
+						<label>custom message when NOT logged in</label>
+						<frontend_type>text</frontend_type>
+						<sort_order>5</sort_order>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>1</show_in_store>
+						<depends>
+							<custom_messages>1</custom_messages>
+						</depends>
+					</custom_message>                               
+
 					<custom_css>
 						<label>Provide Theme based styling?</label>
 						<frontend_type>select</frontend_type>
