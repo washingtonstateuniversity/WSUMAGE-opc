@@ -102,8 +102,8 @@ class Wsu_Opc_Block_Wrapper extends  Mage_Core_Block_Template{
 			$styles.=".opc-wrapper-opc .giftcard .button span, .opc-wrapper-opc .giftcard .button span span,";
 			$styles.=".opc-messages-action .button span, .opc-messages-action .button span span,";
 			$styles.=".review-menu-block a.review-total, .expand_plus";
-			$styles.="{background-color:{$color4};}";
-			$styles.=".opc-wrapper-opc .opc-review-actions .view-agreement:hover{color:{$color4};}";
+			$styles.="{background-color:{$color4} !important;;}";
+			$styles.=".opc-wrapper-opc .opc-review-actions .view-agreement:hover{color:{$color4} !important;;}";
 		}
 		if(!empty($color5)){
 			$styles.=".opc-wrapper-opc .btn:hover span, .opc-wrapper-opc .btn:hover span span,";
@@ -112,7 +112,7 @@ class Wsu_Opc_Block_Wrapper extends  Mage_Core_Block_Template{
 			$styles.=".opc-messages-action .button:hover span, .opc-messages-action .button:hover span span,";
 			$styles.=".discount-block h3:hover .expand_plus, .signature-block h3:hover .expand_plus, .comment-block h3:hover .expand_plus, .giftcard h3:hover .expand_plus,";
 			$styles.=".discount-block h3.open-block .expand_plus, .signature-block h3.open-block .expand_plus, .comment-block h3.open-block .expand_plus, .giftcard h3.open-block .expand_plus";
-			$styles.="{background-color:{$color5};}";
+			$styles.="{background-color:{$color5} !important;;}";
 			$styles.=".review-menu-block a.review-total:hover, .review-menu-block a.review-total.open";
 			$styles.="{background-color:{$color5} !important;}";
 			$styles.=".review-menu-block .polygon{border-top-color:{$color5} !important;}";
@@ -127,7 +127,7 @@ class Wsu_Opc_Block_Wrapper extends  Mage_Core_Block_Template{
 			$styles.=".opc-messages-action .button span span,";
 			$styles.=".review-menu-block a.review-total span, .review-menu-block a.review-total.open span,";
 			$styles.=".expand_plus";
-			$styles.="{color:{$color6};}";
+			$styles.="{color:{$color6} !important;;}";
 		}
 		if(!empty($color8)){
 			$styles.=".opc-wrapper-opc .discount-block .button:hover span span,";
@@ -138,13 +138,13 @@ class Wsu_Opc_Block_Wrapper extends  Mage_Core_Block_Template{
 			$styles.=".opc-wrapper-opc a:hover,";
 			$styles.="h3:hover .expand_plus,";
 			$styles.="h3.open-block .expand_plus";
-			$styles.="{color:{$color8};}";
+			$styles.="{color:{$color8} !important;;}";
 		}
 
 		if(!empty($color1)){
 			$styles.=".opc-wrapper-opc .btn-checkout span, .opc-wrapper-opc .btn-checkout span span,";
 			$styles.=".opc-wrapper-opc .login-trigger";
-			$styles.="{background-color:{$color1};}";
+			$styles.="{background-color:{$color1} !important;}";
 			// setup color for disabled place order.
 			$hex = str_replace('#', '', $color1);
 			if(strlen($hex)==3){
@@ -166,19 +166,19 @@ class Wsu_Opc_Block_Wrapper extends  Mage_Core_Block_Template{
 		}
 		if(!empty($color2)){
 			$styles.=".opc-wrapper-opc .btn-checkout:hover span, .opc-wrapper-opc .btn-checkout:hover span span";
-			$styles.="{background-color:{$color2};}";
+			$styles.="{background-color:{$color2} !important;;}";
 			$styles.=".opc-wrapper-opc .login-trigger:hover";
 			$styles.="{background-color:{$color2} !important;}";
 		}
 		if(!empty($color3)){
 			$styles.=".opc-wrapper-opc .login-trigger, .opc-wrapper-opc .btn-checkout span span";
-			$styles.="{color:{$color3};}";
+			$styles.="{color:{$color3} !important;;}";
 			$styles.=".opc-wrapper-opc .login-trigger:hover";
 			$styles.="{color:{$color3} !important;}";
 		}
 		if(!empty($color7)){
 			$styles.=".opc-wrapper-opc .btn-checkout:hover span span";
-			$styles.="{color:{$color7};}";
+			$styles.="{color:{$color7} !important;;}";
 			$styles.=".opc-wrapper-opc .login-trigger:hover";
 			$styles.="{color:{$color7} !important;}";
 		}
