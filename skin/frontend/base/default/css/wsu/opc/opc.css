@@ -77,7 +77,7 @@
 
 
 .opc-wrapper-opc .login-trigger:hover{cursor:pointer;}
-.opc-wrapper-opc.defaulted_css .login-trigger:hover{ color:#fff !important;; background:#39b9c6 !important; }
+.opc-wrapper-opc.defaulted_css .login-trigger:hover{ color:#fff; background:#39b9c6; }
 
 
 .left{float:left !important;}
