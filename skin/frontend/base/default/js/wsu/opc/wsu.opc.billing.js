@@ -5,6 +5,7 @@
 		validate_timeout: false,
 		
 		init: function(){
+            console.log("init billing");
 			WSU.OPC.Billing.bill_need_update = true;
 			WSU.OPC.Decorator.createLoader("#opc-address-form-billing");
 			//set flag use billing for shipping and init change flag
@@ -28,13 +29,15 @@
 				this.setBillingForShipping(false, true);
 			}
 			
-			$('input[name="billing[use_for_shipping]"]').change(function(){
+			$('input[name="billing[use_for_shipping]"]').on("change",function(){
 				if ($(this).is(':checked')){
+                    console.log("using billing for shipping");
 					WSU.OPC.Billing.setBillingForShipping(true);
 					$('#opc-address-form-billing select[name="billing[country_id]"]').change();
 					WSU.OPC.Billing.need_reload_shippings_payments = 'billing';
 					WSU.OPC.Billing.validateForm();
 				}else{
+                    console.log("new shipping");
 					WSU.OPC.Billing.setBillingForShipping(false);
 					WSU.OPC.Billing.need_reload_shippings_payments = 'shipping';
 					WSU.OPC.Shipping.validateForm();

@@ -83,7 +83,7 @@
 .left{float:left !important;}
 .right{float:right !important;}	
 .clear{clear:both !important;}
-.hidden{display:none}
+.hidden{display:none !important;}
 .move-columns{margin-bottom:15px;}
 
 #floatingCirclesG{position:relative;width:64px;height:64px;-moz-transform:scale(0.6);-webkit-transform:scale(0.6);-ms-transform:scale(0.6);-o-transform:scale(0.6);transform:scale(0.6);margin: 0 auto;top: 50%;}
