@@ -187,7 +187,7 @@ $helper = $this->helper('wsu_opc');
     
     <?php if ($this->canShip()): ?>
         <li class="control <?php if (!Mage::helper('wsu_opc')->isShowShippingForm()):?>hidden<?php endif;?>">
-            <input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?=$this->__('Ship to this address') ?>" class="checkbox   " /><label for="billing:use_for_shipping_yes"><?=$this->__('Ship to this address') ?></label>
+            <input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?=$this->__('Ship to this address') ?>" class="checkbox   " /><label for="billing:use_for_shipping_yes"><?=$this->__('Use Billing address to ship to.') ?></label>
         </li>
     <?php endif; ?>
     </ul>
