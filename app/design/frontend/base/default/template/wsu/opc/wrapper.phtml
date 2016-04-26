@@ -81,7 +81,9 @@ $theme = Mage::getDesign()->getTheme('frontend');
 		<div class="shipping-block">
 			<h3><?=$this->__('Shipping Method')?></h3>
 			<div id="shipping-block-methods">
-				<?=$this->getChildHtml('shipping_method');//$this->_getShippingMethodsHtml();?>
+                <form id="opc-co-shipping-method-form" autocomplete="off">
+				    <?=$this->getChildHtml('shipping_method');//$this->_getShippingMethodsHtml();?>
+                </form>
 			</div>
 			<?=$loading?>
 		</div>
@@ -91,22 +93,28 @@ $theme = Mage::getDesign()->getTheme('frontend');
 		<div class="discount-block">
 			<h3><?=$this->__('Discount Codes')?><span class='expand_plus'></span></h3>
 			<div  class="collapse-block hidden">
-				 <?=$this->getChildhtml('coupon');?>
+                <form id="opc-discount-coupon-form" action="<?=$this->getUrl('checkout/cart/couponPost', array('_secure' => $this->getRequest()->isSecure())) ?>" method="post">
+                    <?=$this->getChildhtml('coupon');?>
+                </form>
 			</div>
 			<?=$loading?>
 		</div>
 		<?php endif;?>
 
 		<?php if(Mage::helper('wsu_opc')->isShowComment()):?>
-			<?=$this->getChildhtml('customer.comment');?>
+        	<form autocomplete="off">
+			    <?=$this->getChildhtml('customer.comment');?>
+            </form>
 		<?php endif;?>
 	</div>
 
 	<div class="opc-col-right">
 		<?=($form_location=='review_above'?$form:"")?>
 		<div class="payment-block <?php if ($this->getOnepage()->getQuote()->isVirtual()):?>clear-margin<?php endif;?>">
-			<h3><?=$this->__('Payment Method')?></h3>
-			<?=$this->getChildHtml('payment')//$this->_getPaymentMethodsHtml();?>
+            <form action="" id="co-payment-form">
+                <h3><?=$this->__('Payment Method')?></h3>
+                <?=$this->getChildHtml('payment');?>
+            </form>
 		</div>
 	
 		<?php if (Mage::getConfig()->getModuleConfig('Wsu_OnepageCheckoutSignature')->is('active', 'true')): ?>
@@ -128,7 +136,6 @@ $theme = Mage::getDesign()->getTheme('frontend');
 	</div>
 </div>
 <script>
-	
 	jQuery.WSU.OPC.Checkout.config = '<?=$this->getJsonConfig()?>';
 	var vopc = '<?=Mage::getConfig()->getModuleConfig("Wsu_Opc")->version;?>';
 	<?php if ($this->getOnepage()->getQuote()->isVirtual()):?>
@@ -138,18 +145,8 @@ $theme = Mage::getDesign()->getTheme('frontend');
 
 <div id="agree_error" style="display:none !important;"><?=$this->__('Please agree to all the terms and conditions before placing the order.');?></div>
 <div id="pssm_msg" style="display:none !important;"><?=$this->__('Please specify shipping method');?></div>
-<!--<div class="opc-ajax-loader">
-	<div id="floatingCirclesG">
-		<div class="f_circleG" id="frotateG_01"></div>
-		<div class="f_circleG" id="frotateG_02"></div>
-		<div class="f_circleG" id="frotateG_03"></div>
-		<div class="f_circleG" id="frotateG_04"></div>
-		<div class="f_circleG" id="frotateG_05"></div>
-		<div class="f_circleG" id="frotateG_06"></div>
-		<div class="f_circleG" id="frotateG_07"></div>
-		<div class="f_circleG" id="frotateG_08"></div>
-	</div>
-</div>-->
+
+
 <div class="opc-message-wrapper design_package_<?=$package;?> design_theme_<?=$theme;?>">
 	<div class="opc-messages">
 		<a class="close-message-wrapper"></a>

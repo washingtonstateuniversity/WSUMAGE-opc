@@ -45,18 +45,18 @@
 		
 		prepareResponse: function(response){
 			WSU.OPC.Decorator.hideLoader(".discount-block");
-			if (typeof(response.message) != "undefined"){
+			if ( WSU.OPC.defined(response.message) ){
 				WSU.OPC.popup_message(response.message);
 				WSU.OPC.ready_payment_method=false;
 				//WSU.OPC.Checkout.pullPayments();
 				WSU.OPC.Checkout.pullReview();
 			}
-			if (typeof(response.coupon) !== "undefined" && response.coupon!==""){
+			if ( WSU.OPC.defined(response.coupon) && "" !== response.coupon){
 				$('#opc-discount-coupon-form').replaceWith(response.coupon).show();				
 				$('#opc-discount-coupon-form').show();
 				//$('.discount-block').html(response.coupon);
 			}
-			if (typeof(response.payments)!=="undefined"){
+			if ( WSU.OPC.defined(response.payments) ){
 				$('#checkout-payment-method-load').html(response.payments);
 				
 				WSU.OPC.removeNotAllowedPaymentMethods();

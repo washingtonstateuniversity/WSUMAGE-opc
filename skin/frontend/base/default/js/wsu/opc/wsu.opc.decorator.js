@@ -1,7 +1,7 @@
 (function($,WSU){
 	WSU.OPC.Decorator = {
 		createLoader: function(parentBlock,message){
-			var jObj = parentBlock!=="undefined" ? parentBlock:"#general_message";
+			var jObj =  WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
 			if($(jObj+' .opc-ajax-loader').length<=0){
 				$(jObj).append("<div class='opc-ajax-loader'></div>");
 			}
@@ -13,8 +13,8 @@
 			}
 		},	
 		showLoader: function(parentBlock,message){
-			var jObj = parentBlock!=="undefined" ? parentBlock:"#general_message";
-			var html = message!=="undefined" ? message:"";
+			var jObj = WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
+			var html = WSU.OPC.defined(message) ? message:"";
 			WSU.OPC.Decorator.createLoader(parentBlock, message);
 			$(jObj+' .opc-ajax-loader .loader .message').html(html);
 			$(jObj+' .opc-ajax-loader').show();
@@ -23,7 +23,7 @@
 		},
 		
 		hideLoader: function(parentBlock){
-			var jObj = parentBlock!=="undefined"? parentBlock:"#general_message";
+			var jObj = WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
 			$(jObj+' .opc-ajax-loader').hide();
 			$(jObj+' .opc-ajax-loader .loader .message').remove();
 			$('.opc-btn-checkout').removeAttr("disabled");

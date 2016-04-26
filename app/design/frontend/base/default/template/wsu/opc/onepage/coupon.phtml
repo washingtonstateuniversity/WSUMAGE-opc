@@ -9,7 +9,7 @@ if(strlen($cp_id)){
 */
 $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loader"><div class="outer"></div><div class="inner"></div></div></div>';
 ?>
-<form id="opc-discount-coupon-form" action="<?=$this->getUrl('checkout/cart/couponPost', array('_secure' => $this->getRequest()->isSecure())) ?>" method="post">
+
     <div class="discount">
         <div class="discount-form">
             <label for="coupon_code"><?=$this->__('Enter your coupon code:') ?></label>            
@@ -24,5 +24,4 @@ $loading = '<div class="opc-ajax-loader" style="display:none;"><div class="loade
             </div>
         </div>
     </div>
-</form>
 <?=$loading?>

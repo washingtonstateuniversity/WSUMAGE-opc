@@ -15,7 +15,11 @@ jQuery.WSU=jQuery.WSU||{};
 		ready_payment_method:false,
 		ready_discounts:false,
 		ready_reviewed:false,
-				
+	    
+        defined : function(item){
+            return "undefined" !== item && undefined !== item;
+        },
+        
 		initMessages: function(){
 			$('.close-message-wrapper, .opc-messages-action .button').on('click',function(e){
 				e.preventDefault();
@@ -25,41 +29,45 @@ jQuery.WSU=jQuery.WSU||{};
 		},
 		
 		popup_message: function(html_message,sizeObj){
-			sizeObj = sizeObj || {width: 350,minHeight: 25,}
-			if($("#mess").length<=0)$('body').append('<div id="mess">');
-			$("#mess").html((typeof html_message === 'string' || html_message instanceof String)?html_message:html_message.html());
-			
-			$("#mess").prepend('<button style="float:right" id="ok" >Ok</button>');
-			
-			var defaultParams = {
-				autoOpen: true,
-				resizable: false,
-				modal: true,
-				draggable : false,
-				create:function(){
-					$('.ui-dialog-titlebar').remove();
-					$(".ui-dialog-buttonpane").remove();
-					$('body').css({overflow:"hidden"});
-				},
-				buttons:{
-					Ok:function(){
-						$( this ).dialog( "close" );
-					}
-				},
-				open:function(){
-					$( "#ok" ).on('click',function(e){
-						e.preventDefault();
-						$( "#mess" ).dialog( "close" );
-					});
-				},
-				close: function() {
-					$('body').css({overflow:"auto"});
-					$( "#mess" ).dialog( "destroy" );
-					$( "#mess" ).remove();
-				}																										
-			}
-			defaultParams = jQuery.extend(defaultParams,sizeObj);
-			$( "#mess" ).dialog(defaultParams);
+            if( WSU.OPC.defined(html_message) ){
+                sizeObj = sizeObj || {width: 350,minHeight: 25};
+                if($("#mess").length<=0){
+                    $('body').append('<div id="mess">');
+                }
+                $("#mess").html((typeof html_message === 'string' || html_message instanceof String) ? html_message:html_message.html() );
+                
+                $("#mess").prepend('<button style="float:right" id="ok" >Ok</button>');
+                
+                var defaultParams = {
+                    autoOpen: true,
+                    resizable: false,
+                    modal: true,
+                    draggable : false,
+                    create:function(){
+                        $('.ui-dialog-titlebar').remove();
+                        $(".ui-dialog-buttonpane").remove();
+                        $('body').css({overflow:"hidden"});
+                    },
+                    buttons:{
+                        Ok:function(){
+                            $( this ).dialog( "close" );
+                        }
+                    },
+                    open:function(){
+                        $( "#ok" ).on('click',function(e){
+                            e.preventDefault();
+                            $( "#mess" ).dialog( "close" );
+                        });
+                    },
+                    close: function() {
+                        $('body').css({overflow:"auto"});
+                        $( "#mess" ).dialog( "destroy" );
+                        $( "#mess" ).remove();
+                    }																										
+                }
+                defaultParams = jQuery.extend(defaultParams,sizeObj);
+                $( "#mess" ).dialog(defaultParams);
+            }
 		},
 		ajaxManager: (function() {
 			var requests = [];
@@ -116,7 +124,7 @@ jQuery.WSU=jQuery.WSU||{};
 		
 		/** CREATE EVENT FOR SAVE ORDER **/
 		initSaveOrder: function(){
-			$(document).on('click', '.opc-btn-checkout', function(e){
+			$(".opc-btn-checkout").on("click", function(e){
 				e.preventDefault();
 				if (WSU.OPC.Checkout.disabledSave==true){
 					return;
@@ -124,7 +132,7 @@ jQuery.WSU=jQuery.WSU||{};
 
 				// check agreements
 				var mis_aggree = false;
-				$('#checkout-agreements input[name*="agreement"]').each(function(){
+				$("#checkout-agreements input[name*='agreement']").each(function(){
 					if(!$(this).is(':checked')){
 						mis_aggree = true;
 					}
@@ -140,7 +148,7 @@ jQuery.WSU=jQuery.WSU||{};
 				}
 				///
 				
-				var addressForm = new VarienForm('opc-address-form-billing');
+				var addressForm = new VarienForm("opc-address-form-billing");
 				if (!addressForm.validator.validate()){
 					return;
 				}
@@ -153,7 +161,7 @@ jQuery.WSU=jQuery.WSU||{};
 				}
 				
 				// check if LIPP enabled
-				if(typeof(WSU.LIPP) !== 'undefined' && WSU.LIPP !== undefined && WSU.LIPP !== '' && WSU.LIPP) {
+				if( WSU.OPC.defined(WSU.LIPP) && WSU.LIPP !== '' && WSU.LIPP) {
 					if(WSU.LIPP.lipp_enabled){
 						var method = payment.currentMethod;
 						if (method.indexOf('paypaluk_express')!==-1 || method.indexOf('paypal_express')!==-1){
@@ -343,7 +351,7 @@ jQuery.WSU=jQuery.WSU||{};
 			WSU.OPC.Checkout.xhr = null;
 			
 			WSU.OPC.agreements = $('#checkout-agreements').serializeArray();
-			if (typeof(response.review)!= "undefined" && WSU.OPC.saveOrderStatus===false){					
+			if ( WSU.OPC.defined(response.review) && WSU.OPC.saveOrderStatus===false){					
 				$('#review-block').html(response.review);
 				if($( "tr:contains('Free Shipping - Free')" ).length){
 					$( "tr:contains('Free Shipping - Free')" ).hide();
@@ -352,7 +360,7 @@ jQuery.WSU=jQuery.WSU||{};
 			}		
 			WSU.OPC.getSubscribe();
 
-			if (typeof(response.review)!=="undefined"){
+			if ( WSU.OPC.defined(response.review) ){
 				WSU.OPC.Decorator.updateGrandTotal(response);
 				$('#opc-review-block').html(response.review);
 				WSU.OPC.Checkout.removePrice();
@@ -361,7 +369,7 @@ jQuery.WSU=jQuery.WSU||{};
 				WSU.OPC.recheckItems();
 			}
 
-			if (typeof(response.error) !== "undefined"){
+			if ( WSU.OPC.defined(response.error) ){
 				WSU.OPC.Plugin.dispatch('error');
 				WSU.OPC.popup_message(response.error);
 				WSU.OPC.Decorator.hideLoader();
@@ -373,7 +381,7 @@ jQuery.WSU=jQuery.WSU||{};
 
 			//SOME PAYMENT METHOD REDIRECT CUSTOMER TO PAYMENT GATEWAY
 			WSU.OPC.ready_payment_method=true;
-			if (typeof(response.redirect) !== "undefined" && WSU.OPC.saveOrderStatus===true){
+			if ( WSU.OPC.defined(response.redirect) && WSU.OPC.saveOrderStatus===true){
 				WSU.OPC.Checkout.xhr = null;
 				WSU.OPC.Plugin.dispatch('redirectPayment', response.redirect);
 				if (WSU.OPC.Checkout.xhr==null){
@@ -502,7 +510,7 @@ jQuery.WSU=jQuery.WSU||{};
 		/** CHECK RESPONSE FROM AJAX AFTER SAVE ORDER **/
 		prepareOrderResponse: function(response){
 			WSU.OPC.Checkout.xhr = null;
-			if (typeof(response.error) !== "undefined" && response.error!==false){
+			if ( WSU.OPC.defined(response.error) && response.error!==false){
 				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();
 
@@ -513,7 +521,7 @@ jQuery.WSU=jQuery.WSU||{};
 				return;
 			}
 			
-			if (typeof(response.error_messages) !== "undefined" && response.error_messages!==false){
+			if ( WSU.OPC.defined(response.error_messages) && response.error_messages!==false){
 				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();				
 				
@@ -524,14 +532,14 @@ jQuery.WSU=jQuery.WSU||{};
 				return;
 			}
 			
-			if (typeof(response.redirect) !== "undefined"){
+			if ( WSU.OPC.defined(response.redirect) ){
 				if (response.redirect!==false){
 					setLocation(response.redirect);
 					return;
 				}
 			}
 			
-			if (typeof(response.update_section) !== "undefined"){
+			if ( WSU.OPC.defined(response.update_section) ){
 				WSU.OPC.Decorator.hideLoader();
 				WSU.OPC.Checkout.unlockPlaceOrder();				
 				
