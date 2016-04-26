@@ -81,7 +81,7 @@
 		
 		//create observer for change shipping method. 
 		initChangeShippingMethod: function(){
-			$('#shipping-block-methods input[type="radio"]').off().on('change', function(){
+			$('#opc-co-shipping-method-form :input').off().on('click', function(){
 				WSU.OPC.Shipping.saveShippingMethod();
 			});
 		},

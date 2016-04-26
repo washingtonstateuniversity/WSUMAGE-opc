@@ -5,9 +5,9 @@ jQuery.WSU=jQuery.WSU||{};
 		lipp_enabled: false,
 		
 		init: function(){
-			if (typeof(lippConfig)!=="undefined"){
-				this.config = $.parseJSON(lippConfig);
-				if (this.config.paypalLightBoxEnabled==true){
+			if ( WSU.OPC.defined(window.lippConfig) ){
+				this.config = $.parseJSON(window.lippConfig);
+				if (this.config.paypalLightBoxEnabled===true){
 					this.initOPC();
 					this.initOnCart();
 				}
@@ -18,7 +18,7 @@ jQuery.WSU=jQuery.WSU||{};
 			
 			WSU.LIPP.lipp_enabled = true;
 			
-			$(document).on('click', '.opc-wrapper-opc #checkout-payment-method-load .radio', function(e){
+			$(".opc-wrapper-opc #checkout-payment-method-load .radio").on("click",function(){
 				var method = payment.currentMethod;
 				if (method.indexOf('paypaluk_express')!==-1 || method.indexOf('paypal_express')!==-1){
 					if (WSU.OPC.Checkout.config.comment!=="0"){
