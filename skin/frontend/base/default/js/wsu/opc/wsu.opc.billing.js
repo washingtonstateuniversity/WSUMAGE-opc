@@ -131,15 +131,6 @@
                 $("#billing_click_to_save").removeClass("saved");
 				var valid = WSU.OPC.Billing.validateAddressForm();
                 
-                if (valid){
-                    var regPostalCode = new RegExp("\\d{5}(-\d{4})?");
-                    var postal_code = $("input[name='billing[postcode]']").val();
-                    if (regPostalCode.test(postal_code) === false) {
-                        valid = false;
-                    }
-                }
-                
-                
 				if (valid){
                     if(window.click_to_save){
                         $("#billing_click_to_save").removeClass("hide");
@@ -187,7 +178,15 @@
 			if(is_empty){
 				return false;
 			}
-
+               /* if (valid){
+                    var regPostalCode = new RegExp("\\d{5}(-\d{4})?");
+                    var postal_code = $("input[name='billing[postcode]']").val();
+                    if (regPostalCode.test(postal_code) === false) {
+                        valid = false;
+                    }
+                }*/
+                
+                
 			var addressForm = new Validation('opc-address-form-billing', { onSubmit : false, stopOnFirst : false, focusOnError : false});
 			if (addressForm.validate()){				  		 
 				return true;

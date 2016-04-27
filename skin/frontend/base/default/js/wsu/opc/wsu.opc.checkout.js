@@ -81,7 +81,8 @@
 			//WSU.OPC.Checkout.xhr = null;
 			
 			if (WSU.OPC.defined(response.error)){
-				WSU.OPC.popup_message(response.message);
+                var height = (response.message.length/35)*29 + 25;
+				WSU.OPC.popup_message(response.message,{width: 350, height: height});
 				WSU.OPC.Checkout.unlockPlaceOrder();
 				return;
 			}

@@ -93,7 +93,7 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
                     <div class="field">
                         <label for="billing:postcode" class="required"><em>*</em><?=$this->__('Zip/Postal Code') ?></label>
                         <div class="input-box">
-                            <input type="text" title="<?=$this->__('Zip/Postal Code') ?>" name="billing[postcode]" id="billing:postcode" value="<?=$this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?=$helper->getAttributeValidationClass('postcode') ?> shipping_method_value" />
+                            <input type="text" title="<?=$this->__('Zip/Postal Code') ?>" name="billing[postcode]" id="billing:postcode" value="<?=$this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip <?=$helper->getAttributeValidationClass('postcode') ?> shipping_method_value" />
                         </div>
                     </div>
                     <div class="field">
