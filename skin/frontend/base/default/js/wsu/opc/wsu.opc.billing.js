@@ -141,6 +141,7 @@
                         $("#billing_click_to_save").off().on("click",function(){
                             WSU.OPC.Billing.save();
                          });
+                         $("#billing_click_to_save:not(.saved)").trigger("click");
                     }else{
 					    WSU.OPC.Billing.save();
                     }

@@ -107,7 +107,7 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
                     <div class="field">
                         <label for="billing:telephone" class="required"><em>*</em><?=$this->__('Telephone') ?></label>
                         <div class="input-box">
-                            <input type="text" name="billing[telephone]" value="<?=$this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?=$this->__('Telephone') ?>" class="input-text <?=$helper->getAttributeValidationClass('telephone') ?>" id="billing:telephone" />
+                            <input type="text" name="billing[telephone]" value="<?=$this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?=$this->__('Telephone') ?>" class="input-text validate-phoneLax <?=$helper->getAttributeValidationClass('telephone') ?>" id="billing:telephone" />
                         </div>
                     </div>
                     <div class="field">
