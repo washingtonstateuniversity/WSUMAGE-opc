@@ -89,12 +89,11 @@
                             //console.log($(e.target).attr('class'));
                             $("#billing_click_to_save:not(.saved)").trigger("click");
                         }
-                    } 
-
+                    }
 				}
 			});
 
-			$('#opc-address-form-billing input').keydown(function(){
+			$('#opc-address-form-billing input').on("keyup",function(){
                 if(WSU.OPC.Billing.is_billing_dirty()){
                     clearTimeout(WSU.OPC.Checkout.ajaxProgress);
                     WSU.OPC.Checkout.abortAjax();
@@ -103,7 +102,7 @@
                     if(el_id === 'billing:postcode'){
                         WSU.OPC.Checkout.reloadShippingsPayments('billing');
                     }
-                    WSU.OPC.Billing.validateForm(300);
+                    WSU.OPC.Billing.validateForm(30);
                 }
 			});
 			
