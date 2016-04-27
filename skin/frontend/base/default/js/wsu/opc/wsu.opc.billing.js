@@ -82,9 +82,9 @@
 		initChangeAddress: function(){
 
 			$('#opc-address-form-billing input').blur(function(){
-                console.log("checking blur");
+                //console.log("checking blur");
 				if(WSU.OPC.Billing.is_billing_dirty()){
-                    console.log("is drity");
+                    //console.log("is drity");
 					WSU.OPC.Billing.validateForm();
                     if(window.click_to_save){
                         if( 0 === $(":focus").closest('#opc-address-form-billing').length ){
@@ -96,9 +96,9 @@
 			});
 
 			$('#opc-address-form-billing input').on("keyup",function(){
-                console.log("checking keyup");
+                //console.log("checking keyup");
                 if(WSU.OPC.Billing.is_billing_dirty()){
-                    console.log("is drity");
+                    //console.log("is drity");
                     clearTimeout(WSU.OPC.Checkout.ajaxProgress);
                     WSU.OPC.Checkout.abortAjax();
                     // check if zip
@@ -129,7 +129,7 @@
 				delay = 100;
 			}
 			WSU.OPC.Billing.validate_timeout = setTimeout(function(){
-                console.log("checking valid");
+                //console.log("checking valid");
 				var mode = WSU.OPC.Billing.need_reload_shippings_payment;
 				WSU.OPC.Billing.need_reload_shippings_payment = false;
                 $("#billing_click_to_save").removeClass("saved");
