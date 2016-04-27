@@ -82,7 +82,9 @@
 		initChangeAddress: function(){
 
 			$('#opc-address-form-billing input').blur(function(){
+                console.log("checking blur");
 				if(WSU.OPC.Billing.is_billing_dirty()){
+                    console.log("is drity");
 					WSU.OPC.Billing.validateForm();
                     if(window.click_to_save){
                         if( 0 === $(":focus").closest('#opc-address-form-billing').length ){
@@ -94,7 +96,9 @@
 			});
 
 			$('#opc-address-form-billing input').on("keyup",function(){
+                console.log("checking keyup");
                 if(WSU.OPC.Billing.is_billing_dirty()){
+                    console.log("is drity");
                     clearTimeout(WSU.OPC.Checkout.ajaxProgress);
                     WSU.OPC.Checkout.abortAjax();
                     // check if zip
