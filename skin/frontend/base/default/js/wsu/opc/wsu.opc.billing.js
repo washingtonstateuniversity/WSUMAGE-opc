@@ -28,7 +28,13 @@
 			}else{
 				this.setBillingForShipping(false, true);
 			}
-			
+            if(window.click_to_save){
+                if($("#billing_click_to_save").length<=0){
+                    $("#co-billing-form").prepend("<a id='billing_click_to_save' class='to_save'></a>");
+                    $("#billing_click_to_save").addClass("hide");
+                }
+            }
+
 			$('input[name="billing[use_for_shipping]"]').on("change",function(){
 				if ($(this).is(':checked')){
                     console.log("using billing for shipping");
@@ -78,15 +84,16 @@
 			$('#opc-address-form-billing input').blur(function(){
 				if(WSU.OPC.Billing.is_billing_dirty()){
 					WSU.OPC.Billing.validateForm();
+                    if(window.click_to_save){
+                        if( 0 === $(":focus").closest('#opc-address-form-billing').length ){
+                            //console.log($(e.target).attr('class'));
+                            $("#billing_click_to_save:not(.saved)").trigger("click");
+                        }
+                    } 
+
 				}
 			});
 
-			$('#opc-address-form-billing').mouseleave(function(){
-				if(WSU.OPC.Billing.is_billing_dirty()){
-					WSU.OPC.Billing.validateForm();
-				}
-			});
-			
 			$('#opc-address-form-billing input').keydown(function(){
                 if(WSU.OPC.Billing.is_billing_dirty()){
                     clearTimeout(WSU.OPC.Checkout.ajaxProgress);
@@ -109,7 +116,8 @@
                     }
                     WSU.OPC.Billing.validateForm();
                 }
-			});			
+			});
+
 		},
 		
 		validateForm: function(delay){
@@ -117,15 +125,34 @@
 			if( WSU.OPC.defined(delay) || false === delay){
 				delay = 100;
 			}
-			
 			WSU.OPC.Billing.validate_timeout = setTimeout(function(){
 				var mode = WSU.OPC.Billing.need_reload_shippings_payment;
 				WSU.OPC.Billing.need_reload_shippings_payment = false;
-
+                $("#billing_click_to_save").removeClass("saved");
 				var valid = WSU.OPC.Billing.validateAddressForm();
+                
+                if (valid){
+                    var regPostalCode = new RegExp("\\d{5}(-\d{4})?");
+                    var postal_code = $("input[name='billing[postcode]']").val();
+                    if (regPostalCode.test(postal_code) === false) {
+                        valid = false;
+                    }
+                }
+                
+                
 				if (valid){
-					WSU.OPC.Billing.save();
+                    if(window.click_to_save){
+                        $("#billing_click_to_save").removeClass("hide");
+                        $("#billing_click_to_save").off().on("click",function(){
+                            WSU.OPC.Billing.save();
+                         });
+                    }else{
+					    WSU.OPC.Billing.save();
+                    }
 				}else{
+                    if(window.click_to_save){
+                        $("#billing_click_to_save").addClass("hide");
+                    }
 					if(mode !== false){
 						WSU.OPC.Checkout.checkRunReloadShippingsPayments(mode);
 					}
@@ -224,7 +251,11 @@
 			//init trigger change shipping form
 			$('#opc-address-form-shipping select[name="shipping[country_id]"]').change();
 		},
-
+        
+        clearBillingToShipping: function(){
+            $("#opc-address-form-shipping input[type='text']").val("");
+            $("#opc-address-form-shipping :checked").attr("checked",false);
+        },
 		/** METHOD CREATE AJAX REQUEST FOR UPDATE BILLING ADDRESS
 		save: function(){
 			if (WSU.OPC.Checkout.ajaxProgress!==false){

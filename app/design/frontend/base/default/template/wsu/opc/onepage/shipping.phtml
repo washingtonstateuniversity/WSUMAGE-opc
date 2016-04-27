@@ -1,4 +1,15 @@
+<?php
+    $helper = $this->helper('wsu_opc');
+    $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
+?>
+
+
+
+    <?php if(""!==$predone_billing): ?>
+        <a id="shipping_click_to_save" class="to_save saved hide"></a>
+    <?php endif;?>
 <div class="">	
+
 	<h3><?=$this->__('Shipping Address')?></h3>
     <ul class="form-list">
     <?php if ($this->customerHasAddresses()): ?>
@@ -18,11 +29,11 @@
                         <div class="fields">
                             <label for="shipping:company"><?=$this->__('Company') ?></label>
                             <div class="input-box">
-                                <input type="text" id="shipping:company" name="shipping[company]" value="<?=$this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?=$this->__('Company') ?>" class="input-text <?=$this->helper('wsu_opc')->getAttributeValidationClass('company') ?>"/>
+                                <input type="text" id="shipping:company" name="shipping[company]" value="<?=$this->escapeHtml($this->getAddress()->getCompany()) ?>" title="<?=$this->__('Company') ?>" class="input-text <?=$helper->getAttributeValidationClass('company') ?>"/>
                             </div>
                         </div>
                     </li>
-            <?php $_streetValidationClass = $this->helper('wsu_opc')->getAttributeValidationClass('street'); ?>
+            <?php $_streetValidationClass = $helper->getAttributeValidationClass('street'); ?>
                     <li class="wide">
                         <label for="shipping:street1" class="required"><em>*</em><?=$this->__('Address') ?></label>
                         <div class="input-box">
@@ -37,11 +48,11 @@
                         </div>
                     </li>
             <?php endfor; ?>
-                    <?php if ($this->helper('wsu_opc')->isVatAttributeVisible()) : ?>
+                    <?php if ($helper->isVatAttributeVisible()) : ?>
                     <li class="wide">
                         <label for="billing:vat_id"><?=$this->__('VAT Number'); ?></label>
                         <div class="input-box">
-                            <input type="text" id="shipping:vat_id" name="shipping[vat_id]" value="<?=$this->escapeHtml($this->getAddress()->getVatId()); ?>" title="<?=$this->__('VAT Number'); ?>" class="input-text <?=$this->helper('wsu_opc')->getAttributeValidationClass('vat_id') ?>" />
+                            <input type="text" id="shipping:vat_id" name="shipping[vat_id]" value="<?=$this->escapeHtml($this->getAddress()->getVatId()); ?>" title="<?=$this->__('VAT Number'); ?>" class="input-text <?=$helper->getAttributeValidationClass('vat_id') ?>" />
                         </div>
                     </li>
                     <?php endif; ?>
@@ -49,7 +60,7 @@
                         <div class="field">
                             <label for="shipping:city" class="required"><em>*</em><?=$this->__('City') ?></label>
                             <div class="input-box">
-                                <input type="text" title="<?=$this->__('City') ?>" name="shipping[city]" value="<?=$this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?=$this->helper('wsu_opc')->getAttributeValidationClass('city') ?> shipping_method_value" id="shipping:city" />
+                                <input type="text" title="<?=$this->__('City') ?>" name="shipping[city]" value="<?=$this->escapeHtml($this->getAddress()->getCity()) ?>" class="input-text <?=$helper->getAttributeValidationClass('city') ?> shipping_method_value" id="shipping:city" />
                             </div>
                         </div>
                         <div class="field">
@@ -63,7 +74,7 @@
                                     $('shipping:region_id').setAttribute('defaultValue',  "<?=$this->getAddress()->getRegionId() ?>");
                                 //]]>
                                 </script>
-                                <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->escapeHtml($this->getAddress()->getRegion()) ?>" title="<?=$this->__('State/Province') ?>" class="input-text <?=$this->helper('wsu_opc')->getAttributeValidationClass('region') ?> shipping_method_value" style="display:none;" />
+                                <input type="text" id="shipping:region" name="shipping[region]" value="<?=$this->escapeHtml($this->getAddress()->getRegion()) ?>" title="<?=$this->__('State/Province') ?>" class="input-text <?=$helper->getAttributeValidationClass('region') ?> shipping_method_value" style="display:none;" />
                             </div>
                         </div>
                     </li>
@@ -71,7 +82,7 @@
                         <div class="field">
                             <label for="shipping:postcode" class="required"><em>*</em><?=$this->__('Zip/Postal Code') ?></label>
                             <div class="input-box">
-                                <input type="text" title="<?=$this->__('Zip/Postal Code') ?>" name="shipping[postcode]" id="shipping:postcode" value="<?=$this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?=$this->helper('wsu_opc')->getAttributeValidationClass('postcode') ?> shipping_method_value"  />
+                                <input type="text" title="<?=$this->__('Zip/Postal Code') ?>" name="shipping[postcode]" id="shipping:postcode" value="<?=$this->escapeHtml($this->getAddress()->getPostcode()) ?>" class="input-text validate-zip-international <?=$helper->getAttributeValidationClass('postcode') ?> shipping_method_value"  />
                             </div>
                         </div>
                         <div class="field">
@@ -85,13 +96,13 @@
                         <div class="field">
                             <label for="shipping:telephone" class="required"><em>*</em><?=$this->__('Telephone') ?></label>
                             <div class="input-box">
-                                <input type="text" name="shipping[telephone]" value="<?=$this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?=$this->__('Telephone') ?>" class="input-text <?=$this->helper('wsu_opc')->getAttributeValidationClass('telephone') ?>" id="shipping:telephone" />
+                                <input type="text" name="shipping[telephone]" value="<?=$this->escapeHtml($this->getAddress()->getTelephone()) ?>" title="<?=$this->__('Telephone') ?>" class="input-text <?=$helper->getAttributeValidationClass('telephone') ?>" id="shipping:telephone" />
                             </div>
                         </div>
                         <div class="field">
                             <label for="shipping:fax"><?=$this->__('Fax') ?></label>
                             <div class="input-box">
-                                <input type="text" name="shipping[fax]" value="<?=$this->escapeHtml($this->getAddress()->getFax()) ?>" title="<?=$this->__('Fax') ?>" class="input-text <?=$this->helper('wsu_opc')->getAttributeValidationClass('fax') ?>" id="shipping:fax"  />
+                                <input type="text" name="shipping[fax]" value="<?=$this->escapeHtml($this->getAddress()->getFax()) ?>" title="<?=$this->__('Fax') ?>" class="input-text <?=$helper->getAttributeValidationClass('fax') ?>" id="shipping:fax"  />
                             </div>
                         </div>
                     </li>

@@ -1,7 +1,11 @@
 <?php
 $helper = $this->helper('wsu_opc');
+$predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
 ?>
 <div id="co-billing-form">
+    <?php if("" !== $predone_billing): ?>
+        <a id="billing_click_to_save" class="to_save saved hide"></a>
+    <?php endif;?>
     <h3><?=$this->__('Billing Information')?></h3>
     <ul class="form-list">
     <?php if ($this->customerHasAddresses()): ?>
@@ -180,6 +184,7 @@ $helper = $this->helper('wsu_opc');
 					<input type="password" name="billing[confirm_password]" title="<?=$this->__('Confirm Password') ?>" id="billing:confirm_password" class="input-text validate-cpassword <?php if(!$guest_allowed):?>required-entry<?php endif;?>" autocomplete="off"/>
 				</div>
 			</div>
+            <p>If you have a downloadable product, you will not be able to check out as a guest.  Please set a password, or login.</p>
 		</li>
 		<div class="clear"></div>
     

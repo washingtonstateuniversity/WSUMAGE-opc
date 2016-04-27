@@ -186,6 +186,7 @@
 				<comment>0</comment>
 				<check_email>1</check_email>
 				<discount>1</discount>
+                <use_click_to_save>1</use_click_to_save>
 			</default>
 			<geo>
 				<country>0</country>

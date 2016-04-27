@@ -306,7 +306,7 @@ jQuery.WSU=jQuery.WSU||{};
 			WSU.OPC.Checkout.lockPlaceOrder();
 			if (payment.currentMethod !== 'stripe') {
 				var form = $('#co-payment-form').serializeArray();
-				WSU.OPC.Decorator.showLoader('#co-payment-form',"<h1>Saving payment choice</h1>");
+				WSU.OPC.Decorator.showLoader("#co-payment-form","<h1>Saving payment choice</h1>");
 				WSU.OPC.ajaxManager.addReq("savePayment",{
 				   type: 'POST',
 				   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',
@@ -331,7 +331,7 @@ jQuery.WSU=jQuery.WSU||{};
 					} else {
 						$('stripe_token').value = response['id'];
 						var form = $('#co-payment-form').serializeArray();
-						WSU.OPC.Decorator.showLoader('.payment-block',"<h1>Saving payment choice</h1>");
+						WSU.OPC.Decorator.showLoader("#co-payment-form","<h1>Saving payment choice</h1>");
 						
 						WSU.OPC.ajaxManager.addReq("savePayment",{
 						   type: 'POST',
@@ -347,7 +347,7 @@ jQuery.WSU=jQuery.WSU||{};
 		
 		/** CHECK RESPONSE FROM AJAX AFTER SAVE PAYMENT METHOD **/
 		preparePaymentResponse: function(response){
-			WSU.OPC.Decorator.hideLoader('.payment-block');	
+			WSU.OPC.Decorator.hideLoader("#co-payment-form");	
 			WSU.OPC.Checkout.xhr = null;
 			
 			WSU.OPC.agreements = $('#checkout-agreements').serializeArray();
@@ -378,7 +378,11 @@ jQuery.WSU=jQuery.WSU||{};
 				WSU.OPC.ready_payment_method=false;
 				return;
 			}
-
+            if (WSU.OPC.defined(response.worked_on)){
+                if("payments"===response.worked_on){
+                    $("#payment_click_to_save").addClass("saved");
+                }
+            }
 			//SOME PAYMENT METHOD REDIRECT CUSTOMER TO PAYMENT GATEWAY
 			WSU.OPC.ready_payment_method=true;
 			if ( WSU.OPC.defined(response.redirect) && WSU.OPC.saveOrderStatus===true){
@@ -387,7 +391,7 @@ jQuery.WSU=jQuery.WSU||{};
 				if (WSU.OPC.Checkout.xhr==null){
 					setLocation(response.redirect);
 				} else {
-					WSU.OPC.Decorator.hideLoader();
+					WSU.OPC.Decorator.hideLoader("#co-payment-form");
 					WSU.OPC.Checkout.unlockPlaceOrder();					
 				}
 				return;
@@ -396,7 +400,7 @@ jQuery.WSU=jQuery.WSU||{};
 			if (WSU.OPC.saveOrderStatus===true){
 				WSU.OPC.saveOrder();				
 			} else {
-				WSU.OPC.Decorator.hideLoader();
+				WSU.OPC.Decorator.hideLoader("#co-payment-form");
 				WSU.OPC.Checkout.unlockPlaceOrder();				
 			}
 			

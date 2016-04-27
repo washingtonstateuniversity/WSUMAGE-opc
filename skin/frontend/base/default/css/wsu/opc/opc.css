@@ -695,4 +695,101 @@ float:right;margin-left:16px;}
     100% { opacity: 0; }
 }
 
+.opc-btn-checkout:disabled:before {
+    display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: 20px;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);	
+	
+	color:#ECECEC;
+	z-index:1;
+    content: "\f021";
+    -webkit-animation: fa-spin 2s infinite linear;
+    animation: fa-spin 2s infinite linear;
+    position: absolute;
+    z-index: 99;
+    left: 11px;
+    top: 13px;
+}
+
+
+
+.to_save {
+	position: absolute;
+	top: 10px;
+	right: 0px;
+	background:#e2e2e2;
+	width:30px;
+	text-align:right;
+	padding-right:5px;
+	border-radius:5px 0px 0px 5px;
+	cursor:pointer;
+	line-height: 23px;
+	padding-top: 4px;
+    border:1px solid #39424b;
+    border-right:none;
+}
+.to_save:hover {
+    background:#1C6117;
+}
+.to_save:before {
+    display: inline-block;
+	font: normal normal normal 14px/1 FontAwesome;
+	font-size: 20px;
+	text-rendering: auto;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	transform: translate(0, 0);	
+	
+	color:#39424b;
+	z-index:1;
+    content: "\f0c7";
+}
+.to_save:hover:before {
+    color:#e2e2e2;
+}
+.to_save.hide{
+    background:transparent;
+	cursor:default;
+}
+.to_save.hide:hover{
+    background:transparent;
+}
+.to_save.hide:hover:before {
+    color:#39424b;
+}
+
+.to_save.saved{
+    background:rgba(230, 230, 230, 0.46);
+	cursor:default;
+}
+.to_save.saved:before {
+    color:#1C6117;
+    content: "\f046";
+}
+
+.to_save.saved:hover{
+    background:rgba(230, 230, 230, 0.46);
+}
+.to_save.saving:after{
+    position:absolute;
+    left: calc(-100% - 29px);
+    border: 1px solid #39424b;
+    background: #e2e2e2;
+    color:#494949;
+    display:inline-block;
+    top: 3px;
+    content:"saving";
+    z-index: 1;
+    padding-left: 5px;
+    padding-right: 5px;
+    line-height: 17px;
+    padding-bottom: 3px;
+    border-right: none;
+    border-radius: 5px 0px 0px 5px;
+}
+
 

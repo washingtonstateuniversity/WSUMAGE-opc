@@ -1,31 +1,49 @@
 (function($,WSU){
 	WSU.OPC.Decorator = {
 		createLoader: function(parentBlock,message){
-			var jObj =  WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
-			if($(jObj+' .opc-ajax-loader').length<=0){
-				$(jObj).append("<div class='opc-ajax-loader'></div>");
-			}
-			if($(jObj+' .opc-ajax-loader .loader').length<=0){
-				$(jObj+' .opc-ajax-loader').append("<div class='loader'></div>");
-			}
-			if($(jObj+' .opc-ajax-loader .loader .message').length<=0){
-				$(jObj+' .opc-ajax-loader .loader').append("<div class='message'></div>");
-			}
+            if(window.click_to_save){
+                
+
+            }else{
+                var jObj =  WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
+                if($(jObj+' .opc-ajax-loader').length<=0){
+                    $(jObj).append("<div class='opc-ajax-loader'></div>");
+                }
+                if($(jObj+' .opc-ajax-loader .loader').length<=0){
+                    $(jObj+' .opc-ajax-loader').append("<div class='loader'></div>");
+                }
+                if($(jObj+' .opc-ajax-loader .loader .message').length<=0){
+                    $(jObj+' .opc-ajax-loader .loader').append("<div class='message'></div>");
+                }
+            }
 		},	
 		showLoader: function(parentBlock,message){
-			var jObj = WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
-			var html = WSU.OPC.defined(message) ? message:"";
-			WSU.OPC.Decorator.createLoader(parentBlock, message);
-			$(jObj+' .opc-ajax-loader .loader .message').html(html);
-			$(jObj+' .opc-ajax-loader').show();
-			$('.opc-btn-checkout').attr("disabled",true);
-			//console.log("masking "+jObj+" with a message of "+html);
+            var jObj = WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
+            var html = WSU.OPC.defined(message) ? message:"";
+            if(window.click_to_save){
+                var asText = "" !== html ? $(html).text() : "Saving "+$(jObj + " h3").text();
+                $(jObj+' .to_save').addClass("saving");
+                $(jObj+' .to_save.saving:after').css("content","\""+asText+"\"");
+            }else{
+                
+                WSU.OPC.Decorator.createLoader(parentBlock, message);
+                $(jObj+' .opc-ajax-loader .loader .message').html(html);
+                $(jObj+' .opc-ajax-loader').show();
+                //console.log("masking "+jObj+" with a message of "+html);
+            }
+            $('.opc-btn-checkout').attr("disabled",true);
+            $('.opc-btn-checkout').addClass('button-disabled');
 		},
 		
 		hideLoader: function(parentBlock){
-			var jObj = WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
-			$(jObj+' .opc-ajax-loader').hide();
-			$(jObj+' .opc-ajax-loader .loader .message').remove();
+            var jObj = WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
+            if(window.click_to_save){
+                $(jObj+' .to_save').removeClass("saving");
+            }else{
+                $(jObj+' .opc-ajax-loader').hide();
+                $(jObj+' .opc-ajax-loader .loader .message').remove();
+            }
+            $('.opc-btn-checkout').removeClass('button-disabled');
 			$('.opc-btn-checkout').removeAttr("disabled");
 			//console.log("hidgin mask of "+jObj+" with a message of ");
 		},

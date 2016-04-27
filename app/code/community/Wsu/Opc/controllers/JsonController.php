@@ -289,7 +289,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 				if($totals_before != $totals_after){
 					$result['reload_totals'] = true;
 				}
-				
+                $result['worked_on'] = "billing";
 			}else{
 				
 				$responseData['error'] = true;
@@ -338,6 +338,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 					$responseData['reload_totals'] = true;
 				}
 			}
+            $responseData['worked_on'] = "shipping";
 		}
 
 		$this->getResponse()->setHeader('Content-type','application/json', true);
@@ -460,7 +461,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 						$result['reload_totals'] = true;
 					}
 				}
-
+                $result['worked_on'] = "shipping_payments";
 			}else{
 				$result['error'] = true;
 				$result['message'] = $result['message'];
@@ -505,6 +506,8 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 						'name' => 'payment-method',
 						'html' => $this->_getPaymentMethodsHtml()
 				);*/
+                
+                $responseData['worked_on'] = "shipping_method";
 			}
 			$this->getOnepage()->getQuote()->collectTotals()->save();
 			
@@ -522,6 +525,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		$responseData = array();
 		$responseData['review'] = $this->_getReviewHtml();
 		$responseData['grandTotal'] = Mage::helper('wsu_opc')->getGrandTotal();
+        $responseData['worked_on'] = "review";
 		$this->getResponse()->setHeader('Content-type','application/json', true);
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
 	}
@@ -533,6 +537,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		}
 		$responseData = array();
 		$responseData['payments'] = $this->_getPaymentMethodsHtml();
+        $responseData['worked_on'] = "payments";
 		$this->getResponse()->setHeader('Content-type','application/json', true);
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
 	}
@@ -564,6 +569,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 			if ($redirectUrl) {
 				$result['redirect'] = $redirectUrl;
 			}
+            $result['worked_on'] = "saving_payment";
 		} catch (Mage_Payment_Exception $e) {
 			if ($e->getFields()) {
 				$result['fields'] = $e->getFields();
@@ -677,7 +683,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action{
 		}else{
 			$result['redirect'] = Mage::getUrl('checkout/onepage/success', array('_secure'=>true)) ;
 		}
-		
+		$result['worked_on'] = "saving_order";
 		$this->getResponse()->setHeader('Content-type','application/json', true);
 		$this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
 	}

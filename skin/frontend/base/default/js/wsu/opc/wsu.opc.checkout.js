@@ -46,6 +46,16 @@
 			WSU.OPC.initMessages();
 			WSU.OPC.initSaveOrder();
 			
+            
+            if(window.click_to_save){
+                if($("#payment_click_to_save").length<=0){
+                    $("#co-payment-form").prepend("<a id='payment_click_to_save' class='to_save'></a>");
+                    $("#payment_click_to_save").addClass("hide");
+                }
+            }         
+            
+            
+            
 			if (this.config.isLoggedIn===1){
 				var addressId = $('#billing-address-select').val();
 				if ( WSU.OPC.defined(addressId) && "" !== addressId ){
@@ -75,7 +85,18 @@
 				WSU.OPC.Checkout.unlockPlaceOrder();
 				return;
 			}
-			
+            if (WSU.OPC.defined(response.worked_on)){
+                if("billing"===response.worked_on){
+                    $("#billing_click_to_save").addClass("saved");
+                }
+                if("shipping_method"===response.worked_on){
+                    $("#shipping_method_click_to_save").addClass("saved");
+                }
+                if("shipping"===response.worked_on){
+                    $("#shipping_click_to_save").addClass("saved");
+                }
+            }
+            
 			if(WSU.OPC.defined(response.exists) && true === response.exists){
 				if($("#existing").length<=0){
 					$('#opc-address-form-billing .form-list').before('<b id="existing">This email exists.  Try loging in above</b>');
@@ -99,6 +120,15 @@
 			
 			if (WSU.OPC.defined(response.shipping)){
 				$("#opc-co-shipping-method-form").empty().html(response.shipping);
+                if(window.click_to_save){
+                    if($("#shipping_click_to_save").length<=0){
+                        $(".shipping-block").prepend("<a id='shipping_click_to_save' class='to_save'></a>");
+                    }
+                    $("#shipping_click_to_save").off().on("click",function(){
+                        WSU.OPC.Shipping.save();
+                     });
+                    $("#shipping_click_to_save").addClass("hide");
+                }
 			}
 			
 			if (WSU.OPC.defined(response.payments)){
@@ -112,7 +142,12 @@
 				WSU.OPC.Checkout.isVirtual = true;
 			}
 			
+            if(window.click_to_save){
+                $("#billing_click_to_save").addClass("hide");
+            }
+            
 			if (false === WSU.OPC.Checkout.isVirtual){
+                
 				var update_payments = false;
 				if ( WSU.OPC.defined(response.reload_payments) ){
 					update_payments = true;
@@ -134,7 +169,7 @@
 		/** PARSE RESPONSE FROM AJAX SAVE SHIPPING METHOD **/
 		prepareShippingMethodResponse: function(response){
 			WSU.OPC.Checkout.xhr = null;
-			WSU.OPC.Decorator.hideLoader(".shipping-method-block");
+			WSU.OPC.Decorator.hideLoader(".shipping-block");
 			if ( WSU.OPC.defined(response.error) ){
 				WSU.OPC.Checkout.unlockPlaceOrder();
 				WSU.OPC.Plugin.dispatch('error');
@@ -142,7 +177,7 @@
 				WSU.OPC.saveOrderStatus = false;
 				return;
 			}
-			
+
 			if ( WSU.OPC.defined(response.review) && false === WSU.OPC.saveOrderStatus){
 				try{
 					WSU.OPC.Decorator.updateGrandTotal(response);
@@ -151,7 +186,14 @@
 				WSU.OPC.Checkout.removePrice();					
 //				WSU.OPC.recheckAgree();
 			}
-
+            if (WSU.OPC.defined(response.worked_on)){
+                if("shipping_method"===response.worked_on){
+                    $("#shipping_method_click_to_save").addClass("saved");
+                }
+            }
+            if(window.click_to_save){
+                $("#shipping_click_to_save").addClass("hide");
+            }
 			//IF STATUS TRUE - START SAVE PAYMENT FOR CREATE ORDER
 			if (true === WSU.OPC.saveOrderStatus){
 				WSU.OPC.validatePayment();
@@ -269,7 +311,7 @@
 			},'json');*/
 			
 			WSU.OPC.Checkout.lockPlaceOrder();
-			WSU.OPC.Decorator.showLoader('.payment-block',"<h1>Getting payment choices</h1>");
+			WSU.OPC.Decorator.showLoader("#co-payment-form","<h1>Getting payment choices</h1>");
 			
 			WSU.OPC.ajaxManager.addReq("savePayments",{
 			   type: 'POST',
@@ -290,7 +332,7 @@
 					WSU.OPC.Checkout.pullReview();*/
 					
 					
-					WSU.OPC.Decorator.hideLoader('.payment-block');	
+					WSU.OPC.Decorator.hideLoader("#co-payment-form");	
 					if ( WSU.OPC.defined(response.error) ){
 						WSU.OPC.popup_message(response.error);
 						WSU.OPC.saveOrderStatus = false;
@@ -298,13 +340,17 @@
 						WSU.OPC.Checkout.unlockPlaceOrder();					
 						return;
 					}
-					
+					if (WSU.OPC.defined(response.worked_on)){
+                        if("payments"===response.worked_on){
+                            $("#payment_click_to_save").addClass("saved");
+                        }
+                    }
 					if ( WSU.OPC.defined(response.payments) ){
 						$('#checkout-payment-method-load').html(response.payments);
 						payment.initWhatIsCvvListeners();
 						WSU.OPC.bindChangePaymentFields();
 						WSU.OPC.Decorator.setCurrentPaymentActive();
-					};
+					}
 					
 					WSU.OPC.Checkout.pullReview();
 					/*if( WSU.OPC.defined(callback) && $.isFunction(callback)){
@@ -362,7 +408,7 @@
 			
 			 */
 			
-			WSU.OPC.Decorator.showLoader('.payment-block',"<h1>Getting payment choices</h1>");
+			WSU.OPC.Decorator.showLoader('#co-payment-form',"<h1>Getting payment choices</h1>");
 			WSU.OPC.ajaxManager.addReq("savePayments",{
 			   type: 'POST',
 			   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/reloadShippingsPayments',
@@ -379,7 +425,7 @@
 			if ( WSU.OPC.defined(response.error) ){
 				$('.opc-message-container').html(response.message);
 				$('.opc-message-wrapper').show();
-				WSU.OPC.Decorator.hideLoader();
+				WSU.OPC.Decorator.hideLoader('#co-payment-form');
 				WSU.OPC.Checkout.unlockPlaceOrder();
 				return;
 			}
@@ -387,7 +433,12 @@
 			if ( WSU.OPC.defined(response.shipping) ){
 				$('#opc-co-shipping-method-form').empty().html(response.shipping);
 			}
-			
+			if (WSU.OPC.defined(response.worked_on)){
+                WSU.OPC.Decorator.hideLoader("#co-payment-form");	
+                if("shipping_payments"===response.worked_on){
+                    $("#payment_click_to_save").addClass("saved");
+                }
+            }
 			if ( WSU.OPC.defined(response.payments) ){
 				
 				if("" !== response.payments){
@@ -396,6 +447,11 @@
 					WSU.OPC.removeNotAllowedPaymentMethods();
 					payment.initWhatIsCvvListeners();//default logic for view "what is this?"
 				}
+                if (WSU.OPC.defined(response.worked_on)){
+                    if("shipping_payments"===response.worked_on){
+                        $("#payment_click_to_save").addClass("saved");
+                    }
+                }
 
 				if (false === WSU.OPC.Checkout.isVirtual){
 					var update_payments = false;

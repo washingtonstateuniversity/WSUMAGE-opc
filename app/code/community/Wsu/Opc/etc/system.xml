@@ -159,6 +159,19 @@
 						<show_in_website>1</show_in_website>
 						<show_in_store>1</show_in_store>
 					</form_location>
+					<use_click_to_save>
+						<label>Use Click to save area</label>
+                        <comment>
+							<![CDATA[When set to `yes` the user will be proped to click to accept the information they put in over auto save being used.]]>
+						</comment>
+						<frontend_type>select</frontend_type>
+						<source_model>adminhtml/system_config_source_yesno</source_model>
+						<isrequired>true</isrequired>
+						<sort_order>80</sort_order>
+						<show_in_default>1</show_in_default>
+						<show_in_website>1</show_in_website>
+						<show_in_store>1</show_in_store>
+					</use_click_to_save>
 				</fields>
 			</default>
 			<geo>

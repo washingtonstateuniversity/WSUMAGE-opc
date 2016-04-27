@@ -11,6 +11,8 @@ $form_location = Mage::getStoreConfig('wsu_opc/default/form_location');
 $block_notice_update = Mage::getStoreConfig('wsu_opc/display/block_notice_update');
 $use_custom_css = Mage::getStoreConfig('wsu_opc/design/custom_css');
 
+$use_click_to_save = Mage::getStoreConfig('wsu_opc/default/use_click_to_save');
+
 if($logged_in){
     $title = $this->__('Checkout');
     $message = $this->__('Fill in the Fields below to complete your purchase!');
@@ -34,7 +36,10 @@ if( "" !== $custom_message && NULL !== $custom_message){
 
 $loading = '<div class="opc-ajax-loader '.$block_notice_update.' " style="display:none;"><div class="loader"><div class="outer"></div><div class="inner"></div></div></div>';
 ?>
-<script type="text/javascript">countryRegions = <?=$this->helper('directory')->getRegionJson() ?></script>
+<script type="text/javascript">
+window.click_to_save=<?php if($use_click_to_save):?>true<?php else:?>false<?php endif;?>;
+countryRegions = <?=$this->helper('directory')->getRegionJson() ?>
+</script>
 <?php
 echo $this->getDesignStyles();
 $package = Mage::getDesign()->getPackageName();
