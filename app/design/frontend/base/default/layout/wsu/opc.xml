@@ -139,7 +139,7 @@
 			<action method="addItem" ifconfig="wsu_opc/paypallogin/status"><type>skin_js</type><name>js/wsu/opc/login.js</name></action>    	
 		</reference>
 		<reference name="customer_form_login">
-			<action method="setTemplate"><template>wsu/opc/customer/form/login.phtml</template></action>
+			<action method="setTemplate" ifconfig="wsu_opc/paypallogin/status"><template>wsu/opc/customer/form/login.phtml</template></action>
 			<block type="wsu_opc/paypal_login" name="paypalauth.login" template="wsu/opc/paypal/paypal_login.phtml" />
 			<block type="persistent/form_remember" name="persistent.remember.me" template="persistent/remember_me.phtml" />
 			<block type="core/template" name="persistent.remember.me.tooltip" template="persistent/remember_me_tooltip.phtml" />
@@ -151,7 +151,7 @@
 			<action method="addItem" ifconfig="wsu_opc/paypallogin/status"><type>skin_js</type><name>js/wsu/opc/login.js</name></action>
 		</reference>
 		<reference name="customer_form_register">
-			<action method="setTemplate"><template>wsu/opc/customer/form/register.phtml</template></action>
+			<action method="setTemplate" ifconfig="wsu_opc/paypallogin/status"><template>wsu/opc/customer/form/register.phtml</template></action>
 			<block type="wsu_opc/paypal_login" name="paypalauth.register" template="wsu/opc/paypal/paypal_register.phtml" />
 			<block type="persistent/form_remember" name="persistent.remember.me" template="persistent/remember_me.phtml" />
 			<block type="core/template" name="persistent.remember.me.tooltip" template="persistent/remember_me_tooltip.phtml" />
