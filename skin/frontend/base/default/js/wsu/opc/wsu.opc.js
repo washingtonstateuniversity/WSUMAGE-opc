@@ -34,6 +34,9 @@ jQuery.WSU=jQuery.WSU||{};
                 if($("#mess").length<=0){
                     $('body').append('<div id="mess">');
                 }
+                if($.isArray(html_message)){
+                    html_message = html_message.join("_");
+                }
                 $("#mess").html((typeof html_message === 'string' || html_message instanceof String) ? html_message:html_message.html() );
                 
                 $("#mess").prepend('<button style="float:right" id="ok" >Ok</button>');
