@@ -5,6 +5,8 @@
 		validate_timeout: false,
 		billing_data:null,
 		init: function(){
+            // should be an option but this is to shim
+            $('[name="billing[use_for_shipping]"]:checked').trigger("click");
             console.log("init billing");
 			WSU.OPC.Billing.bill_need_update = true;
 			WSU.OPC.Decorator.createLoader("#opc-address-form-billing");
