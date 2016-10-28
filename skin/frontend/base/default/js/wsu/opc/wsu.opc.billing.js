@@ -73,7 +73,8 @@
                     $("#billing_click_to_save").addClass("hide");
                 }
             }
-
+    $("[name='shipping[street][]']").addClass("validate-for-pobox");
+    $("[name='billing[street][]']").addClass("validate-for-pobox");
 			$('input[name="billing[use_for_shipping]"]').on("change",function(){
 				if ($(this).is(':checked')){
                     console.log("using billing for shipping");
