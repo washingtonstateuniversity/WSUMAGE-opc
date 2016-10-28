@@ -2,12 +2,12 @@
 
     Validation.add('validate-pobox','We cannot ship to your P.O. Please check the button to ship to a different address.',function(field_value) {
         // setup a regex var for pretty much every possibility of PO box...
-        var regex = /[P|p]*(OST|ost)*\.*\s*[O|o|0]*(ffice|FFICE)*\.*\s*[B|b][O|o|0][X|x]/;
+        var regex = /[p]*(ost)*\.*\s*[o|0]*(ffice)*\.*\s*[b][Oo|0][x]/gi;
         // if the field_value contains PO Box
     
         if(field_value.match(regex)) {
             if (document.getElementById('billing:use_for_shipping_yes').checked === true) {
-                return false;
+                //return false;
             }
             return true;
         } else if(!field_value.match(regex)) {
@@ -17,12 +17,12 @@
     
     Validation.add('validate-pobox2','We cannot ship to your P.O. Please check the button to ship to a different address.',function(field_value) {
         // setup a regex var for pretty much every possibility of PO box...
-        var regex2 = /[P|p]*(OST|ost)*\.*\s*[O|o|0]*(ffice|FFICE)*\.*\s*[B|b][O|o|0][X|x]/;
+        var regex2 = /[p]*(ost)*\.*\s*[o|0]*(ffice)*\.*\s*[b][Oo|0][x]/gi;
         // if the field_value contains PO Box
     
         if( field_value.match(regex2) ){
             if ( true === document.getElementById('billing:use_for_shipping_yes').checked ){
-                return false;
+                //return false;
             }
             return true;
         } else if(!field_value.match(regex2)) {
