@@ -33,7 +33,8 @@
                             </div>
                         </div>
                     </li>
-            <?php $_streetValidationClass = $helper->getAttributeValidationClass('street'); ?>
+            
+        		<?php $_streetValidationClass = $helper->getAttributeValidationClass('street') . " validate-for-pobox "; ?>
                     <li class="wide">
                         <label for="shipping:street1" class="required"><em>*</em><?=$this->__('Address') ?></label>
                         <div class="input-box">

@@ -1,9 +1,5 @@
 (function($,WSU){
-    
-    $("[name='shipping[street][]']").addClass("validate-for-pobox");
-    $("[name='billing[street][]']").addClass("validate-for-pobox");
-    
-    
+
     Validation.add('validate-pobox','We cannot ship to your P.O. Please check the button to ship to a different address.',function(field_value) {
         // setup a regex var for pretty much every possibility of PO box...
         var regex = /[P|p]*(OST|ost)*\.*\s*[O|o|0]*(ffice|FFICE)*\.*\s*[B|b][O|o|0][X|x]/;
@@ -73,8 +69,7 @@
                     $("#billing_click_to_save").addClass("hide");
                 }
             }
-    $("[name='shipping[street][]']").addClass("validate-for-pobox");
-    $("[name='billing[street][]']").addClass("validate-for-pobox");
+
 			$('input[name="billing[use_for_shipping]"]').on("change",function(){
 				if ($(this).is(':checked')){
                     console.log("using billing for shipping");
