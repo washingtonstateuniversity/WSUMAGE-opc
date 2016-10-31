@@ -30,7 +30,28 @@
         }
     });
     
-    
+     $(document).ready(function(){
+        var alum_code = $("#alumni_real").val();
+        var mess = $(".success-msg span").text();
+        if(mess.indexOf("alumni102948274sjs1")>0){
+               $(".success-msg span").text('Your Alumni discount was applied.')
+        }
+        
+        if("" !== alum_code){
+            $("#discount-coupon-form").hide();
+        }
+        
+        $("#alumni_coupon_code").on("keyup",function(){
+            var code = $(this).val();
+            if(code.length>0){
+                $("#alumni_real").val("alumni102948274sjs1");
+                $("#discount-coupon-form").fadeOut();
+            }else{
+                $("#alumni_real").val("");
+                $("#discount-coupon-form").fadeIn();
+            }
+        });
+    });   
     
 	WSU.OPC.Billing = {
 		bill_need_update: true,
