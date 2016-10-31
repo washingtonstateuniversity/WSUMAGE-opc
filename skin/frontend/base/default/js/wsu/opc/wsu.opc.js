@@ -1,5 +1,24 @@
 jQuery.WSU=jQuery.WSU||{};
 (function($,WSU){
+    
+    Validation.add('validate-pobox','We cannot ship to your P.O. Please check the button to ship to a different address.',function(field_value) {
+        // setup a regex var for pretty much every possibility of PO box...
+        var regex = /[p]*(ost)*\.*\s*[o|0]*(ffice)*\.*\s*[b][o|0][x]/gi;
+        // if the field_value contains PO Box
+    
+        if(field_value.match(regex)) {
+            if (document.getElementById('billing:use_for_shipping_yes').checked === true) {
+                //return false;
+            }
+            return true;
+        } else if(!field_value.match(regex)) {
+            return true;
+        }
+    });
+
+    
+    
+    
 	Billing =  Class.create();
 	Shipping =  Class.create();
 	WSU.OPC = {
