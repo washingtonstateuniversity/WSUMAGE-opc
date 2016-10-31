@@ -21,7 +21,59 @@
 					$(this).next().removeClass('hidden');
 				}
 			});
-			
+		$(document).ready(function(){
+        if($("#alumni_coupon_code").length){
+            var alum_code = $("#real_dis_code").val();
+            var mess = $(".success-msg span").text();
+            if(mess.indexOf("alumni102948274sjs1")>0){
+                $(".success-msg span").text('Your Alumni discount was applied.');
+            }
+            if("undefined" !== alum_code){
+                if("" !== alum_code && "alumni102948274sjs1" === alum_code){
+                    console.log("already had it alumni");
+                    console.log("---"+alum_code+"----");
+                    $("#discount-coupon-form-inline").hide();
+                }else if("" !== alum_code){
+                     console.log("already had it alumni");
+                    console.log("---"+alum_code+"----");
+                    $("#alumni_discount-coupon-form").hide();           
+                }
+            }
+            
+            $("#alumni_coupon_code").on("keyup",function(){
+                console.log("typing in alumni");
+                var code = $(this).val();
+                if(code.length>0){
+                    console.log("setting  alumni");
+                    $("#real_dis_code").val("alumni102948274sjs1");
+                    $("#discount-coupon-form-inline").fadeOut();
+                }else{
+                    console.log("re---setting  alumni");
+                    $("#real_dis_code").val("");
+                    $("#discount-coupon-form-inline").fadeIn();
+                }
+            });
+            $("#coupon_code_shim").on("keyup",function(){
+                var code = $(this).val();
+                if(code.length>0){
+                    $("#real_dis_code").val(code);
+                    $("#alumni_discount-coupon-form").fadeOut();
+                }else{
+                    console.log("re---setting  alumni");
+                    $("#real_dis_code").val("");
+                    $("#alumni_discount-coupon-form").fadeIn();
+                }
+            });
+            
+            $(".alum-remove-coupon").on("click", function(){
+                console.log("trying to clear");
+                $("#real_dis_code").val("");
+                $("#discount-coupon-form-inline input[type='text']").val("");
+                $("#alumni_discount-coupon-form input[type='text']").val("");
+                WSU.OPC.Coupon.applyCoupon(true);
+            });
+        }
+    });	
 		},
 		
 		applyCoupon: function(remove){
