@@ -7,10 +7,7 @@ jQuery.WSU=jQuery.WSU||{};
         // if the field_value contains PO Box
     
         if(field_value.match(regex)) {
-            if (document.getElementById('billing:use_for_shipping_yes').checked === true) {
-                //return false;
-            }
-            return true;
+            return false;
         } else if(!field_value.match(regex)) {
             return true;
         }
