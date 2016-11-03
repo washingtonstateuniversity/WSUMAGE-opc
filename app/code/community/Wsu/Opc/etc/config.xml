@@ -54,7 +54,11 @@
 					<paymentmethod>Wsu_Opc_Model_Braintree_Paymentmethod</paymentmethod>
 				</rewrite>
 			</braintree_payments>
-
+            <tax_resource>
+                <rewrite>
+                        <calculation>Wsu_Opc_Model_Resource_Tax_Calculation</calculation>
+                </rewrite>
+            </tax_resource>
 			<opc_resource>
 				<class>Wsu_Opc_Model_Resource</class>
 				<entities>
