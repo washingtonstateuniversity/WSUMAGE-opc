@@ -9,7 +9,7 @@
 		billing_data:null,
 		init: function(){
             // should be an option but this is to shim
-            $('[name="billing[use_for_shipping]"]:checked').trigger("click");
+            //$('[name="billing[use_for_shipping]"]:checked').trigger("click");
             console.log("init billing");
 			WSU.OPC.Billing.bill_need_update = true;
 			WSU.OPC.Decorator.createLoader("#opc-address-form-billing");
@@ -39,18 +39,36 @@
                     $("#billing_click_to_save").addClass("hide");
                 }
             }
-
+            $("#btn_use_for_shipping_yes").on("click",function(e){
+				e.preventDefault();
+                e.stopPropagation();
+                var tar = $('input[name="billing[use_for_shipping]"]');
+                var current_val = tar.val();
+                if ( ! tar.is(':checked') ){
+                    $('[name="billing[use_for_shipping]"]').trigger("click");
+                    $('input[name="billing[use_for_shipping]"]').prop('checked', true);
+				    $('input[name="shipping[same_as_billing]"]').prop('checked', true);
+                }else{
+                    $('[name="billing[use_for_shipping]"]').trigger("click");
+                    $('input[name="billing[use_for_shipping]"]').prop('checked', false);
+                    $('input[name="shipping[same_as_billing]"]').prop('checked', false);
+                }
+            });
 			$('input[name="billing[use_for_shipping]"]').on("change",function(){
 				if ($(this).is(':checked')){
+                    WSU.OPC.Billing.pushBilingToShipping();
                     console.log("using billing for shipping");
+                    $("#and_shipping").show();
 					WSU.OPC.Billing.setBillingForShipping(true);
 					$('#opc-address-form-billing select[name="billing[country_id]"]').change();
 					WSU.OPC.Billing.need_reload_shippings_payments = 'billing';
 					WSU.OPC.Billing.validateForm();
 				}else{
                     console.log("new shipping");
+                    WSU.OPC.Billing.pushBilingToShipping();
 					WSU.OPC.Billing.setBillingForShipping(false);
 					WSU.OPC.Billing.need_reload_shippings_payments = 'shipping';
+                    $("#and_shipping").hide();
 					WSU.OPC.Shipping.validateForm();
 				}
 			});
@@ -208,7 +226,7 @@
 					skip_copy = false;
 				}
 				if(!skip_copy){
-					this.pushBilingToShipping();
+					WSU.OPC.Billing.pushBilingToShipping();
 				}
 				$('input[name="billing[use_for_shipping]"]').prop('checked', false);
 				$('input[name="shipping[same_as_billing]"]').prop('checked', false);
