@@ -220,17 +220,19 @@
 			if (useBilling==true){
 				$('input[name="billing[use_for_shipping]"]').prop('checked', true);
 				$('input[name="shipping[same_as_billing]"]').prop('checked', true);
-				$('#opc-address-form-shipping').addClass('hidden');				
+				$('#opc-address-form-shipping').addClass('hidden');		
 			}else{
 				if( WSU.OPC.defined(skip_copy) ){
 					skip_copy = false;
 				}
-				if(!skip_copy){
-					WSU.OPC.Billing.pushBilingToShipping();
-				}
+				
 				$('input[name="billing[use_for_shipping]"]').prop('checked', false);
 				$('input[name="shipping[same_as_billing]"]').prop('checked', false);
 				$('#opc-address-form-shipping').removeClass('hidden');
+                WSU.OPC.Shipping.initChangeAddress();
+                if(!skip_copy){
+					WSU.OPC.Billing.pushBilingToShipping();
+				}
 			}
 			
 		}, 

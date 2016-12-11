@@ -434,11 +434,14 @@ float:right;margin-left:16px;}
 .opc-wrapper-opc .opc-col-left .control label[for="billing:create_account"] {
     float: right;
 }
-#btn_use_for_shipping_yes{
-    padding-left:4em;
+#btn_use_for_shipping_yes {
+    /* padding-left: 4em; */
     margin-right: 4em;
+    border: 2px #8E8E8E solid !important;
+    padding: 0px 15px;
+    background: #E4E4E4 !important;
+    padding-left: 4em;
 }
-
 #btn_use_for_shipping_yes:before {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
