@@ -56,7 +56,7 @@
             });
 			$('input[name="billing[use_for_shipping]"]').on("change",function(){
 				if ($(this).is(':checked')){
-                    WSU.OPC.Billing.pushBilingToShipping();
+                    //WSU.OPC.Billing.pushBilingToShipping();
                     console.log("using billing for shipping");
                     $("#and_shipping").show();
 					WSU.OPC.Billing.setBillingForShipping(true);
@@ -65,7 +65,7 @@
 					WSU.OPC.Billing.validateForm();
 				}else{
                     console.log("new shipping");
-                    WSU.OPC.Billing.pushBilingToShipping();
+                    //WSU.OPC.Billing.pushBilingToShipping();
 					WSU.OPC.Billing.setBillingForShipping(false);
 					WSU.OPC.Billing.need_reload_shippings_payments = 'shipping';
                     $("#and_shipping").hide();
@@ -231,7 +231,7 @@
 				$('#opc-address-form-shipping').removeClass('hidden');
                 WSU.OPC.Shipping.initChangeAddress();
                 if(!skip_copy){
-					WSU.OPC.Billing.pushBilingToShipping();
+					//WSU.OPC.Billing.pushBilingToShipping();
 				}
 			}
 			
