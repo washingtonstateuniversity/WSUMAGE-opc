@@ -1,0 +1,6 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "syncFiles.source": "E:\\_GIT\\WSUMAGE-opc\\",
+    "syncFiles.target": "E:\\_GIT\\MAGE\\server\\app\\stores\\html\\",
+    "syncFiles.watch": true
+}

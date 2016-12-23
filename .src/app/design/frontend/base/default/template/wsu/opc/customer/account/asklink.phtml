@@ -1,0 +1,76 @@
+<?php
+/**
+ * Additional customer login form template for Paypalauth Identity extension
+ *
+ * @see Mage_Customer_Block_Form_Login
+ */
+?>
+<div class="account-create">
+    <div class="page-title">
+        <h1><?=$this->__('Link Your %s Account to PayPal Account Login', Mage::app()->getStore()->getFrontendName()) ?></h1>
+    </div>
+    <?=$this->getMessagesBlock()->getGroupedHtml() ?>
+    <div id="select-step">
+    	<div class="fieldset">
+			<h2 class="legend"><?=$this->__(Mage::app()->getStore()->getFrontendName()) ?></h2>
+			<button type="button" class="button" onclick="showLinkForm()"><span><span><?=$this->__('I Have An Account') ?></span></span></button>
+            <button type="button" class="button" onclick="showRegisterForm();"><span><span><?=$this->__("I Don't Have An Account") ?></span></span></button>
+	    </div>    
+    </div>
+    
+
+    
+    <form action="<?=$this->getAskLinkPostActionUrl() ?>" method="post" id="login-form" style="display:none">
+        <div class="fieldset">
+            <h2 class="legend"><?=$this->__(Mage::app()->getStore()->getFrontendName()) ?></h2>
+            
+            <p><?=$this->__('Please enter your %s login information one last time to link it with your PayPal account log in. You will use your PayPal login to enter %s and access your previous order history.', Mage::app()->getStore()->getFrontendName(), Mage::app()->getStore()->getFrontendName(), Mage::app()->getStore()->getFrontendName()) ?></p>
+            <ul class="form-list" >
+                <li>
+                    <label for="email" class="required"><em>*</em><?=$this->__('Email Address') ?></label>
+                    <div class="input-box">
+                        <input type="text" name="login[username]" value="" id="email" class="input-text required-entry validate-email" title="<?=$this->__('Email Address') ?>" />
+                    </div>
+                </li>
+                <li>
+                    <label for="pass" class="required"><em>*</em><?=$this->__('Password') ?></label>
+                    <div class="input-box">
+                        <input type="password" name="login[password]" class="input-text required-entry validate-password" id="pass" title="<?=$this->__('Password') ?>" />
+                    </div>
+                </li>
+            </ul>
+            <div class="buttons-set">
+                <p class="required"><?=$this->__('* Required Fields') ?></p>
+                <a href="<?=$this->getForgotPasswordUrl() ?>" class="f-left"><?=$this->__('Forgot Your Password?') ?></a>                
+                <button type="submit" class="button" title="<?=$this->__('Login') ?>" name="send" id="send2"><span><span><?=$this->__('Submit') ?></span></span></button>
+                <a class="right" title="<?=$this->__('Back') ?>" onclick="back();" style="margin-right:20px;cursor:pointer"><?=$this->__('Back') ?></a>                              
+            </div>
+        </div>
+    </form>
+    
+    <script type="text/javascript">
+    //<![CDATA[
+        var dataForm = new VarienForm('login-form', true);
+        if ($('cancel')) {
+           Event.observe('cancel', 'click', removeValidation);
+        }
+        function removeValidation() {
+            $('email').className = '';
+            $('pass').className = '';
+        }
+
+        function showRegisterForm(){
+           setLocation('<?=$this->getAskLinkPostActionUrl();?>');
+        }
+        function showLinkForm(){
+       	 	$('select-step').hide();
+       	 	$('login-form').show();
+        }
+        function back(){
+        	$('select-step').show();
+       	 	$('login-form').hide();
+        }
+            
+    //]]>
+    </script>
+</div>

@@ -1,0 +1,7 @@
+**/skin/adminhtml/default/wsu/build/**/*
+**/skin/adminhtml/default/wsu/.sass-cache/**/*scssc
+**/skin/adminhtml/default/wsu/node_modules/**/*
+
+**/skin/adminhtml/default/wsu/node_modules/**/*
+**/node_modules/**/*
+**/vendor/**/*

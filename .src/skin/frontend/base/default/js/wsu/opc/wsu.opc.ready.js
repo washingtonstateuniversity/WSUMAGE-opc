@@ -1,0 +1,11 @@
+(function($,WSU){
+	$(document).ready(function(){
+		WSU.OPC.Checkout.init();
+		WSU.OPC.Coupon.init();
+		WSU.OPC.Comment.init();
+		WSU.OPC.Agreement.init();
+		WSU.OPC.Login.init();
+		WSU.OPC.Decorator.initReviewBlock();
+		WSU.OPC.Decorator.setActivePayment();
+	});
+})(jQuery,jQuery.WSU||{});

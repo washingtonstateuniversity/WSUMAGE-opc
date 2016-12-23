@@ -1,0 +1,19 @@
+<?php
+/**
+ * Customer Paypalauth Identity Registration Section template
+ *
+ */
+?>
+
+<div>
+    <h4><?=$this->__('Use Log in with PayPal to create your account, easily!') ?></h4>
+    <p><?=$this->__('Log in quickly, easily and safely with Log in with PayPal ') ?></p>
+    <ul style="list-style: disc outside none;padding-left: 18px;">
+        <li><?=$this->__('Anyone with a PayPal Account can do it') ?></li>
+        <li><?=$this->__('Avoid the hassle of filling in yet another registration form') ?></li>
+        <li><?=$this->__('Just one password to remember') ?> <a style="margin-left: 180px;" id="login-with-paypal" href="<?=Mage::helper('wsu_opc/paypal')->getLoginUrl();?>" title="Login with PayPal"></a></li>
+    </ul>
+    <div class="paypal-or">
+        <h4 class="a-center">OR</h4>
+    </div>
+</div>
