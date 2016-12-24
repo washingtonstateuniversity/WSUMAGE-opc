@@ -16,7 +16,6 @@
     </div>
     <?=$this->getChildHtml('form_fields_before')?>
     <?=$this->getMessagesBlock()->getGroupedHtml() ?>
-    <?=$this->getChildHtml('paypalauth.register'); ?>
     <form action="<?=$this->getPostActionUrl() ?>" method="post" id="form-validate">
         <div class="fieldset">
             <input type="hidden" name="success_url" value="<?=$this->getSuccessUrl() ?>" />

@@ -59,7 +59,6 @@ class Wsu_Opc_Block_Wrapper extends Mage_Core_Block_Template
         $config['baseUrl'] = $base_url;
         $config['isLoggedIn'] = (int) Mage::getSingleton('customer/session')->isLoggedIn();
         $config['comment'] = Mage::helper('wsu_opc')->isShowComment();
-        $config['paypalLightBoxEnabled'] = Mage::helper('wsu_opc')->getPayPalLightboxEnabled();
 
         return Mage::helper('core')->jsonEncode($config);
     }

@@ -23,7 +23,6 @@
         <h1><?=$this->__('Login or Create an Account') ?></h1>
     </div>
     <?=$this->getMessagesBlock()->getGroupedHtml() ?>
-    <?=$this->getChildHtml('paypalauth.login'); ?>
     <form action="<?=$this->getPostActionUrl() ?>" method="post" id="login-form">
     	<?=$this->getBlockHtml('formkey'); ?>
         <div class="col2-set">

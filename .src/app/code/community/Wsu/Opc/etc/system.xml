@@ -59,7 +59,7 @@
 				<show_in_website>1</show_in_website>
 				<show_in_store>1</show_in_store>
 				<expanded>0</expanded>
-				<fields> 
+				<fields>
 					<!-- shipping translate="label">
 							<label>Default Shipping Method</label>
 							<frontend_type>select</frontend_type>
@@ -68,7 +68,7 @@
 							<sort_order>10</sort_order>
 							<show_in_default>1</show_in_default>
 						</shipping -->
-					
+
 					<payment translate="label">
 						<label>Default Payment Method</label>
 						<frontend_type>select</frontend_type>
@@ -226,89 +226,13 @@
 					</city_file>
 				</fields>
 			</geo>
-			<paypal>
-				<label>Paypal Express LightBox</label>
-				<sort_order>40</sort_order>
-				<show_in_default>1</show_in_default>
-				<expanded>1</expanded>
-				<fields>
-					<status>
-						<label>Enable Paypal Express Lightbox</label>
-						<frontend_type>select</frontend_type>
-						<source_model>adminhtml/system_config_source_yesno</source_model>
-						<isrequired>true</isrequired>
-						<sort_order>10</sort_order>
-						<show_in_default>1</show_in_default>
-						<show_in_website>1</show_in_website>
-						<show_in_store>1</show_in_store>
-						<comment>
-							<![CDATA[<span class="notice">The site must be securely hosted on an HTTPS server.</span>]]>
-						</comment>
-					</status>
-					<sandbox translate="label">
-						<label>Sandbox</label>
-						<frontend_type>select</frontend_type>
-						<source_model>adminhtml/system_config_source_yesno</source_model>
-						<sort_order>20</sort_order>
-						<show_in_default>1</show_in_default>
-						<show_in_website>1</show_in_website>
-						<show_in_store>1</show_in_store>
-					</sandbox>
-				</fields>
-			</paypal>
-			<paypallogin>
-				<label>Log in with PayPal</label>
-				<sort_order>50</sort_order>
-				<show_in_default>1</show_in_default>
-				<expanded>1</expanded>
-				<fields>
-					<status>
-						<label>Enable Log in with PayPal</label>
-						<frontend_type>select</frontend_type>
-						<source_model>adminhtml/system_config_source_yesno</source_model>
-						<isrequired>true</isrequired>
-						<sort_order>10</sort_order>
-						<show_in_default>1</show_in_default>
-						<show_in_website>1</show_in_website>
-						<show_in_store>1</show_in_store>
-						<comment>
-							<![CDATA[<span>To enable Log in with PayPal please add your SSL secured website to the PayPal whitelist. It is easy to setup by visiting <a href='https://developer.paypal.com/webapps/developer/docs/integration/direct/log-in-with-paypal/' target="_blank">this url</a> and following the instructions. After you are whitelisted you can enable your customers to Log in with PayPal.</span>]]>
-						</comment>
-					</status>
-					<clientid translate="label">
-						<label>Client ID</label>
-						<frontend_type>text</frontend_type>
-						<sort_order>20</sort_order>
-						<show_in_default>1</show_in_default>
-						<show_in_website>1</show_in_website>
-						<show_in_store>1</show_in_store>
-					</clientid>
-					<secret translate="label">
-						<label>Secret</label>
-						<frontend_type>text</frontend_type>
-						<sort_order>30</sort_order>
-						<show_in_default>1</show_in_default>
-						<show_in_website>1</show_in_website>
-						<show_in_store>1</show_in_store>
-					</secret>
-					<sandbox translate="label">
-						<label>Sandbox</label>
-						<frontend_type>select</frontend_type>
-						<source_model>adminhtml/system_config_source_yesno</source_model>
-						<sort_order>40</sort_order>
-						<show_in_default>1</show_in_default>
-						<show_in_website>1</show_in_website>
-						<show_in_store>1</show_in_store>
-					</sandbox>
-				</fields>
-			</paypallogin>
 			<design>
 				<label>Buttons color</label>
 				<sort_order>60</sort_order>
 				<show_in_default>1</show_in_default>
 				<expanded>1</expanded>
 				<fields>
-                
+
 					<custom_messages>
 						<label>Use custom messages and titles?</label>
 						<frontend_type>select</frontend_type>
@@ -317,8 +241,8 @@
 						<show_in_default>1</show_in_default>
 						<show_in_website>1</show_in_website>
 						<show_in_store>1</show_in_store>
-					</custom_messages>     
-                    
+					</custom_messages>
+
 					<custom_loggedin_title translate="label">
 						<label>custom title when logged in</label>
 						<frontend_type>text</frontend_type>
@@ -340,7 +264,7 @@
 						<depends>
 							<custom_messages>1</custom_messages>
 						</depends>
-					</custom_loggedin_message>                    
+					</custom_loggedin_message>
 					<custom_title translate="label">
 						<label>custom title when NOT logged in</label>
 						<frontend_type>text</frontend_type>
@@ -351,7 +275,7 @@
 						<depends>
 							<custom_messages>1</custom_messages>
 						</depends>
-					</custom_title>                       
+					</custom_title>
   					<custom_message translate="label">
 						<label>custom message when NOT logged in</label>
 						<frontend_type>text</frontend_type>
@@ -362,7 +286,7 @@
 						<depends>
 							<custom_messages>1</custom_messages>
 						</depends>
-					</custom_message>                               
+					</custom_message>
 
 					<custom_css>
 						<label>Provide Theme based styling?</label>

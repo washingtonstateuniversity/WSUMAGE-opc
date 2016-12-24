@@ -1,7 +1,7 @@
 <?php
 $form="";
 if($this->helper('wsu_opc')->hasCheckoutForm()){
-	$form = $this->getChildHtml('webformscrf.form'); 
+	$form = $this->getChildHtml('webformscrf.form');
 }
 
 $logged_in = Mage::getSingleton('customer/session')->isLoggedIn();
@@ -49,14 +49,12 @@ $theme = Mage::getDesign()->getTheme('frontend');
 	<h2><?=$title?></h2>
 	<p><?=$message?></p>
 	<div class="opc-menu">
-	
-		<?=$this->getChildHtml('paypal.button')?>
-				
+
 		<?php if (!Mage::getSingleton('customer/session')->isLoggedIn()):?>
-			<?=$this->getChildHtml('login');?>	
+			<?=$this->getChildHtml('login');?>
 		<?php endif;?>
 		<div class="right review-menu-block">
-		  <a class="review-total"><?=Mage::helper('wsu_opc')->getGrandTotal()?></a>   
+		  <a class="review-total"><?=Mage::helper('wsu_opc')->getGrandTotal()?></a>
 		  <span class="polygon"></span>
 		  <div class="hidden" id="opc-review-block">
 			  <?=$this->_getReviewHtml()?>
@@ -64,7 +62,7 @@ $theme = Mage::getDesign()->getTheme('frontend');
 		</div>
 	   <div class="clear move-columns"></div>
 	</div>
-	
+
 	<div class="clear"></div>
 
 	<div class="opc-col-left">
@@ -73,7 +71,7 @@ $theme = Mage::getDesign()->getTheme('frontend');
 			<?=$this->getChildHtml('billing')?>
 			<?=$loading?>
 		</form>
-			
+
 		<form id="opc-address-form-shipping"  class="shipping-block hidden" method="post">
 			<?=$this->getChildHtml('shipping')?>
 			<?=$loading?>
@@ -93,7 +91,7 @@ $theme = Mage::getDesign()->getTheme('frontend');
 			<?=$loading?>
 		</div>
 		<?php endif;?>
-		
+
 		<?php if(Mage::helper('wsu_opc')->isShowDiscount()):?>
 		<div class="discount-block">
 			<h3><?=$this->__('Discount Codes')?><span class='expand_plus'></span></h3>
@@ -121,7 +119,7 @@ $theme = Mage::getDesign()->getTheme('frontend');
                 <?=$this->getChildHtml('payment');?>
             </form>
 		</div>
-	
+
 		<?php if (Mage::getConfig()->getModuleConfig('Wsu_OnepageCheckoutSignature')->is('active', 'true')): ?>
 			<div class="signature-block">
 				<h3><?=$this->__('Signature')?><span class='expand_plus'></span></h3>
@@ -145,7 +143,7 @@ $theme = Mage::getDesign()->getTheme('frontend');
 	var vopc = '<?=Mage::getConfig()->getModuleConfig("Wsu_Opc")->version;?>';
 	<?php if ($this->getOnepage()->getQuote()->isVirtual()):?>
 	jQuery.WSU.OPC.Checkout.isVirtual = true;
-	<?php endif;?>	 
+	<?php endif;?>
 </script>
 
 <div id="agree_error" style="display:none !important;"><?=$this->__('Please agree to all the terms and conditions before placing the order.');?></div>

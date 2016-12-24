@@ -7,8 +7,6 @@ class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract
     const XML_PATH_TERMS_TYPE = 'wsu_opc/default/terms_type';
     const XML_PATH_COMMENT = 'wsu_opc/default/comment';
     const XML_PATH_DISCOUNT = 'wsu_opc/default/discount';
-    const XML_PAYPAL_LIGHTBOX_SANDBOX = 'wsu_opc/paypal/sandbox';
-    const XML_PAYPAL_LIGHTBOX_ENABLED = 'wsu_opc/paypal/status';
 
     public function isEnable()
     {
@@ -81,22 +79,6 @@ class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract
     public function isShowDiscount()
     {
         return Mage::getStoreConfig(self::XML_PATH_DISCOUNT);
-    }
-
-    public function getPayPalExpressUrl($token)
-    {
-
-        if (Mage::getStoreConfig(self::XML_PAYPAL_LIGHTBOX_SANDBOX)) {
-            return 'https://www.sandbox.paypal.com/checkoutnow?token='.$token;
-        } else {
-            return 'https://www.paypal.com/checkoutnow?token='.$token;
-        }
-
-    }
-
-    public function getPayPalLightboxEnabled()
-    {
-        return (bool)Mage::getStoreConfig(self::XML_PAYPAL_LIGHTBOX_ENABLED);
     }
 
     public function getAvailablePaymentMethods()
