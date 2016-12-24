@@ -46,9 +46,9 @@ class Wsu_Opc_Block_Wrapper extends Mage_Core_Block_Template
         );
 
         $base_url = Mage::getBaseUrl('link', true);
-
+        $isSecure = Mage::app()->getStore()->isCurrentlySecure();
         // protocol for ajax urls should be the same as for current page
-        $http_protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS']==='on')?'https':'http';
+        $http_protocol = ($isSecure)?'https':'http';
         if ($http_protocol == 'https') {
             $base_url = str_replace('http:', 'https:', $base_url);
         } else {
