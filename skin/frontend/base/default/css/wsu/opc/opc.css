@@ -798,11 +798,22 @@ float:right;margin-left:16px;}
     background:rgba(230, 230, 230, 0.46);
 	cursor:default;
 }
+.to_save.hide.saving.saved{
+    background:#e2e2e2;
+}
+.to_save.saving.saved{
+    background:#e2e2e2;
+}
 .to_save.saved:before {
     color:#1C6117;
     content: "\f046";
 }
-
+.to_save.hide.saving.saved:before{
+    content: "\f0c7";
+}
+.to_save.saving.saved:before{
+    content: "\f0c7";
+}
 .to_save.saved:hover{
     background:rgba(230, 230, 230, 0.46);
 }

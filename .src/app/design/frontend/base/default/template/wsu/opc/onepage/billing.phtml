@@ -179,7 +179,7 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
 
             <?php if ($this->canShip()): ?>
                 <div class="control <?php if (!Mage::helper('wsu_opc')->isShowShippingForm()):?>hidden<?php endif;?> eigths-5">
-                    <input type="hidden" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?=$this->__('Ship to this address') ?>" /><button id="switch_to_new_shipping"><?=$this->__('Ship to Other Address') ?></button>
+                    <input type="hidden" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?=$this->__('Ship to this address') ?>" /><button id="btn_use_for_shipping_yes"><?=$this->__('Ship to Other Address') ?></button>
                 </div>
             <?php endif; ?>
         </li>
