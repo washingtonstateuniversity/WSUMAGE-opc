@@ -1,7 +1,7 @@
 <?php
 class Wsu_Opc_Helper_Data extends Mage_Core_Helper_Abstract
 {
-    private $_version = 'CE';
+    //private $_version = 'CE';
     const XML_PATH_VAT_FRONTEND_VISIBILITY = 'customer/create_account/vat_frontend_visibility';
     const XML_PATH_SHIPPING_VISIBILITY = 'wsu_opc/default/show_shipping';
     const XML_PATH_TERMS_TYPE = 'wsu_opc/default/terms_type';
