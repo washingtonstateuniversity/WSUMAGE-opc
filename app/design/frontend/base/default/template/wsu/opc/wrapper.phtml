@@ -1,0 +1,159 @@
+<?php
+$form="";
+if($this->helper('wsu_opc')->hasCheckoutForm()){
+	$form = $this->getChildHtml('webformscrf.form');
+}
+
+$logged_in = Mage::getSingleton('customer/session')->isLoggedIn();
+
+
+$form_location = Mage::getStoreConfig('wsu_opc/default/form_location');
+$block_notice_update = Mage::getStoreConfig('wsu_opc/display/block_notice_update');
+$use_custom_css = Mage::getStoreConfig('wsu_opc/design/custom_css');
+
+$use_click_to_save = Mage::getStoreConfig('wsu_opc/default/use_click_to_save');
+
+if($logged_in){
+    $title = $this->__('Checkout');
+    $message = $this->__('Fill in the Fields below to complete your purchase!');
+}else{
+    $title = $this->__('Checkout as Guest');
+    $message = $this->__('Fill in the Fields below to complete your purchase!  If you have an account please feel free to sign in.');
+}
+if($logged_in){
+    $custom_title = Mage::getStoreConfig('wsu_opc/design/custom_loggedin_title');
+    $custom_message = Mage::getStoreConfig('wsu_opc/design/custom_loggedin_message');
+}else{
+    $custom_title = Mage::getStoreConfig('wsu_opc/design/custom_title');
+    $custom_message = Mage::getStoreConfig('wsu_opc/design/custom_message');
+}
+if( "" !== $custom_title && NULL !== $custom_title){
+    $title = $custom_title;
+}
+if( "" !== $custom_message && NULL !== $custom_message){
+    $message = $custom_message;
+}
+
+$loading = '<div class="opc-ajax-loader '.$block_notice_update.' " style="display:none;"><div class="loader"><div class="outer"></div><div class="inner"></div></div></div>';
+?>
+<script type="text/javascript">
+window.click_to_save=<?php if($use_click_to_save):?>true<?php else:?>false<?php endif;?>;
+countryRegions = <?=$this->helper('directory')->getRegionJson() ?>
+</script>
+<?php
+echo $this->getDesignStyles();
+$package = Mage::getDesign()->getPackageName();
+$theme = Mage::getDesign()->getTheme('frontend');
+?>
+<div class="opc-wrapper-opc <?=$use_custom_css==1?"":"defaulted_css"?> design_package_<?=$package;?> design_theme_<?=$theme;?>">
+	<h2><?=$title?></h2>
+	<p><?=$message?></p>
+	<div class="opc-menu">
+
+		<?php if (!Mage::getSingleton('customer/session')->isLoggedIn()):?>
+			<?=$this->getChildHtml('login');?>
+		<?php endif;?>
+		<div class="right review-menu-block">
+		  <a class="review-total"><?=Mage::helper('wsu_opc')->getGrandTotal()?></a>
+		  <span class="polygon"></span>
+		  <div class="hidden" id="opc-review-block">
+			  <?=$this->_getReviewHtml()?>
+		  </div>
+		</div>
+	   <div class="clear move-columns"></div>
+	</div>
+
+	<div class="clear"></div>
+
+	<div class="opc-col-left">
+		<?=($form_location=='billing_above'?$form:"")?>
+		<form id="opc-address-form-billing" class="billing-block" method="post">
+			<?=$this->getChildHtml('billing')?>
+			<?=$loading?>
+		</form>
+
+		<form id="opc-address-form-shipping"  class="shipping-block hidden" method="post">
+			<?=$this->getChildHtml('shipping')?>
+			<?=$loading?>
+		</form>
+		<?=($form_location=='billing_below'?$form:"")?>
+	</div>
+
+	<div class="opc-col-center">
+	   <?php if (!$this->getOnepage()->getQuote()->isVirtual()):?>
+		<div class="shipping-block">
+			<h3><?=$this->__('Shipping Method')?></h3>
+			<div id="shipping-block-methods">
+                <form id="opc-co-shipping-method-form" autocomplete="off">
+				    <?=$this->getChildHtml('shipping_method');//$this->_getShippingMethodsHtml();?>
+                </form>
+			</div>
+			<?=$loading?>
+		</div>
+		<?php endif;?>
+
+		<?php if(Mage::helper('wsu_opc')->isShowDiscount()):?>
+		<div class="discount-block">
+			<h3><?=$this->__('Discount Codes')?><span class='expand_plus'></span></h3>
+			<div  class="collapse-block hidden">
+                <form id="opc-discount-coupon-form" action="<?=$this->getUrl('checkout/cart/couponPost', array('_secure' => $this->getRequest()->isSecure())) ?>" method="post">
+                    <?=$this->getChildhtml('coupon');?>
+                </form>
+			</div>
+			<?=$loading?>
+		</div>
+		<?php endif;?>
+
+		<?php if(Mage::helper('wsu_opc')->isShowComment()):?>
+        	<form autocomplete="off">
+			    <?=$this->getChildhtml('customer.comment');?>
+            </form>
+		<?php endif;?>
+	</div>
+
+	<div class="opc-col-right">
+		<?=($form_location=='review_above'?$form:"")?>
+		<div class="payment-block <?php if ($this->getOnepage()->getQuote()->isVirtual()):?>clear-margin<?php endif;?>">
+            <form action="" id="co-payment-form">
+                <h3><?=$this->__('Payment Method')?></h3>
+                <?=$this->getChildHtml('payment');?>
+            </form>
+		</div>
+
+		<?php if (Mage::getConfig()->getModuleConfig('Wsu_OnepageCheckoutSignature')->is('active', 'true')): ?>
+			<div class="signature-block">
+				<h3><?=$this->__('Signature')?><span class='expand_plus'></span></h3>
+				<div  class="collapse-block hidden">
+					<?=$this->getChildhtml('opcsignature');?>
+				</div>
+			</div>
+		<?php endif;?>
+
+		<div class="opc-review-actions" id="checkout-review-submit">
+			  <h5 class="grand_total"><?=$this->__('Grand Total')?><?=Mage::helper('wsu_opc')->getGrandTotal()?></h5>
+			  <?=$this->getChildHtml('agreements')?>
+			  <?=$this->getChildHtml('opc.newsletters');?>
+			  <button type="button" title="<?=$this->__('Place Order Now') ?>" class="button btn-checkout opc-btn-checkout"><span><span><?=$this->__('Place Order Now') ?></span></span></button>
+		</div>
+		<?=($form_location=='review_below'?$form:"")?>
+	</div>
+</div>
+<script>
+	jQuery.WSU.OPC.Checkout.config = '<?=$this->getJsonConfig()?>';
+	var vopc = '<?=Mage::getConfig()->getModuleConfig("Wsu_Opc")->version;?>';
+	<?php if ($this->getOnepage()->getQuote()->isVirtual()):?>
+	jQuery.WSU.OPC.Checkout.isVirtual = true;
+	<?php endif;?>
+</script>
+
+<div id="agree_error" style="display:none !important;"><?=$this->__('Please agree to all the terms and conditions before placing the order.');?></div>
+<div id="pssm_msg" style="display:none !important;"><?=$this->__('Please specify shipping method');?></div>
+
+
+<div class="opc-message-wrapper design_package_<?=$package;?> design_theme_<?=$theme;?>">
+	<div class="opc-messages">
+		<a class="close-message-wrapper"></a>
+		<div class="opc-message-container"></div>
+		<div class="opc-messages-action"><button class="button"><span><span><?=$this->__('Close')?></span></span></button></div>
+	</div>
+</div>
