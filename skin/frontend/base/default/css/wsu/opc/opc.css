@@ -420,6 +420,11 @@ float:right;margin-left:16px;}
 .opc-wrapper-opc .opc-col-left .control label[for="billing:create_account"] {
     float: right;
 }
+
+.shipping-block {
+    padding: 10px 0;
+}
+
 #btn_use_for_shipping_yes {
     /* padding-left: 4em; */
     margin-right: 4em;

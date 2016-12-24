@@ -165,11 +165,11 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
         <?php endif;?>
 
 
-        <li>
+        <li class="flex-row">
             <?php
             $guest_allowed = $this->getQuote()->isAllowedGuestCheckout();
             if($guest_allowed): ?>
-                <div class="control eigths-3">
+                <div class="control thirds-1 flex-row">
                         <input type="checkbox" name="billing[create_account]" id="billing:create_account" value="1" title="<?=$this->__('Create an account for later use') ?>"  class="checkbox" /><label for="billing:create_account"><?=$this->__('Create an account for later use') ?></label>
                 </div>
             <?php else:?>
@@ -178,8 +178,9 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
 
 
             <?php if ($this->canShip()): ?>
-                <div class="control <?php if (!Mage::helper('wsu_opc')->isShowShippingForm()):?>hidden<?php endif;?> eigths-5">
-                    <input type="hidden" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?=$this->__('Ship to this address') ?>" /><button id="btn_use_for_shipping_yes"><?=$this->__('Ship to Other Address') ?></button>
+                <div class="control <?php if (!Mage::helper('wsu_opc')->isShowShippingForm()):?>hidden<?php endif;?> thirds-2 alignright">
+                    <input type="checkbox" name="billing[use_for_shipping]" id="billing:use_for_shipping_yes" value="1"<?php if ($this->isUseBillingAddressForShipping()) {?> checked="checked"<?php }?> title="<?=$this->__('Ship to this address') ?>" class="checkbox   " />
+                    <button id="btn_use_for_shipping_yes"><?=$this->__('Ship to Other Address') ?></button>
                 </div>
             <?php endif; ?>
         </li>
