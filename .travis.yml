@@ -15,6 +15,7 @@ branches:
 before_script:
   - cd .src && npm install -g grunt-cli
   - npm install
+  - composer install
   - npm prune
   - npm --version
   - node --version
