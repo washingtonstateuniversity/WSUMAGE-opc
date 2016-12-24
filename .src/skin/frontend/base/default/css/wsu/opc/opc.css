@@ -791,7 +791,9 @@ float:right;margin-left:16px;}
 .to_save.hide:hover:before {
     color:#39424b;
 }
-
+.to_save.hide.saving{
+    background:#e2e2e2;
+}
 .to_save.saved{
     background:rgba(230, 230, 230, 0.46);
 	cursor:default;
