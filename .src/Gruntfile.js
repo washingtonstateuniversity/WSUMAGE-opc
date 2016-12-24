@@ -112,13 +112,13 @@ module.exports = function(grunt) {
 
         phpcs: {
             options: {
-                bin: "./vendor/bin/phpcs --standard=Ecg --extensions=php,phtml --ignore=\"vendor/*,node_modules/*\"",
+                bin: "./vendor/bin/phpcs --standard=Ecg --extensions=php --ignore=\"vendor/*,node_modules/*\"",
                 standard: "./vendor/magento-ecg/coding-standard/Ecg/ruleset.xml"
             },
             psr_2: {
                 src:'./',
                 options: {
-                    bin: "./vendor/bin/phpcs --extensions=php,phtml --ignore=\"vendor/*,node_modules/*\"",
+                    bin: "./vendor/bin/phpcs --extensions=php --ignore=\"vendor/*,node_modules/*\"",
                     standard: "./phpcs_psr2.ruleset.xml"
                 },
             },
@@ -128,13 +128,13 @@ module.exports = function(grunt) {
         },
         phpcbf: {
             options: {
-                bin: "./vendor/bin/phpcbf --extensions=php,phtml --ignore=\"vendor/*,node_modules/*\"",
+                bin: "./vendor/bin/phpcbf --extensions=php --ignore=\"vendor/*,node_modules/*\"",
                 standard: "./vendor/magento-ecg/coding-standard/Ecg/ruleset.xml"
             },
             psr_2: {
                 src:'./',
                 options: {
-                    bin: "./vendor/bin/phpcbf --extensions=php,phtml --ignore=\"vendor/*,node_modules/*\"",
+                    bin: "./vendor/bin/phpcbf --extensions=php --ignore=\"vendor/*,node_modules/*\"",
                     standard: "./phpcs_psr2.ruleset.xml"
                 },
             },

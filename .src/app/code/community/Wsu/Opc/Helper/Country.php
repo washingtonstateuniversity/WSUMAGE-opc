@@ -1,5 +1,6 @@
-<?php
-class Wsu_Opc_Helper_Country {
+<?php// @codingStandardsIgnoreFile
+class Wsu_Opc_Helper_Country
+{
     const GEOIP_COUNTRY_BEGIN = 16776960;
     const GEOIP_STATE_BEGIN_REV0 = 16700000;
     const GEOIP_STATE_BEGIN_REV1 = 16000000;
@@ -226,7 +227,8 @@ class Wsu_Opc_Helper_Country {
         $this->geoip_open(self::GEOIP_STANDARD);
     }
 
-    public function geoip_load_shared_mem ($file) {
+    public function geoip_load_shared_mem($file)
+    {
 
         $fp = fopen($file, "rb");
         if (!$fp) {
@@ -235,32 +237,33 @@ class Wsu_Opc_Helper_Country {
         }
         $s_array = fstat($fp);
         $size = $s_array['size'];
-        if ($this->shmid = @shmop_open (self::GEOIP_SHM_KEY, "w", 0, 0)) {
-            shmop_delete ($this->shmid);
-            shmop_close ($this->shmid);
+        if ($this->shmid = @shmop_open(self::GEOIP_SHM_KEY, "w", 0, 0)) {
+            shmop_delete($this->shmid);
+            shmop_close($this->shmid);
         }
-        $this->shmid = shmop_open (self::GEOIP_SHM_KEY, "c", 0644, $size);
-        shmop_write ($this->shmid, fread($fp, $size), 0);
-        shmop_close ($this->shmid);
+        $this->shmid = shmop_open(self::GEOIP_SHM_KEY, "c", 0644, $size);
+        shmop_write($this->shmid, fread($fp, $size), 0);
+        shmop_close($this->shmid);
     }
 
-    public function _setup_segments() {
+    public function _setup_segments()
+    {
         $this->databaseType = self::GEOIP_COUNTRY_EDITION;
         $this->record_length = self::STANDARD_RECORD_LENGTH;
         if ($this->flags & self::GEOIP_SHARED_MEMORY) {
-            $offset = @shmop_size ($this->shmid) - 3;
+            $offset = @shmop_size($this->shmid) - 3;
             for ($i = 0; $i < self::STRUCTURE_INFO_MAX_SIZE; $i++) {
-                $delim = @shmop_read ($this->shmid, $offset, 3);
+                $delim = @shmop_read($this->shmid, $offset, 3);
                 $offset += 3;
                 if ($delim == (chr(255).chr(255).chr(255))) {
-                    $this->databaseType = ord(@shmop_read ($this->shmid, $offset, 1));
+                    $this->databaseType = ord(@shmop_read($this->shmid, $offset, 1));
                     $offset++;
 
                     if ($this->databaseType == self::GEOIP_REGION_EDITION_REV0) {
                         $this->databaseSegments = self::GEOIP_STATE_BEGIN_REV0;
-                    } else if ($this->databaseType == self::GEOIP_REGION_EDITION_REV1) {
+                    } elseif ($this->databaseType == self::GEOIP_REGION_EDITION_REV1) {
                         $this->databaseSegments = self::GEOIP_STATE_BEGIN_REV1;
-                    } else if (($this->databaseType == self::GEOIP_CITY_EDITION_REV0)||
+                    } elseif (($this->databaseType == self::GEOIP_CITY_EDITION_REV0)||
                         ($this->databaseType == self::GEOIP_CITY_EDITION_REV1)
                         || ($this->databaseType == self::GEOIP_ORG_EDITION)
                         || ($this->databaseType == self::GEOIP_ORG_EDITION_V6)
@@ -279,8 +282,8 @@ class Wsu_Opc_Helper_Country {
                         || ($this->databaseType == self::GEOIP_ASNUM_EDITION)
                         || ($this->databaseType == self::GEOIP_ASNUM_EDITION_V6)) {
                         $this->databaseSegments = 0;
-                        $buf = @shmop_read ($this->shmid, $offset, self::SEGMENT_RECORD_LENGTH);
-                        for ($j = 0;$j < self::SEGMENT_RECORD_LENGTH;$j++) {
+                        $buf = @shmop_read($this->shmid, $offset, self::SEGMENT_RECORD_LENGTH);
+                        for ($j = 0; $j < self::SEGMENT_RECORD_LENGTH; $j++) {
                             $this->databaseSegments += (ord($buf[$j]) << ($j * 8));
                         }
                         if (($this->databaseType == self::GEOIP_ORG_EDITION)
@@ -307,15 +310,14 @@ class Wsu_Opc_Helper_Country {
             $filepos = ftell($this->filehandle);
             fseek($this->filehandle, -3, SEEK_END);
             for ($i = 0; $i < self::STRUCTURE_INFO_MAX_SIZE; $i++) {
-                $delim = fread($this->filehandle,3);
+                $delim = fread($this->filehandle, 3);
                 if ($delim == (chr(255).chr(255).chr(255))) {
-                    $this->databaseType = ord(fread($this->filehandle,1));
+                    $this->databaseType = ord(fread($this->filehandle, 1));
                     if ($this->databaseType == self::GEOIP_REGION_EDITION_REV0) {
                         $this->databaseSegments = self::GEOIP_STATE_BEGIN_REV0;
-                    }
-                    else if ($this->databaseType == self::GEOIP_REGION_EDITION_REV1) {
+                    } elseif ($this->databaseType == self::GEOIP_REGION_EDITION_REV1) {
                         $this->databaseSegments = self::GEOIP_STATE_BEGIN_REV1;
-                    }  else if (($this->databaseType == self::GEOIP_CITY_EDITION_REV0)
+                    } elseif (($this->databaseType == self::GEOIP_CITY_EDITION_REV0)
                         || ($this->databaseType == self::GEOIP_CITY_EDITION_REV1)
                         || ($this->databaseType == self::GEOIP_CITY_EDITION_REV0_V6)
                         || ($this->databaseType == self::GEOIP_CITY_EDITION_REV1_V6)
@@ -336,11 +338,11 @@ class Wsu_Opc_Helper_Country {
                         || ($this->databaseType == self::GEOIP_ASNUM_EDITION)
                         || ($this->databaseType == self::GEOIP_ASNUM_EDITION_V6)) {
                         $this->databaseSegments = 0;
-                        $buf = fread($this->filehandle,self::SEGMENT_RECORD_LENGTH);
-                        for ($j = 0;$j < self::SEGMENT_RECORD_LENGTH;$j++) {
+                        $buf = fread($this->filehandle, self::SEGMENT_RECORD_LENGTH);
+                        for ($j = 0; $j < self::SEGMENT_RECORD_LENGTH; $j++) {
                             $this->databaseSegments += (ord($buf[$j]) << ($j * 8));
                         }
-                        if (   ( $this->databaseType == self::GEOIP_ORG_EDITION )
+                        if (( $this->databaseType == self::GEOIP_ORG_EDITION )
                             || ( $this->databaseType == self::GEOIP_DOMAIN_EDITION )
                             || ( $this->databaseType == self::GEOIP_ISP_EDITION )
                             || ( $this->databaseType == self::GEOIP_ORG_EDITION_V6 )
@@ -360,16 +362,17 @@ class Wsu_Opc_Helper_Country {
                 ($this->databaseType == self::GEOIP_NETSPEED_EDITION)) {
                 $this->databaseSegments = self::GEOIP_COUNTRY_BEGIN;
             }
-            fseek($this->filehandle,$filepos,SEEK_SET);
+            fseek($this->filehandle, $filepos, SEEK_SET);
         }
     }
 
-    public function geoip_open($flags) {
+    public function geoip_open($flags)
+    {
         $this->flags = $flags;
         if ($this->flags & self::GEOIP_SHARED_MEMORY) {
-            $this->shmid = @shmop_open (self::GEOIP_SHM_KEY, "a", 0, 0);
+            $this->shmid = @shmop_open(self::GEOIP_SHM_KEY, "a", 0, 0);
         } else {
-            $this->filehandle = fopen($this->filename,"rb") or die("Can not open $this->filename\n" );
+            $this->filehandle = fopen($this->filename, "rb") or die("Can not open $this->filename\n");
             if ($this->flags & self::GEOIP_MEMORY_CACHE) {
                 $s_array = fstat($this->filehandle);
                 $this->memory_buffer = fread($this->filehandle, $s_array['size']);
@@ -379,7 +382,8 @@ class Wsu_Opc_Helper_Country {
         $this->_setup_segments();
     }
 
-    public function geoip_close() {
+    public function geoip_close()
+    {
         if ($this->flags & self::GEOIP_SHARED_MEMORY) {
             return true;
         }
@@ -387,9 +391,10 @@ class Wsu_Opc_Helper_Country {
         return fclose($this->filehandle);
     }
 
-    public function geoip_country_id_by_name_v6($name) {
+    public function geoip_country_id_by_name_v6($name)
+    {
         $rec = $this->dns_get_record($name, DNS_AAAA);
-        if ( !$rec ) {
+        if (!$rec) {
             return false;
         }
         $addr = $rec[0]["ipv6"];
@@ -399,7 +404,8 @@ class Wsu_Opc_Helper_Country {
         return $this->geoip_country_id_by_addr_v6($addr);
     }
 
-    public function geoip_country_id_by_name($name) {
+    public function geoip_country_id_by_name($name)
+    {
         $addr = gethostbyname($name);
         if (!$addr || $addr == $name) {
             return false;
@@ -407,7 +413,8 @@ class Wsu_Opc_Helper_Country {
         return $this->geoip_country_id_by_addr($addr);
     }
 
-    public function geoip_country_code_by_name_v6($name) {
+    public function geoip_country_code_by_name_v6($name)
+    {
         $country_id = $this->geoip_country_id_by_name_v6($name);
         if ($country_id !== false) {
             return $this->GEOIP_COUNTRY_CODES[$country_id];
@@ -415,7 +422,8 @@ class Wsu_Opc_Helper_Country {
         return false;
     }
 
-    public function geoip_country_code_by_name($name) {
+    public function geoip_country_code_by_name($name)
+    {
         $country_id = $this->geoip_country_id_by_name($name);
         if ($country_id !== false) {
             return $this->GEOIP_COUNTRY_CODES[$country_id];
@@ -423,7 +431,8 @@ class Wsu_Opc_Helper_Country {
         return false;
     }
 
-    public function geoip_country_name_by_name_v6($name) {
+    public function geoip_country_name_by_name_v6($name)
+    {
         $country_id = $this->geoip_country_id_by_name_v6($name);
         if ($country_id !== false) {
             return $this->GEOIP_COUNTRY_NAMES[$country_id];
@@ -431,7 +440,8 @@ class Wsu_Opc_Helper_Country {
         return false;
     }
 
-    public function geoip_country_name_by_name($name) {
+    public function geoip_country_name_by_name($name)
+    {
         $country_id = $this->geoip_country_id_by_name($name);
         if ($country_id !== false) {
             return $this->GEOIP_COUNTRY_NAMES[$country_id];
@@ -439,17 +449,20 @@ class Wsu_Opc_Helper_Country {
         return false;
     }
 
-    public function geoip_country_id_by_addr_v6($addr) {
+    public function geoip_country_id_by_addr_v6($addr)
+    {
         $ipnum = inet_pton($addr);
         return $this->_geoip_seek_country_v6($ipnum) - self::GEOIP_COUNTRY_BEGIN;
     }
 
-    public function geoip_country_id_by_addr($addr) {
+    public function geoip_country_id_by_addr($addr)
+    {
         $ipnum = ip2long($addr);
         return $this->_geoip_seek_country($ipnum) - self::GEOIP_COUNTRY_BEGIN;
     }
 
-    public function geoip_country_code_by_addr_v6($addr) {
+    public function geoip_country_code_by_addr_v6($addr)
+    {
         $country_id = $this->geoip_country_id_by_addr_v6($addr);
         if ($country_id !== false) {
             return $this->GEOIP_COUNTRY_CODES[$country_id];
@@ -457,10 +470,11 @@ class Wsu_Opc_Helper_Country {
         return false;
     }
 
-    public function geoip_country_code_by_addr($addr) {
+    public function geoip_country_code_by_addr($addr)
+    {
         if ($this->databaseType == self::GEOIP_CITY_EDITION_REV1) {
             $record = $this->geoip_record_by_addr($addr);
-            if ( $record !== false ) {
+            if ($record !== false) {
                 return $record->country_code;
             }
         } else {
@@ -472,7 +486,8 @@ class Wsu_Opc_Helper_Country {
         return false;
     }
 
-    public function geoip_country_name_by_addr_v6($addr) {
+    public function geoip_country_name_by_addr_v6($addr)
+    {
         $country_id = $this->geoip_country_id_by_addr_v6($addr);
         if ($country_id !== false) {
             return $this->GEOIP_COUNTRY_NAMES[$country_id];
@@ -480,7 +495,8 @@ class Wsu_Opc_Helper_Country {
         return false;
     }
 
-    public function geoip_country_name_by_addr($addr) {
+    public function geoip_country_name_by_addr($addr)
+    {
         if ($this->databaseType == self::GEOIP_CITY_EDITION_REV1) {
             $record = $this->geoip_record_by_addr($addr);
             return $record->country_name;
@@ -493,12 +509,13 @@ class Wsu_Opc_Helper_Country {
         return false;
     }
 
-    public function _geoip_seek_country_v6($ipnum) {
+    public function _geoip_seek_country_v6($ipnum)
+    {
 
         # arrays from unpack start with offset 1
         # yet another php mystery. array_merge work around
         # this broken behaviour
-        $v6vec = array_merge(unpack( "C16", $ipnum));
+        $v6vec = array_merge(unpack("C16", $ipnum));
 
         $offset = 0;
         for ($depth = 127; $depth >= 0; --$depth) {
@@ -508,15 +525,19 @@ class Wsu_Opc_Helper_Country {
                 $enc = mb_internal_encoding();
                 mb_internal_encoding('ISO-8859-1');
 
-                $buf = substr($this->memory_buffer,
+                $buf = substr(
+                    $this->memory_buffer,
                     2 * $this->record_length * $offset,
-                    2 * $this->record_length);
+                    2 * $this->record_length
+                );
 
                 mb_internal_encoding($enc);
             } elseif ($this->flags & self::GEOIP_SHARED_MEMORY) {
-                $buf = @shmop_read ($this->shmid,
+                $buf = @shmop_read(
+                    $this->shmid,
                     2 * $this->record_length * $offset,
-                    2 * $this->record_length );
+                    2 * $this->record_length
+                );
             } else {
                 fseek($this->filehandle, 2 * $this->record_length * $offset, SEEK_SET) == 0
                     or die("fseek failed");
@@ -548,7 +569,8 @@ class Wsu_Opc_Helper_Country {
         return false;
     }
 
-    public function _geoip_seek_country($ipnum) {
+    public function _geoip_seek_country($ipnum)
+    {
         $offset = 0;
         for ($depth = 31; $depth >= 0; --$depth) {
             if ($this->flags & self::GEOIP_MEMORY_CACHE) {
@@ -557,15 +579,19 @@ class Wsu_Opc_Helper_Country {
                 $enc = mb_internal_encoding();
                 mb_internal_encoding('ISO-8859-1');
 
-                $buf = substr($this->memory_buffer,
+                $buf = substr(
+                    $this->memory_buffer,
                     2 * $this->record_length * $offset,
-                    2 * $this->record_length);
+                    2 * $this->record_length
+                );
 
                 mb_internal_encoding($enc);
             } elseif ($this->flags & self::GEOIP_SHARED_MEMORY) {
-                $buf = @shmop_read ($this->shmid,
+                $buf = @shmop_read(
+                    $this->shmid,
                     2 * $this->record_length * $offset,
-                    2 * $this->record_length );
+                    2 * $this->record_length
+                );
             } else {
                 fseek($this->filehandle, 2 * $this->record_length * $offset, SEEK_SET) == 0
                     or die("fseek failed");
@@ -593,13 +619,14 @@ class Wsu_Opc_Helper_Country {
         return false;
     }
 
-    public function _common_get_org($seek_org) {
+    public function _common_get_org($seek_org)
+    {
         $record_pointer = $seek_org + (2 * $this->record_length - 1) * $this->databaseSegments;
         if ($this->flags & self::GEOIP_SHARED_MEMORY) {
-            $org_buf = @shmop_read ($this->shmid, $record_pointer, self::MAX_ORG_RECORD_LENGTH);
+            $org_buf = @shmop_read($this->shmid, $record_pointer, self::MAX_ORG_RECORD_LENGTH);
         } else {
             fseek($this->filehandle, $record_pointer, SEEK_SET);
-            $org_buf = fread($this->filehandle,self::MAX_ORG_RECORD_LENGTH);
+            $org_buf = fread($this->filehandle, self::MAX_ORG_RECORD_LENGTH);
         }
         // workaround php's broken substr, strpos, etc handling with
         // mbstring.func_overload and mbstring.internal_encoding
@@ -610,43 +637,49 @@ class Wsu_Opc_Helper_Country {
         return $org_buf;
     }
 
-    public function _get_org_v6($ipnum) {
+    public function _get_org_v6($ipnum)
+    {
         $seek_org = _geoip_seek_country_v6($ipnum);
         if ($seek_org == $this->databaseSegments) {
-            return NULL;
+            return null;
         }
         return $this->_common_get_org($seek_org);
     }
 
-    public function _get_org($ipnum) {
+    public function _get_org($ipnum)
+    {
         $seek_org = $this->_geoip_seek_country($ipnum);
         if ($seek_org == $this->databaseSegments) {
-            return NULL;
+            return null;
         }
         return $this->_common_get_org($seek_org);
     }
 
-    public function geoip_name_by_addr_v6 ($addr) {
-        if ($addr == NULL) {
+    public function geoip_name_by_addr_v6($addr)
+    {
+        if ($addr == null) {
             return 0;
         }
         $ipnum = inet_pton($addr);
         return $this->_get_org_v6($ipnum);
     }
 
-    public function geoip_name_by_addr ($addr) {
-        if ($addr == NULL) {
+    public function geoip_name_by_addr($addr)
+    {
+        if ($addr == null) {
             return 0;
         }
         $ipnum = ip2long($addr);
         return $this->_get_org($ipnum);
     }
 
-    public function geoip_org_by_addr ($addr) {
+    public function geoip_org_by_addr($addr)
+    {
         return $this->geoip_name_by_addr($addr);
     }
 
-    public function _get_region($ipnum) {
+    public function _get_region($ipnum)
+    {
         if ($this->databaseType == self::GEOIP_REGION_EDITION_REV0) {
             $seek_region = $this->_geoip_seek_country($ipnum) - self::GEOIP_STATE_BEGIN_REV0;
             if ($seek_region >= 1000) {
@@ -657,16 +690,16 @@ class Wsu_Opc_Helper_Country {
                 $region = "";
             }
             return array ($country_code,$region);
-        }  else if ($this->databaseType == self::GEOIP_REGION_EDITION_REV1) {
+        } elseif ($this->databaseType == self::GEOIP_REGION_EDITION_REV1) {
             $seek_region = _geoip_seek_country($ipnum) - self::GEOIP_STATE_BEGIN_REV1;
             //print $seek_region;
             if ($seek_region < self::US_OFFSET) {
                 $country_code = "";
                 $region = "";
-            } else if ($seek_region < self::CANADA_OFFSET) {
+            } elseif ($seek_region < self::CANADA_OFFSET) {
                 $country_code = "US";
                 $region = chr(($seek_region - self::US_OFFSET)/26 + 65) . chr(($seek_region - self::US_OFFSET)%26 + 65);
-            } else if ($seek_region < self::WORLD_OFFSET) {
+            } elseif ($seek_region < self::WORLD_OFFSET) {
                 $country_code = "CA";
                 $region = chr(($seek_region - self::CANADA_OFFSET)/26 + 65) . chr(($seek_region - self::CANADA_OFFSET)%26 + 65);
             } else {
@@ -677,28 +710,31 @@ class Wsu_Opc_Helper_Country {
         }
     }
 
-    public function geoip_region_by_addr ($addr) {
-        if ($addr == NULL) {
+    public function geoip_region_by_addr($addr)
+    {
+        if ($addr == null) {
             return 0;
         }
         $ipnum = ip2long($addr);
         return $this->_get_region($ipnum);
     }
 
-    public function getdnsattributes ($l,$ip) {
+    public function getdnsattributes($l, $ip)
+    {
         $r = new Net_DNS_Resolver();
         $r->nameservers = array("ws1.maxmind.com");
-        $p = $r->search($l."." . $ip .".s.maxmind.com","TXT","IN");
+        $p = $r->search($l."." . $ip .".s.maxmind.com", "TXT", "IN");
         $str = is_object($p->answer[0])?$p->answer[0]->string():'';
-        $str = substr($str, 1, -1 );
+        $str = substr($str, 1, -1);
         return $str;
     }
 
-    public function getrecordwithdnsservice($str) {
+    public function getrecordwithdnsservice($str)
+    {
         $record = new GeoIpDNSRecord();
-        $keyvalue = explode(";",$str);
+        $keyvalue = explode(";", $str);
         foreach ($keyvalue as $keyvalue2) {
-            list($key,$value) = explode("=",$keyvalue2);
+            list($key,$value) = explode("=", $keyvalue2);
             if ($key == "co") {
                 $record->country_code = $value;
             }
@@ -711,7 +747,7 @@ class Wsu_Opc_Helper_Country {
             if ($key == "ac") {
                 $record->areacode = $value;
             }
-            if ($key == "dm" || $key == "me" ) {
+            if ($key == "dm" || $key == "me") {
                 $record->dmacode   = $value;
                 $record->metrocode = $value;
             }
@@ -745,15 +781,17 @@ class Wsu_Opc_Helper_Country {
     }
 
 
-    public function _get_record_v6($ipnum) {
+    public function _get_record_v6($ipnum)
+    {
         $seek_country = $this->_geoip_seek_country_v6($ipnum);
         if ($seek_country == $this->databaseSegments) {
-            return NULL;
+            return null;
         }
         return $this->_common_get_record($seek_country);
     }
 
-    public function _common_get_record($seek_country) {
+    public function _common_get_record($seek_country)
+    {
         // workaround php's broken substr, strpos, etc handling with
         // mbstring.func_overload and mbstring.internal_encoding
         $enc = mb_internal_encoding();
@@ -762,16 +800,16 @@ class Wsu_Opc_Helper_Country {
         $record_pointer = $seek_country + (2 * $this->record_length - 1) * $this->databaseSegments;
 
         if ($this->flags & self::GEOIP_MEMORY_CACHE) {
-            $record_buf = substr($this->memory_buffer,$record_pointer,self::FULL_RECORD_LENGTH);
+            $record_buf = substr($this->memory_buffer, $record_pointer, self::FULL_RECORD_LENGTH);
         } elseif ($this->flags & self::GEOIP_SHARED_MEMORY) {
-            $record_buf = @shmop_read($this->shmid,$record_pointer,self::FULL_RECORD_LENGTH);
+            $record_buf = @shmop_read($this->shmid, $record_pointer, self::FULL_RECORD_LENGTH);
         } else {
             fseek($this->filehandle, $record_pointer, SEEK_SET);
-            $record_buf = fread($this->filehandle,self::FULL_RECORD_LENGTH);
+            $record_buf = fread($this->filehandle, self::FULL_RECORD_LENGTH);
         }
         $record = new GeoIpRecord();
         $record_buf_pos = 0;
-        $char = ord(substr($record_buf,$record_buf_pos,1));
+        $char = ord(substr($record_buf, $record_buf_pos, 1));
         $record->country_code = $this->GEOIP_COUNTRY_CODES[$char];
         $record->country_code3 = $this->GEOIP_COUNTRY_CODES3[$char];
         $record->country_name = $this->GEOIP_COUNTRY_NAMES[$char];
@@ -779,56 +817,56 @@ class Wsu_Opc_Helper_Country {
         $record_buf_pos++;
         $str_length = 0;
         // Get region
-        $char = ord(substr($record_buf,$record_buf_pos+$str_length,1));
+        $char = ord(substr($record_buf, $record_buf_pos+$str_length, 1));
         while ($char != 0) {
             $str_length++;
-            $char = ord(substr($record_buf,$record_buf_pos+$str_length,1));
+            $char = ord(substr($record_buf, $record_buf_pos+$str_length, 1));
         }
         if ($str_length > 0) {
-            $record->region = substr($record_buf,$record_buf_pos,$str_length);
+            $record->region = substr($record_buf, $record_buf_pos, $str_length);
         }
         $record_buf_pos += $str_length + 1;
         $str_length = 0;
         // Get city
-        $char = ord(substr($record_buf,$record_buf_pos+$str_length,1));
+        $char = ord(substr($record_buf, $record_buf_pos+$str_length, 1));
         while ($char != 0) {
             $str_length++;
-            $char = ord(substr($record_buf,$record_buf_pos+$str_length,1));
+            $char = ord(substr($record_buf, $record_buf_pos+$str_length, 1));
         }
         if ($str_length > 0) {
-            $record->city = substr($record_buf,$record_buf_pos,$str_length);
+            $record->city = substr($record_buf, $record_buf_pos, $str_length);
         }
         $record_buf_pos += $str_length + 1;
         $str_length = 0;
         // Get postal code
-        $char = ord(substr($record_buf,$record_buf_pos+$str_length,1));
+        $char = ord(substr($record_buf, $record_buf_pos+$str_length, 1));
         while ($char != 0) {
             $str_length++;
-            $char = ord(substr($record_buf,$record_buf_pos+$str_length,1));
+            $char = ord(substr($record_buf, $record_buf_pos+$str_length, 1));
         }
         if ($str_length > 0) {
-            $record->postal_code = substr($record_buf,$record_buf_pos,$str_length);
+            $record->postal_code = substr($record_buf, $record_buf_pos, $str_length);
         }
         $record_buf_pos += $str_length + 1;
         $str_length = 0;
         // Get latitude and longitude
         $latitude = 0;
         $longitude = 0;
-        for ($j = 0;$j < 3; ++$j) {
-            $char = ord(substr($record_buf,$record_buf_pos++,1));
+        for ($j = 0; $j < 3; ++$j) {
+            $char = ord(substr($record_buf, $record_buf_pos++, 1));
             $latitude += ($char << ($j * 8));
         }
         $record->latitude = ($latitude/10000) - 180;
-        for ($j = 0;$j < 3; ++$j) {
-            $char = ord(substr($record_buf,$record_buf_pos++,1));
+        for ($j = 0; $j < 3; ++$j) {
+            $char = ord(substr($record_buf, $record_buf_pos++, 1));
             $longitude += ($char << ($j * 8));
         }
         $record->longitude = ($longitude/10000) - 180;
         if (self::GEOIP_CITY_EDITION_REV1 == $this->databaseType) {
             $metroarea_combo = 0;
             if ($record->country_code == "US") {
-                for ($j = 0;$j < 3;++$j) {
-                    $char = ord(substr($record_buf,$record_buf_pos++,1));
+                for ($j = 0; $j < 3; ++$j) {
+                    $char = ord(substr($record_buf, $record_buf_pos++, 1));
                     $metroarea_combo += ($char << ($j * 8));
                 }
                 $record->metro_code = $record->dma_code = floor($metroarea_combo/1000);
@@ -839,59 +877,61 @@ class Wsu_Opc_Helper_Country {
         return $record;
     }
 
-    public function geoip_record_by_addr_v6 ($addr) {
-        if ($addr == NULL) {
+    public function geoip_record_by_addr_v6($addr)
+    {
+        if ($addr == null) {
             return 0;
         }
         $ipnum = inet_pton($addr);
         return $this->_get_record_v6($ipnum);
     }
 
-    public function _get_record($ipnum) {
+    public function _get_record($ipnum)
+    {
         $seek_country = $this->_geoip_seek_country($ipnum);
         if ($seek_country == $this->databaseSegments) {
-            return NULL;
+            return null;
         }
         return $this->_common_get_record($seek_country);
     }
 
-    public function geoip_record_by_addr($addr) {
-        if ($addr == NULL) {
+    public function geoip_record_by_addr($addr)
+    {
+        if ($addr == null) {
             return 0;
         }
         $ipnum = ip2long($addr);
 
         return $this->_get_record($ipnum);
     }
-    
-    public function get(){
-    	 
-    	$customerIp = Mage::helper('core/http')->getRemoteAddr(false);
-    	
-    	if ($customerIp == '127.0.0.1'){
-    		$ip = "96.30.30.149"; //Mage::helper('core/http')->getRemoteAddr(true);
-    	}else{
-    		$ip = $customerIp;
-    	}
-    	 
-    	$this->geoip_open(self::GEOIP_STANDARD);
-    	//$this->geoip_close();
-    	 
-    	$country_code = $this->geoip_country_code_by_addr( $ip );    	
-    	
-    	$countries = Mage::getModel('directory/country')->getCollection();
-    	
-    	$country_code = trim($country_code);
-    	$country_code = strtoupper($country_code);
-    	
-    	foreach($countries as $country){
-    		if ($country->getCountryId()==$country_code){
-    			return $country_code;
-    		}
-    	}
-       
-		return false;
+
+    public function get()
+    {
+
+        $customerIp = Mage::helper('core/http')->getRemoteAddr(false);
+
+        if ($customerIp == '127.0.0.1') {
+            $ip = "96.30.30.149"; //Mage::helper('core/http')->getRemoteAddr(true);
+        } else {
+            $ip = $customerIp;
+        }
+
+        $this->geoip_open(self::GEOIP_STANDARD);
+        //$this->geoip_close();
+
+        $country_code = $this->geoip_country_code_by_addr($ip);
+
+        $countries = Mage::getModel('directory/country')->getCollection();
+
+        $country_code = trim($country_code);
+        $country_code = strtoupper($country_code);
+
+        foreach ($countries as $country) {
+            if ($country->getCountryId()==$country_code) {
+                return $country_code;
+            }
+        }
+
+        return false;
     }
-    
 }
-    

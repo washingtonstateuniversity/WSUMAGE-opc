@@ -33,7 +33,7 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
                     </div>
 				</li>
 				<?php endif; ?>
-					 
+
 				<?php if(!$this->isCustomerLoggedIn()): ?>
 				<li class="fields">
                     <div class="field">
@@ -143,7 +143,7 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
                             </li>
                     <?php endif ?>
 
-                    
+
                 <?php endif; ?>
                 <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
                 	<div class="clear"></div>
@@ -160,11 +160,11 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
     <?php /* Extensions placeholder */ ?>
     <?=$this->getChildHtml('checkout.onepage.billing.extra')?>
     <?php if(!$this->isCustomerLoggedIn()): ?>
-    
-    
+
+
         <?php endif;?>
 
-    
+
         <li>
             <?php
             $guest_allowed = $this->getQuote()->isAllowedGuestCheckout();
@@ -183,7 +183,7 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
                 </div>
             <?php endif; ?>
         </li>
-                        
+
 		<li class="fields <?php if($guest_allowed):?>hidden<?php endif;?>" id="register-customer-password">
 			<div class="field">
 				<label for="billing:customer_password" class="required"><em>*</em><?=$this->__('Password') ?></label>
@@ -200,7 +200,7 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
             <p>If you have a downloadable product, you will not be able to check out as a guest.  Please set a password, or login.</p>
 		</li>
 		<div class="clear"></div>
-    
+
 
     </ul>
     <?php if (!$this->canShip()): ?>
