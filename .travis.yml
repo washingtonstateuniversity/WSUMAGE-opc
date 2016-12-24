@@ -20,4 +20,4 @@ before_script:
   - node --version
 
 script:
-  - cd .src && grunt phpcs
+  - grunt phpcs
