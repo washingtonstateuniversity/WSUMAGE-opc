@@ -218,7 +218,7 @@ jQuery.WSU=jQuery.WSU||{};
 					WSU.OPC.saveOrderStatus = false;
 					return false;
 				}
-				///
+
 
 				var addressForm = new VarienForm("opc-address-form-billing");
 				if (!addressForm.validator.validate()){
@@ -253,7 +253,7 @@ jQuery.WSU=jQuery.WSU||{};
 			WSU.OPC.removeNotAllowedPaymentMethods();
 			WSU.OPC.bindChangePaymentFields();
 
-			$(document).on('click', '#co-payment-form input[type="radio"]', function(event){
+			$('#co-payment-form input[type="radio"]').on('click', function(event){
 				WSU.OPC.removeNotAllowedPaymentMethods();
 				WSU.OPC.validatePayment();
 			});
@@ -364,45 +364,17 @@ jQuery.WSU=jQuery.WSU||{};
 			}
 
 			WSU.OPC.Checkout.lockPlaceOrder();
-			if (payment.currentMethod !== 'stripe') {
-				var form = $('#co-payment-form').serializeArray();
-				WSU.OPC.Decorator.showLoader("#co-payment-form","<h1>Saving payment choice</h1>");
-				WSU.OPC.ajaxManager.addReq("savePayment",{
-				   type: 'POST',
-				   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',
-				   dataType: 'json',
-				   data: form,
-				   success: WSU.OPC.preparePaymentResponse
-			   });
-			}else{
-				Stripe.createToken({
 
-					name: $('stripe_cc_owner').value,
-					number: $('stripe_cc_number').value,
-					cvc: $('stripe_cc_cvc').value,
-					exp_month: $('stripe_cc_expiration_month').value,
-					exp_year: $('stripe_cc_expiration_year').value
-				}, function(status, response) {
-					if (response.error) {
-						WSU.OPC.Decorator.hideLoader();
-						WSU.OPC.Checkout.xhr = null;
-						WSU.OPC.Checkout.unlockPlaceOrder();
-						alert(response.error.message);
-					} else {
-						$('stripe_token').value = response['id'];
-						var form = $('#co-payment-form').serializeArray();
-						WSU.OPC.Decorator.showLoader("#co-payment-form","<h1>Saving payment choice</h1>");
+            var form = $('#co-payment-form').serializeArray();
+            WSU.OPC.Decorator.showLoader("#co-payment-form","<h1>Saving payment choice</h1>");
+            WSU.OPC.ajaxManager.addReq("savePayment",{
+                type: 'POST',
+                url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',
+                dataType: 'json',
+                data: form,
+                success: WSU.OPC.preparePaymentResponse
+            });
 
-						WSU.OPC.ajaxManager.addReq("savePayment",{
-						   type: 'POST',
-						   url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',
-						   dataType: 'json',
-						   data: form,
-						   success: WSU.OPC.preparePaymentResponse
-					   });
-					}
-				});
-			}
 		},
 
 		/** CHECK RESPONSE FROM AJAX AFTER SAVE PAYMENT METHOD **/
