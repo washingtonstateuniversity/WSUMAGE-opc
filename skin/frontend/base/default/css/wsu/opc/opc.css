@@ -352,7 +352,7 @@ float:right;margin-left:16px;}
 .opc-wrapper-opc.defaulted_css .btn-checkout:hover span span{background:#39b9c6;}
 
 .opc-wrapper-opc.defaulted_css .btn-checkout.button-disabled{}
-.opc-wrapper-opc.defaulted_css .btn-checkout.button-disabled span span{background: url(images/ajax-loader-button.png) no-repeat scroll 15px 12px transparent;}
+.opc-wrapper-opc.defaulted_css .btn-checkout.button-disabled span span{}
 .opc-wrapper-opc.defaulted_css .btn-checkout.button-disabled span {cursor: default;background-color:rgba(2,72,79, .8); text-shadow:none}
 
 .opc-wrapper-opc.defaulted_css .opc-newsletter{margin-top:10px;margin-bottom:0px;}
@@ -498,8 +498,8 @@ float:right;margin-left:16px;}
 @media (min-width: 768px) {
 	.modal-dialog {width: 305px;    margin: 30px auto;  }
 	#agreement-dialog .modal-dialog{width:600px}
-	.modal-content {-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5);            box-shadow: 0 5px 15px rgba(0, 0, 0, .5);  }
-	.modal-sm {   width: 300px;}
+	.modal-content {-webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, .5); box-shadow: 0 5px 15px rgba(0, 0, 0, .5);  }
+	.modal-sm { width: 300px;}
 }
 
 @media (max-width: 768px) {
