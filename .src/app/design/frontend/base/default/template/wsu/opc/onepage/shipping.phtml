@@ -8,17 +8,17 @@
     <?php if(""!==$predone_billing): ?>
         <a id="shipping_click_to_save" class="to_save saved hide"></a>
     <?php endif;?>
-<div class="">	
+<div class="">
 
-	<h3><?=$this->__('Shipping Address')?></h3>
+    <h3><?=$this->__('Shipping Address')?></h3>
     <ul class="form-list">
     <?php if ($this->customerHasAddresses()): ?>
-       <li class="wide">
-           <label for="shipping-address-select" class="notice"><?=$this->__('Select a shipping address from your address book or enter a new address.') ?></label>
-           <div class="input-box">
-               <?=$this->getAddressesHtmlSelect('shipping') ?>
-           </div>
-       </li>
+    <li class="wide">
+        <label for="shipping-address-select" class="notice"><?=$this->__('Select a shipping address from your address book or enter a new address.') ?></label>
+        <div class="input-box">
+            <?=$this->getAddressesHtmlSelect('shipping') ?>
+        </div>
+    </li>
     <?php endif ?>
         <li id="shipping-new-address-form"<?php if ($this->customerHasAddresses()): ?> style="display:none;"<?php endif ?>>
             <fieldset>
@@ -33,8 +33,8 @@
                             </div>
                         </div>
                     </li>
-            
-        		<?php $_streetValidationClass = $helper->getAttributeValidationClass('street') . " validate-for-pobox "; ?>
+
+                <?php $_streetValidationClass = $helper->getAttributeValidationClass('street') . " validate-for-pobox "; ?>
                     <li class="wide">
                         <label for="shipping:street1" class="required"><em>*</em><?=$this->__('Address') ?></label>
                         <div class="input-box">
@@ -108,7 +108,7 @@
                         </div>
                     </li>
                 <?php if ($this->isCustomerLoggedIn() && $this->customerHasAddresses()):?>
-                	<div class="clear"></div>
+                    <div class="clear"></div>
                     <li class="control">
                         <input type="checkbox" name="shipping[save_in_address_book]" value="1" title="<?=$this->__('Save in address book') ?>" id="shipping:save_in_address_book" <?php if ($this->getAddress()->getSaveInAddressBook()):?> checked="checked"<?php endif;?> class="checkbox" /><label for="shipping:save_in_address_book"><?=$this->__('Save in address book') ?></label></li>
                 <?php else:?>
