@@ -444,13 +444,13 @@ jQuery.WSU=jQuery.WSU||{};
             var form = $('#co-payment-form').serializeArray();
             form  = WSU.OPC.checkAgreement(form);
             form  = WSU.OPC.checkSubscribe(form);
-            form  = WSU.OPC.getComment(form);
+            form  = WSU.OPC.Comment.getComment(form);
 
             WSU.OPC.Decorator.showLoader("#general_message","<h1>Processing order.</h1>");
             WSU.OPC.Checkout.lockPlaceOrder();
 
             if (WSU.OPC.Checkout.config.comment!=="0"){
-                WSU.OPC.saveCustomerComment();
+                WSU.OPC.Comment.saveCustomerComment();
                 setTimeout(function(){
                     WSU.OPC.callSaveOrder(form);
                 },600);
@@ -463,30 +463,14 @@ jQuery.WSU=jQuery.WSU||{};
             WSU.OPC.Plugin.dispatch('saveOrder');
             WSU.OPC.savingOrder=true;
             WSU.OPC.ajaxManager.addReq("saveOrder",{
-            type: 'POST',
-            url: WSU.OPC.Checkout.saveOrderUrl,
-            dataType: 'json',
-            data: form,
-            success: WSU.OPC.prepareOrderResponse
-        });
+                type: 'POST',
+                url: WSU.OPC.Checkout.saveOrderUrl,
+                dataType: 'json',
+                data: form,
+                success: WSU.OPC.prepareOrderResponse
+            });
         },
 
-        /** SAVE CUSTOMER COMMNET **/
-        saveCustomerComment: function(){
-            WSU.OPC.ajaxManager.addReq("saveComment",{
-            type: 'POST',
-            url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/comment',
-            dataType: 'json',
-            data: {"comment": $('#customer_comment').val()},
-            success: function(){}
-        });
-        },
-
-        getComment: function(form){
-            var com = $('#customer_comment').val();
-            form.push({"name":"customer_comment", "value":com});
-            return form;
-        },
 
         /** ADD AGGREMENTS TO ORDER FORM **/
         checkAgreement: function(form){
@@ -522,10 +506,11 @@ jQuery.WSU=jQuery.WSU||{};
         recheckItems: function(){
             // check subscribe
             if ($('#is_subscribed').length){
-                if(WSU.OPC.is_subscribe)
+                if(WSU.OPC.is_subscribe) {
                     $('#is_subscribed').prop('checked', true);
-                else
+                } else {
                     $('#is_subscribed').prop('checked', false);
+               }
             }
 
             // check agree
@@ -574,26 +559,6 @@ jQuery.WSU=jQuery.WSU||{};
                     return;
                 }
             }
-
-            if ( WSU.OPC.defined(response.update_section) ){
-                WSU.OPC.Decorator.hideLoader();
-                WSU.OPC.Checkout.unlockPlaceOrder();
-
-                //create catch for default logic  - for not spam errors to console
-                try{
-                    $('#checkout-' + response.update_section.name + '-load').html(response.update_section.html);
-                }catch(e){
-
-                }
-
-                WSU.OPC.prepareExtendPaymentForm();
-                $('#payflow-advanced-iframe').show();
-                $('#payflow-link-iframe').show();
-                $('#hss-iframe').show();
-
-            }
-            WSU.OPC.Decorator.hideLoader();
-            WSU.OPC.Checkout.unlockPlaceOrder();
 
             WSU.OPC.Plugin.dispatch('responseSaveOrder', response);
         },

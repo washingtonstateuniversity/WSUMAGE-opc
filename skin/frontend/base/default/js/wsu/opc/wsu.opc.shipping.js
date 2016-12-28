@@ -201,12 +201,12 @@
             form = WSU.OPC.Checkout.applySubscribed(form);
             WSU.OPC.Decorator.showLoader(".shipping-block:not(#opc-address-form-shipping)","<h1>Saving shipping choice</h1>");
             WSU.OPC.ajaxManager.addReq("saveShippingMethod",{
-            type: 'POST',
-            url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShippingMethod',
-            dataType: 'json',
-            data: form,
-            success:WSU.OPC.Checkout.prepareShippingMethodResponse
-        });
+                type: 'POST',
+                url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShippingMethod',
+                dataType: 'json',
+                data: form,
+                success:WSU.OPC.Checkout.prepareShippingMethodResponse
+            });
         },
 
         validateShippingMethod: function(){
