@@ -417,13 +417,26 @@ float:right;margin-left:16px;}
 .payment-form-full-page .review-total+span{display:none !important}
 .payment-form-full-page #opc-review-block{position:inherit !important;width:100%;border:none !important;box-shadow:none !important;padding:0 !important;display:block !important;top: 0;height:auto !important;overflow:visible !important;visibility:visible;}
 
+
+
+
+
+
+
+
 .opc-wrapper-opc .opc-col-left .control label[for="billing:create_account"] {
     float: right;
 }
-
 #register-customer-password{
     padding: 0 10px;
 }
+#register-customer-password p{
+    clear:both;
+}
+
+
+
+
 #allow-gift-message-container,
 .gift-messages .control{
  padding: 0 10px;

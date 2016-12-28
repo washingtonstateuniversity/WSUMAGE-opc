@@ -1,7 +1,5 @@
 (function($,WSU){
 
-
-
     WSU.OPC.Billing = {
         bill_need_update: true,
         need_reload_shippings_payments: false,
@@ -75,9 +73,8 @@
 
 
             //update password field
-            $('input[name="billing[create_account]"]').on('click',function(e){
-                e.preventDefault();
-                if ($(this).is(':checked')){
+            $('input[name="billing[create_account]"]').on("change",function(){
+                if ( $('input[name="billing[create_account]"]').is(':checked') ){
                     $('#register-customer-password').removeClass('hidden');
                     $('input[name="billing[customer_password]"]').addClass('required-entry');
                     $('input[name="billing[confirm_password]"]').addClass('required-entry');
