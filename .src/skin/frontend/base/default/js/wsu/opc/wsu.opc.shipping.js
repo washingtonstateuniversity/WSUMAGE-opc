@@ -205,10 +205,45 @@
                 url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShippingMethod',
                 dataType: 'json',
                 data: form,
-                success:WSU.OPC.Checkout.prepareShippingMethodResponse
+                success:WSU.OPC.Shipping.prepareShippingMethodResponse
             });
         },
 
+        /** PARSE RESPONSE FROM AJAX SAVE SHIPPING METHOD **/
+        prepareShippingMethodResponse: function(response){
+            WSU.OPC.Checkout.xhr = null;
+            WSU.OPC.Decorator.hideLoader(".shipping-block");
+            if ( WSU.OPC.defined(response.error) ){
+                WSU.OPC.Checkout.unlockPlaceOrder();
+                WSU.OPC.Plugin.dispatch('error');
+                WSU.OPC.popup_message(response.message);
+                WSU.OPC.saveOrderStatus = false;
+                return;
+            }
+
+            if ( WSU.OPC.defined(response.review) && false === WSU.OPC.saveOrderStatus){
+                try{
+                    WSU.OPC.Decorator.updateGrandTotal(response);
+                    $('#opc-review-block').html(response.review);
+                }catch(e){ }
+                WSU.OPC.Checkout.removePrice();
+//				WSU.OPC.recheckAgree();
+            }
+            if (WSU.OPC.defined(response.worked_on)){
+                if("shipping_method"===response.worked_on){
+                    $("#shipping_method_click_to_save").addClass("saved");
+                }
+            }
+            if(window.click_to_save){
+                $("#shipping_click_to_save").addClass("hide");
+            }
+            //IF STATUS TRUE - START SAVE PAYMENT FOR CREATE ORDER
+            if (true === WSU.OPC.saveOrderStatus){
+                WSU.OPC.validatePayment();
+            }else{
+                WSU.OPC.Checkout.pullPayments();
+            }
+        },
         validateShippingMethod: function(){
             var shippingChecked = false;
             $('#opc-co-shipping-method-form input').each(function(){
