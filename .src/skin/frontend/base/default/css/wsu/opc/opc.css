@@ -421,10 +421,21 @@ float:right;margin-left:16px;}
     float: right;
 }
 
+#register-customer-password{
+    padding: 0 10px;
+}
+#allow-gift-message-container,
+.gift-messages .control{
+ padding: 0 10px;
+}
+
+#opc-discount-coupon-form { padding: 0 10px; }
+
+
 .shipping-block {
     padding: 10px 0;
 }
-
+#checkout-shipping-method-load { padding: 0 10px; }
 #btn_use_for_shipping_yes {
     /* padding-left: 4em; */
     margin-right: 4em;
