@@ -355,35 +355,13 @@
         },
 
         reloadShippingsPayments: function(form_type, delay){
-            /*if(typeof(delay) === 'undefined' || delay === undefined || !delay){
-                delay = 1400;
-            }
-
-            clearTimeout(WSU.OPC.Checkout.updateShippingPaymentProgress);
-
-            WSU.OPC.Checkout.updateShippingPaymentProgress = setTimeout(function(){
-
-                var form = $('#opc-address-form-'+form_type).serializeArray();
-                form = WSU.OPC.Checkout.applyShippingMethod(form);
-
-                if (WSU.OPC.Checkout.xhr2!=null){
-                    WSU.OPC.Checkout.xhr2.abort();
-                }
-
-                WSU.OPC.Checkout.xhr2 = $.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/reloadShippingsPayments',form, WSU.OPC.Checkout.reloadShippingsPaymentsResponse,'json');
-
-            }, delay);
-
-            */
-
             WSU.OPC.Decorator.showLoader('#co-payment-form',"<h1>Getting payment choices</h1>");
             WSU.OPC.ajaxManager.addReq("savePayments",{
-            type: 'POST',
-            url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/reloadShippingsPayments',
-            dataType: 'json',
-            success: WSU.OPC.Checkout.reloadShippingsPaymentsResponse
-        });
-
+                type: 'POST',
+                url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/reloadShippingsPayments',
+                dataType: 'json',
+                success: WSU.OPC.Checkout.reloadShippingsPaymentsResponse
+            });
         },
 
         reloadShippingsPaymentsResponse: function(response){

@@ -89,6 +89,7 @@
             this.initChangeAddress();
             this.initChangeSelectAddress();
         },
+
         is_billing_dirty: function(){
             var billing = $("#opc-address-form-billing").serialize();
             if( billing === WSU.OPC.Billing.billing_data ){
@@ -98,6 +99,7 @@
                 return true;
             }
         },
+
         /** CREATE EVENT FOR UPDATE SHIPPING BLOCK **/
         initChangeAddress: function(){
 
@@ -219,8 +221,8 @@
                 $('input[name="shipping[same_as_billing]"]').prop('checked', true);
                 $('#opc-address-form-shipping').addClass('hidden');
             }else{
-                if( WSU.OPC.defined(skip_copy) ){
-                    skip_copy = false;
+                if( !WSU.OPC.defined(skip_copy) ){
+                    skip_copy = true;
                 }
 
                 $('input[name="billing[use_for_shipping]"]').prop('checked', false);
@@ -228,7 +230,7 @@
                 $('#opc-address-form-shipping').removeClass('hidden');
                 WSU.OPC.Shipping.initChangeAddress();
                 if(!skip_copy){
-                    //WSU.OPC.Billing.pushBilingToShipping();
+                    WSU.OPC.Billing.pushBilingToShipping();
                 }
             }
 
@@ -274,41 +276,6 @@
             $("#opc-address-form-shipping input[type='text']").val("");
             $("#opc-address-form-shipping :checked").attr("checked",false);
         },
-        /** METHOD CREATE AJAX REQUEST FOR UPDATE BILLING ADDRESS
-        save: function(){
-            if (WSU.OPC.Checkout.ajaxProgress!==false){
-                clearTimeout(WSU.OPC.Checkout.ajaxProgress);
-            }
-
-            // stop reload shippings/payments logic
-            if (WSU.OPC.Checkout.updateShippingPaymentProgress!==false){
-                clearTimeout(WSU.OPC.Checkout.updateShippingPaymentProgress);
-            }
-
-            if (WSU.OPC.Checkout.xhr2!=null){
-                WSU.OPC.Checkout.xhr2.abort();
-            }
-            ////
-
-            WSU.OPC.Checkout.ajaxProgress = setTimeout(function(){
-                    var form = $('#opc-address-form-billing').serializeArray();
-                    form = WSU.OPC.Checkout.applyShippingMethod(form);
-                    form = WSU.OPC.Checkout.applySubscribed(form);
-
-                    if (WSU.OPC.Checkout.xhr!=null){
-                        WSU.OPC.Checkout.xhr.abort();
-                    }
-
-                    if($('input[name="billing[use_for_shipping]"]').is(':checked'))
-                        WSU.OPC.Decorator.showLoader();
-                    else
-                        WSU.OPC.Checkout.lockPlaceOrder(1);
-
-                    WSU.OPC.Billing.bill_need_update = false;
-                    WSU.OPC.Checkout.xhr = $.post(WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveBilling',form, WSU.OPC.Checkout.prepareAddressResponse,'json');
-            }, 500);
-        }, **/
-
 
         save: function(){
 
@@ -325,12 +292,12 @@
             WSU.OPC.Billing.bill_need_update = false;
             WSU.OPC.Decorator.showLoader("#opc-address-form-billing","<h1>Saving billing information</h1>");
             WSU.OPC.ajaxManager.addReq("saveBilling",{
-            type: 'POST',
-            url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveBilling',
-            dataType: 'json',
-            data: form,
-            success: WSU.OPC.Checkout.prepareAddressResponse
-        });
+                type: 'POST',
+                url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveBilling',
+                dataType: 'json',
+                data: form,
+                success: WSU.OPC.Checkout.prepareAddressResponse
+            });
         }
     };
 })(jQuery,jQuery.WSU||{});

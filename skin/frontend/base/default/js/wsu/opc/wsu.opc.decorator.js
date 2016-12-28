@@ -35,6 +35,26 @@
             $('.opc-btn-checkout').addClass('button-disabled');
         },
 
+        resetSaveBtn: function(mode){
+            $.each(mode.split(","), function(idx, itm){
+                $("#"+itm.trim()+"_click_to_save").removeClass("saved");
+                $("#"+itm.trim()+"_click_to_save").removeClass("hide");
+            });
+        },
+
+        setSaveBtnAction: function(mode,action){
+            $.each(mode.split(","), function(idx, itm){
+                $("#"+itm.trim()+"_click_to_save").off().on("click",action);
+            });
+        },
+
+        disableSaveBtn: function(mode){
+            $.each(mode.split(","), function(idx, itm){
+                $("#"+itm.trim()+"_click_to_save").addClass("hide");
+            });
+        },
+
+
         hideLoader: function(parentBlock){
             var jObj = WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
             if(window.click_to_save){
