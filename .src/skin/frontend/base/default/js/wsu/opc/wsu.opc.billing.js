@@ -224,7 +224,6 @@
                 if( !WSU.OPC.defined(skip_copy) ){
                     skip_copy = true;
                 }
-
                 $('input[name="billing[use_for_shipping]"]').prop('checked', false);
                 $('input[name="shipping[same_as_billing]"]').prop('checked', false);
                 $('#opc-address-form-shipping').removeClass('hidden');
@@ -233,7 +232,6 @@
                     WSU.OPC.Billing.pushBilingToShipping();
                 }
             }
-
         },
 
         /** COPY FIELD FROM BILLING FORM TO SHIPPING **/

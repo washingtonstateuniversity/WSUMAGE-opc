@@ -53,6 +53,7 @@
                     clearTimeout(WSU.OPC.Checkout.ajaxProgress);
                     WSU.OPC.Checkout.abortAjax();
                     //first check if the form is valid, if so then reload shipping_method
+
                     WSU.OPC.Shipping.validateForm(300,function(){
                         if( WSU.OPC.Shipping.form_valid ){
                             WSU.OPC.Checkout.reloadShippingsPayments('shipping');
@@ -233,11 +234,14 @@
             }
             if (WSU.OPC.defined(response.worked_on)){
                 if("shipping_method"===response.worked_on){
-                    $("#shipping_method_click_to_save").addClass("saved");
+                    WSU.OPC.Decorator.setSaveBtnSaved("shipping_method");
+                }
+                if("shipping"===response.worked_on){
+                    WSU.OPC.Decorator.setSaveBtnSaved("shipping");
                 }
             }
             if(window.click_to_save){
-                $("#shipping_click_to_save").addClass("hide");
+                WSU.OPC.Decorator.disableSaveBtn("shipping");
             }
             //IF STATUS TRUE - START SAVE PAYMENT FOR CREATE ORDER
             if (true === WSU.OPC.saveOrderStatus){

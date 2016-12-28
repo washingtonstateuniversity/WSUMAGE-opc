@@ -50,7 +50,7 @@
             if(window.click_to_save){
                 if($("#payment_click_to_save").length<=0){
                     $("#co-payment-form").prepend("<a id='payment_click_to_save' class='to_save'></a>");
-                    $("#payment_click_to_save").addClass("hide");
+                    WSU.OPC.Decorator.disableSaveBtn("payment");
                 }
             }
 
@@ -88,15 +88,7 @@
                 return;
             }
             if (WSU.OPC.defined(response.worked_on)){
-                if("billing"===response.worked_on){
-                    $("#billing_click_to_save").addClass("saved");
-                }
-                if("shipping_method"===response.worked_on){
-                    $("#shipping_method_click_to_save").addClass("saved");
-                }
-                if("shipping"===response.worked_on){
-                    $("#shipping_click_to_save").addClass("saved");
-                }
+                WSU.OPC.Decorator.setSaveBtnSaved(response.worked_on);
             }
 
             if(WSU.OPC.defined(response.exists) && true === response.exists){
@@ -126,10 +118,10 @@
                     if($("#shipping_click_to_save").length<=0){
                         $(".shipping-block").prepend("<a id='shipping_click_to_save' class='to_save'></a>");
                     }
-                    $("#shipping_click_to_save").off().on("click",function(){
+                    WSU.OPC.Decorator.setSaveBtnAction("shipping",function(){
                         WSU.OPC.Shipping.save();
                     });
-                    $("#shipping_click_to_save").addClass("hide");
+                    WSU.OPC.Decorator.disableSaveBtn("shipping");
                 }
             }
 
@@ -145,7 +137,7 @@
             }
 
             if(window.click_to_save){
-                $("#billing_click_to_save").addClass("hide");
+                WSU.OPC.Decorator.disableSaveBtn("billing");
             }
 
             if (false === WSU.OPC.Checkout.isVirtual){
@@ -310,7 +302,7 @@
                     }
                     if (WSU.OPC.defined(response.worked_on)){
                         if("payments"===response.worked_on){
-                            $("#payment_click_to_save").addClass("saved");
+                            WSU.OPC.Decorator.setSaveBtnSaved("payment");
                         }
                     }
                     if ( WSU.OPC.defined(response.payments) ){
@@ -382,7 +374,7 @@
             if (WSU.OPC.defined(response.worked_on)){
                 WSU.OPC.Decorator.hideLoader("#co-payment-form");
                 if("shipping_payments"===response.worked_on){
-                    $("#payment_click_to_save").addClass("saved");
+                    WSU.OPC.Decorator.setSaveBtnSaved("payment");
                 }
             }
             if ( WSU.OPC.defined(response.payments) ){
@@ -395,7 +387,7 @@
                 }
                 if (WSU.OPC.defined(response.worked_on)){
                     if("shipping_payments"===response.worked_on){
-                        $("#payment_click_to_save").addClass("saved");
+                        WSU.OPC.Decorator.setSaveBtnSaved("payment");
                     }
                 }
 

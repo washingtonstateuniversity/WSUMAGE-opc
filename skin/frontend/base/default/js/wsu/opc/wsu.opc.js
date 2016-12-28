@@ -412,7 +412,7 @@ jQuery.WSU=jQuery.WSU||{};
             }
             if (WSU.OPC.defined(response.worked_on)){
                 if("payments"===response.worked_on){
-                    $("#payment_click_to_save").addClass("saved");
+                    WSU.OPC.Decorator.setSaveBtnSaved("payment");
                 }
             }
             //SOME PAYMENT METHOD REDIRECT CUSTOMER TO PAYMENT GATEWAY
