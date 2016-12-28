@@ -45,7 +45,7 @@ echo $this->getDesignStyles();
 $package = Mage::getDesign()->getPackageName();
 $theme = Mage::getDesign()->getTheme('frontend');
 ?>
-<div class="opc-wrapper-opc <?=$use_custom_css==1?"":"defaulted_css"?> design_package_<?=$package;?> design_theme_<?=$theme;?>">
+<div class="opc-wrapper-opc <?=$use_custom_css==1?"":"defaulted_css"?> design_package_<?=implode("-",explode(".",$package));?> design_theme_<?=implode("-",explode(".",$theme));?>">
 	<h2><?=$title?></h2>
 	<p><?=$message?></p>
 	<div class="opc-menu">
@@ -150,7 +150,7 @@ $theme = Mage::getDesign()->getTheme('frontend');
 <div id="pssm_msg" style="display:none !important;"><?=$this->__('Please specify shipping method');?></div>
 
 
-<div class="opc-message-wrapper design_package_<?=$package;?> design_theme_<?=$theme;?>">
+<div class="opc-message-wrapper design_package_<?=implode("-",explode(".",$package));?> design_theme_<?=implode("-",explode(".",$theme));?>">
 	<div class="opc-messages">
 		<a class="close-message-wrapper"></a>
 		<div class="opc-message-container"></div>
