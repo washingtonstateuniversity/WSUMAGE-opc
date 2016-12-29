@@ -198,6 +198,7 @@
             // check all required fields not empty
             var is_empty = false;
             $('#opc-address-form-billing .required-entry').each(function(){
+                $(this).removeClass("validation-passed");
                 if($(this).val() === '' && $(this).css('display') !== 'none' && !$(this).attr('disabled')){
                     is_empty = true;
                 }

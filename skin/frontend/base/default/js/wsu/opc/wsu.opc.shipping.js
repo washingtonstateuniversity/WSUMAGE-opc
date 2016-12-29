@@ -95,7 +95,11 @@
                 if(window.click_to_save){
                     WSU.OPC.Decorator.resetSaveBtn("shipping_method");
                 }
-                WSU.OPC.Shipping.saveShippingMethod();
+                WSU.OPC.Shipping.validateForm(300,function(){
+                    if( WSU.OPC.Shipping.form_valid ){
+                        WSU.OPC.Shipping.saveShippingMethod();
+                    }
+                });
             });
         },
 
@@ -139,13 +143,15 @@
         /** VALIDATE ADDRESS BEFORE SEND TO SAVE QUOTE**/
         validateAddressForm: function(form){
             // check all required fields not empty
-            var is_empty = false;
+            var has_empty = false;
             $('#opc-address-form-shipping .required-entry').each(function(){
-                if($(this).val() === '' && $(this).css('display') !== 'none' && !$(this).attr('disabled'))
-                    is_empty = true;
+                $(this).removeClass("validation-passed");
+                if($(this).val() === '' && $(this).css('display') !== 'none' && !$(this).attr('disabled')){
+                    has_empty = true;
+                }
             });
 
-            if(is_empty){
+            if(has_empty){
                 return false;
             }
 
