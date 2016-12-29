@@ -99,7 +99,7 @@ jQuery.WSU=jQuery.WSU||{};
 
         popup_message: function(html_message,sizeObj){
             if( WSU.OPC.defined(html_message) ){
-                sizeObj = sizeObj || {width: 350,minHeight: 25};
+
                 if($("#mess").length<=0){
                     $('body').append('<div id="mess">');
                 }
@@ -107,6 +107,10 @@ jQuery.WSU=jQuery.WSU||{};
                     html_message = html_message.join("_");
                 }
                 $("#mess").html((typeof html_message === 'string' || html_message instanceof String) ? html_message:html_message.html() );
+
+                sizeObj = sizeObj || {width: 350,minHeight: 25, height:function(){
+                    return ($("#mess").text().length / 45)* 25;
+                }};
 
                 $("#mess").prepend('<button style="float:right" id="ok" >Ok</button>');
 
