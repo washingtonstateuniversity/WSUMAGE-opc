@@ -93,6 +93,18 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
         return $this;
     }
 
+
+    /**
+    * @access protected
+    */
+    protected function _sendResponse($result)
+    {
+        $this->getResponse()->setHeader('Content-type', 'application/json', true);
+        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+    }
+
+
+
     /**
     * Validate ajax request and redirect on failure
     *
@@ -299,8 +311,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
                 $responseData['message'] = $result['message'];
             }
             $result['exists']=$exists;
-            $this->getResponse()->setHeader('Content-type', 'application/json', true);
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+            $this->_sendResponse($result);
         }
     }
 
@@ -344,9 +355,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
             $responseData['worked_on'] = "shipping";
         }
 
-        $this->getResponse()->setHeader('Content-type', 'application/json', true);
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
-
+        $this->_sendResponse($responseData);
     }
 
     /**
@@ -409,8 +418,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
                 $result['message'] = $result['message'];
             }
 
-            $this->getResponse()->setHeader('Content-type', 'application/json', true);
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+            $this->_sendResponse($result);
         }
     }
 
@@ -510,8 +518,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
             }
             $this->getOnepage()->getQuote()->collectTotals()->save();
 
-            $this->getResponse()->setHeader('Content-type', 'application/json', true);
-            $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
+            $this->_sendResponse($responseData);
         }
     }
 
@@ -524,8 +531,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
         $responseData['review'] = $this->_getReviewHtml();
         $responseData['grandTotal'] = Mage::helper('wsu_opc')->getGrandTotal();
         $responseData['worked_on'] = "review";
-        $this->getResponse()->setHeader('Content-type', 'application/json', true);
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
+        $this->_sendResponse($responseData);
     }
 
 
@@ -537,8 +543,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
         $responseData = array();
         $responseData['payments'] = $this->_getPaymentMethodsHtml();
         $responseData['worked_on'] = "payments";
-        $this->getResponse()->setHeader('Content-type', 'application/json', true);
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($responseData));
+        $this->_sendResponse($responseData);
     }
 
 
@@ -582,8 +587,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
             $result['error'] = $this->__('Unable to set Payment Method.');
         }
 
-        $this->getResponse()->setHeader('Content-type', 'application/json', true);
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->_sendResponse($result);
     }
 
     public function saveComments($request)
@@ -667,8 +671,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
         $result['redirect'] = (isset($redirectUrl) && !empty($redirectUrl)) ? $redirectUrl : Mage::getUrl('checkout/onepage/success', array('_secure'=>true)) ;
 
         $result['worked_on'] = "saving_order";
-        $this->getResponse()->setHeader('Content-type', 'application/json', true);
-        $this->getResponse()->setBody(Mage::helper('core')->jsonEncode($result));
+        $this->_sendResponse($result);
     }
 
 
