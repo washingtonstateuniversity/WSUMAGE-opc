@@ -115,7 +115,7 @@
                 $('#checkout-payment-method-load').html(response.payments);
                 WSU.OPC.payment.filterMethods();
                 //payment.initWhatIsCvvListeners();
-                WSU.OPC.payments.init_change();
+                WSU.OPC.payment.init_change();
             }
             WSU.OPC.coupon.init();
         }

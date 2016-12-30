@@ -80,7 +80,7 @@ jQuery.WSU=jQuery.WSU||{};
 
         form_status:{
             billing:{ready:false, saved:false},
-            shipping:{ready:false, saved:false},
+            shipping:{ready:false, saved:false, skipping: true},
             shipping_method:{ready:false, saved:false},
             payment_method:{ready:false, saved:false},
             discounts:{ready:false, saved:false},

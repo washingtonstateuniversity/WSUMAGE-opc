@@ -176,8 +176,8 @@
             }
 
             WSU.OPC.displayShippingMethodAccurrecy('billing');
-            WSU.OPC.Decorator.showLoader("#opc-address-form-billing","<h1>Saving billing information</h1>");
-            WSU.OPC.Decorator.setSaveBtnDoing("billing","Saving Billing");
+            WSU.OPC.Decorator.showLoader("#opc-address-form-billing","<h1>Saving</h1>");
+            WSU.OPC.Decorator.setSaveBtnDoing("billing","Saving");
             WSU.OPC.ajaxManager.addReq("saveBilling",{
                 type: 'POST',
                 url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveBilling',
@@ -187,7 +187,7 @@
             });
         },
         saveResponse: function(response){
-            WSU.OPC.Checkout.prepareAddressResponse(response);
+            WSU.OPC.Checkout.prepareAddressResponse(response,"billing");
         },
     };
 })(jQuery,jQuery.WSU||{});

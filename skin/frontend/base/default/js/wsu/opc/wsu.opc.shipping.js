@@ -1,5 +1,6 @@
 (function($,WSU){
     WSU.OPC.shipping_method = {
+        already_choosen: null,
         init: function(){
             this.init_change();
         },
@@ -12,11 +13,14 @@
                     WSU.OPC.Decorator.disableSaveBtn("shipping_method");
                 }
             }
-
+            if( null !== WSU.OPC.shipping_method.already_choosen && $('[name="shipping_method"][value="' + WSU.OPC.shipping_method.already_choosen + '"]').length ){
+                $('[name="shipping_method"][value="' + WSU.OPC.shipping_method.already_choosen + '"]').attr("checked",true);
+            }
             $('#opc-co-shipping-method-form input[type="radio"][name="shipping_method"]').on('change', function(){
                 if(window.click_to_save){
                     WSU.OPC.Decorator.resetSaveBtn("shipping_method");
                 }
+                WSU.OPC.shipping_method.already_choosen = $(this).val();
                 WSU.OPC.shipping.validateForm(300,function(){
                     console.log("WSU.OPC.form_status.shipping.ready " + WSU.OPC.form_status.shipping.ready);
                     if( WSU.OPC.form_status.shipping.ready ){ // on change of shipping address save shiping? no no no
@@ -67,7 +71,8 @@
 
             var form = $('#opc-co-shipping-method-form').serializeArray();
             form = WSU.OPC.Checkout.applySubscribed(form);
-            WSU.OPC.Decorator.showLoader(".shipping-block:not(#opc-address-form-shipping)","<h1>Saving shipping choice</h1>");
+            WSU.OPC.Decorator.showLoader(".shipping-block:not(#opc-address-form-shipping)","<h1>Saving</h1>");
+            WSU.OPC.Decorator.setSaveBtnDoing("shipping_method","Saving");
             WSU.OPC.ajaxManager.addReq("saveShippingMethod",{
                 type: 'POST',
                 url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShippingMethod',
@@ -87,6 +92,7 @@
                 return;
             }
 
+
             if ( WSU.OPC.defined(response.review) && false === WSU.OPC.saveOrderStatus){
                 try{
                     WSU.OPC.Decorator.updateGrandTotal(response);
@@ -101,6 +107,7 @@
                     WSU.OPC.Decorator.setSaveBtnSaved(response.worked_on);
                 }
                 WSU.OPC.Decorator.disableSaveBtn('shipping');
+                WSU.OPC.Decorator.setSaveBtnSaved("shipping_method");
             }
 
             //IF STATUS TRUE - START SAVE PAYMENT FOR CREATE ORDER
@@ -112,7 +119,9 @@
         },
 
         reloadHtml: function(){//form_type, delay){
-            WSU.OPC.Decorator.showLoader('#opc-co-shipping-method-form',"<h1>Getting Shipping Options</h1>");
+            WSU.OPC.shipping_method.already_choosen = $('[name="shipping_method"]').val();
+            WSU.OPC.Decorator.showLoader('#opc-co-shipping-method-form',"<h1>Refreshing</h1>");
+            WSU.OPC.Decorator.setSaveBtnDoing("shipping_method","Refreshing");
             WSU.OPC.ajaxManager.addReq("reloadShippingsMethods",{
                 type: 'POST',
                 url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/reloadShippingsMethods',
@@ -131,12 +140,16 @@
 
             if ( WSU.OPC.defined(response.shipping_methods) ){
                 $('#opc-co-shipping-method-form').empty().html(response.shipping_methods);
+                if( null !== WSU.OPC.shipping_method.already_choosen && $('[name="shipping_method"][value="' + WSU.OPC.shipping_method.already_choosen + '"]').length ){
+                    $('[name="shipping_method"][value="' + WSU.OPC.shipping_method.already_choosen + '"]').attr("checked",true);
+                }
+                WSU.OPC.Decorator.setSaveBtnSaved("shipping_method");
                 WSU.OPC.shipping_method.init_change();
             }
             if (WSU.OPC.defined(response.worked_on)){
                 WSU.OPC.Decorator.hideLoader("#opc-co-shipping-method-form");
                 if("shipping_method"===response.worked_on){
-                    WSU.OPC.Decorator.setSaveBtnSaved("payment");
+                    WSU.OPC.Decorator.setSaveBtnSaved("shipping_method");
                 }
             }
             if ( WSU.OPC.defined(response.payments) ){
@@ -225,27 +238,40 @@
 
                 WSU.OPC.Decorator.resetSaveBtn("shipping_method,shipping");
 
-                var valid = WSU.OPC.validateAddressForm('shipping');
-                WSU.OPC.form_status.shipping.ready = valid;
 
-                if (valid){
-                    if(window.click_to_save){
-                        WSU.OPC.Decorator.setSaveBtnAction("shipping_method,shipping",function(){
+                if ( $('input[name="billing[use_for_shipping]"]').is(':checked') ){
+                    WSU.OPC.form_status.shipping.skipping = true;
+                }else{
+                    WSU.OPC.form_status.shipping.skipping = false;
+                }
+
+                var valid = false;
+                if( WSU.OPC.form_status.shipping.skipping ){
+                    WSU.OPC.clearAddressForm("shipping");
+                    WSU.OPC.form_status.shipping.ready = true;
+                    valid = true;
+                }else{
+                    valid = WSU.OPC.validateAddressForm('shipping');
+                    WSU.OPC.form_status.shipping.ready = valid;
+
+                    if (valid){
+                        if(window.click_to_save){
+                            WSU.OPC.Decorator.setSaveBtnAction("shipping_method,shipping",function(){
+                                WSU.OPC.shipping.save();
+                            });
+                        }else{
                             WSU.OPC.shipping.save();
-                        });
-                    }else{
-                        WSU.OPC.shipping.save();
+                        }
+                    }
+                    else{
+                        if(window.click_to_save){
+                            WSU.OPC.Decorator.disableSaveBtn("shipping");
+                        }
+                        if(mode !== false){
+                            WSU.OPC.shipping_method.reloadHtml(mode);
+                        }
                     }
                 }
-                else{
-                    if(window.click_to_save){
-                        WSU.OPC.Decorator.disableSaveBtn("shipping");
-                    }
-                    if(mode !== false){
-                        WSU.OPC.shipping_method.reloadHtml(mode);
-                    }
-                }
-
                 if( WSU.OPC.defined(callback) && "function" === typeof callback ){
                     callback(valid);
                 }
@@ -256,7 +282,8 @@
         save: function(){
             var form = $('#opc-address-form-shipping').serializeArray();
             form = WSU.OPC.shipping_method.appendData(form);
-            WSU.OPC.Decorator.showLoader(".shipping-block#opc-address-form-shipping","<h1>Saving shipping address</h1>");
+            WSU.OPC.Decorator.showLoader(".shipping-block#opc-address-form-shipping","<h1>Saving</h1>");
+            WSU.OPC.Decorator.setSaveBtnDoing("shipping","Saving");
             WSU.OPC.ajaxManager.addReq("saveShipping",{
                 type: 'POST',
                 url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveShipping',
@@ -266,7 +293,7 @@
             });
         },
         saveResponse: function(response){
-            WSU.OPC.Checkout.prepareAddressResponse(response);
+            WSU.OPC.Checkout.prepareAddressResponse(response,"shipping");
         },
     };
 })(jQuery,jQuery.WSU||{});

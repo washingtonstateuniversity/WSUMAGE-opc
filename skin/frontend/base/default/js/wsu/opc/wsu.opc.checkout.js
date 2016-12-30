@@ -36,7 +36,13 @@
                 $("#co-payment-form").prepend("<a id='payment_click_to_save' data-action='' class='to_save'></a>");
                 WSU.OPC.Decorator.disableSaveBtn("payment");
             }
-
+            var tar = $('input[name="billing[use_for_shipping]"]');
+            //var current_val = tar.val();
+            if ( tar.is(':checked') ){
+                WSU.OPC.form_status.shipping.skipping = true;
+            }else{
+                WSU.OPC.form_status.shipping.skipping = false;
+            }
             /*if ( 1 === this.config.isLoggedIn ){
                 var addressId = $('#billing-address-select').val();
                 if ( WSU.OPC.defined(addressId) && "" !== addressId ){
@@ -71,7 +77,7 @@
 
 
         /** PARSE RESPONSE FROM AJAX SAVE BILLING AND SHIPPING ADDRESS FORMS **/
-        prepareAddressResponse: function(response){
+        prepareAddressResponse: function(response,mode){
             console.log( "prepareAddressResponse", response );
 
             WSU.OPC.Decorator.hideLoader("#opc-address-form-billing");
@@ -84,9 +90,8 @@
                 WSU.OPC.order.unlock();
                 return;
             }
-            if (WSU.OPC.defined(response.worked_on)){
-                WSU.OPC.Decorator.setSaveBtnSaved(response.worked_on);
-            }
+
+            WSU.OPC.Decorator.setSaveBtnSaved(mode);
 
             if( WSU.OPC.defined(response.exists) && true === response.exists ){
                 if($("#existing").length<=0){
@@ -111,6 +116,7 @@
 
             if ( WSU.OPC.defined(response.shipping_methods) ){
                 $("#opc-co-shipping-method-form").empty().html(response.shipping_methods);
+                WSU.OPC.Decorator.setSaveBtnSaved("shipping_method");
                 WSU.OPC.shipping_method.init_change();
             }
 
@@ -243,7 +249,7 @@
                     $('[name="billing[use_for_shipping]"]').trigger("click");
                     $('input[name="billing[use_for_shipping]"]').prop('checked', true);
                     $('input[name="shipping[same_as_billing]"]').prop('checked', true);
-                    WSU.OPC.form_status.shipping.skipping = false;
+                    WSU.OPC.form_status.shipping.skipping = true;
                 }else{
                     $('[name="billing[use_for_shipping]"]').trigger("click");
                     $('input[name="billing[use_for_shipping]"]').prop('checked', false);
@@ -471,7 +477,7 @@
         /** PULL PAYMENTS METHOD AFTER LOAD PAGE **/
         reloadHtml: function(){
             WSU.OPC.order.lock();
-            WSU.OPC.Decorator.showLoader("#co-payment-form","<h1>Getting payment choices</h1>");
+            WSU.OPC.Decorator.showLoader("#co-payment-form","<h1>Refreshing</h1>");
 
             WSU.OPC.ajaxManager.addReq("savePayments",{
                 type: 'POST',
@@ -497,7 +503,7 @@
             if ( WSU.OPC.defined(response.payments) ){
                 $('#checkout-payment-method-load').html(response.payments);
                 //payment.initWhatIsCvvListeners();
-                WSU.OPC.payments.init_change();
+                WSU.OPC.payment.init_change();
                 WSU.OPC.Decorator.setCurrentPaymentActive();
             }
 
@@ -558,7 +564,7 @@
                 WSU.OPC.Decorator.hideLoader();
                 WSU.OPC.order.unlock();
 
-                WSU.OPC.payments.init_change();
+                WSU.OPC.payment.init_change();
             }
 
 
@@ -572,7 +578,7 @@
             WSU.OPC.order.lock();
 
             var form = $('#co-payment-form').serializeArray();
-            WSU.OPC.Decorator.showLoader("#co-payment-form","<h1>Saving payment choice</h1>");
+            WSU.OPC.Decorator.showLoader("#co-payment-form","<h1>Saving</h1>");
             WSU.OPC.ajaxManager.addReq("savePayment",{
                 type: 'POST',
                 url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/savePayment',
@@ -589,7 +595,7 @@
             //WSU.OPC.Checkout.abortAjax();
 
             WSU.OPC.agreements = $('#checkout-agreements').serializeArray();
-            if ( WSU.OPC.defined(response.review) && WSU.OPC.saveOrderStatus===false){
+            if ( WSU.OPC.defined(response.review) && false === WSU.OPC.saveOrderStatus ){
                 $('#review-block').html(response.review);
                 if($( "tr:contains('Free Shipping - Free')" ).length){
                     $( "tr:contains('Free Shipping - Free')" ).hide();
