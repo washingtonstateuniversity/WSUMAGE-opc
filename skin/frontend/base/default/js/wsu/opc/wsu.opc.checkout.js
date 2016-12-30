@@ -43,6 +43,9 @@
             }else{
                 WSU.OPC.form_status.shipping.skipping = false;
             }
+
+            WSU.OPC.shipping_method.cache();
+
             /*if ( 1 === this.config.isLoggedIn ){
                 var addressId = $('#billing-address-select').val();
                 if ( WSU.OPC.defined(addressId) && "" !== addressId ){
@@ -255,6 +258,7 @@
                     $('input[name="billing[use_for_shipping]"]').prop('checked', false);
                     $('input[name="shipping[same_as_billing]"]').prop('checked', false);
                     WSU.OPC.form_status.shipping.skipping = false;
+                    WSU.OPC.shipping.init_change();
                 }
 
                 console.log("switching use_for_shipping status");
@@ -373,23 +377,35 @@
         },
 
         /** SAVE ORDER **/
-        saveOrder: function(){
-            var form = $('#co-payment-form').serializeArray();
-            form  = WSU.OPC.checkAgreement(form);
-            form  = WSU.OPC.checkSubscribe(form);
-            form  = WSU.OPC.Comment.getComment(form);
+        save: function(){
 
-            WSU.OPC.Decorator.showLoader("#general_message","<h1>Processing order.</h1>");
-            WSU.OPC.order.lock();
+            var promises = [];
+            $.each(WSU.OPC.form_order, function(index, val) {
+                promises.push(function(){
+                    console.log("promises "+val);
+                    WSU.OPC[val].save();
+                });
+            });
+            $.when.apply($, promises).then(function() {
+                console.log("done with promises ");
+                var form = $('#co-payment-form').serializeArray();
+                form  = WSU.OPC.checkAgreement(form);
+                form  = WSU.OPC.checkSubscribe(form);
+                form  = WSU.OPC.Comment.getComment(form);
 
-            if (WSU.OPC.Checkout.config.comment!=="0"){
-                WSU.OPC.Comment.saveCustomerComment();
-                setTimeout(function(){
+                WSU.OPC.Decorator.showLoader("#general_message","<h1>Processing order.</h1>");
+                WSU.OPC.order.lock();
+
+                if (WSU.OPC.Checkout.config.comment!=="0"){
+                    WSU.OPC.Comment.saveCustomerComment();
+                    setTimeout(function(){
+                        WSU.OPC.order.saveProxy(form);
+                    },600);
+                }else{
                     WSU.OPC.order.saveProxy(form);
-                },600);
-            }else{
-                WSU.OPC.order.saveProxy(form);
-            }
+                }
+            });
+
         },
         saveProxy: function(form){
             WSU.OPC.Plugin.dispatch('saveOrder');

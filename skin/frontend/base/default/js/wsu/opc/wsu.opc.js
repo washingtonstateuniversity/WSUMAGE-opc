@@ -77,7 +77,7 @@ jQuery.WSU=jQuery.WSU||{};
 
 //too old??
         savingOrder:false,
-
+        form_order:['billing','shipping','shipping_method','discounts','payment_method','reviewed'],
         form_status:{
             billing:{ready:false, saved:false},
             shipping:{ready:false, saved:false, skipping: true},

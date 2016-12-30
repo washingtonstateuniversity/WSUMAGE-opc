@@ -4,6 +4,18 @@
         init: function(){
             this.init_change();
         },
+        cache: function(){
+            if($('[name="shipping_method"]:checked').length){
+                WSU.OPC.shipping_method.already_choosen = $('[name="shipping_method"]:checked').val();
+                console.log("WSU.OPC.shipping_method.already_choosen is "+WSU.OPC.shipping_method.already_choosen);
+            }
+        },
+        setFromCache: function(){
+            var choosen = WSU.OPC.shipping_method.already_choosen;
+            if( null !== choosen && $('[name="shipping_method"][value="' + choosen + '"]').length ){
+                $('[name="shipping_method"][value="' + choosen + '"]').attr("checked",true);
+            }
+        },
         //create observer for change shipping method.
         init_change: function(){
             if(window.click_to_save){
@@ -13,14 +25,13 @@
                     WSU.OPC.Decorator.disableSaveBtn("shipping_method");
                 }
             }
-            if( null !== WSU.OPC.shipping_method.already_choosen && $('[name="shipping_method"][value="' + WSU.OPC.shipping_method.already_choosen + '"]').length ){
-                $('[name="shipping_method"][value="' + WSU.OPC.shipping_method.already_choosen + '"]').attr("checked",true);
-            }
-            $('#opc-co-shipping-method-form input[type="radio"][name="shipping_method"]').on('change', function(){
+
+            WSU.OPC.shipping_method.setFromCache();
+            $('#opc-co-shipping-method-form input[type="radio"][name="shipping_method"]').off().on('change', function(){
                 if(window.click_to_save){
                     WSU.OPC.Decorator.resetSaveBtn("shipping_method");
                 }
-                WSU.OPC.shipping_method.already_choosen = $(this).val();
+                WSU.OPC.shipping_method.cache();
                 WSU.OPC.shipping.validateForm(300,function(){
                     console.log("WSU.OPC.form_status.shipping.ready " + WSU.OPC.form_status.shipping.ready);
                     if( WSU.OPC.form_status.shipping.ready ){ // on change of shipping address save shiping? no no no
@@ -41,6 +52,7 @@
         },
 
         save: function(update_payments, reload_totals){
+            WSU.OPC.shipping_method.cache();
             if (false === WSU.OPC.shipping_method.validateForm()){
                 if (WSU.OPC.saveOrderStatus){
                     WSU.OPC.popup_message($('#pssm_msg').html());
@@ -62,6 +74,7 @@
                 }
                 return;
             }
+
 
             if (false === WSU.OPC.shipping_method.validateForm()){
                 WSU.OPC.popup_message("Please specify shipping method");
@@ -119,7 +132,7 @@
         },
 
         reloadHtml: function(){//form_type, delay){
-            WSU.OPC.shipping_method.already_choosen = $('[name="shipping_method"]').val();
+            WSU.OPC.shipping_method.cache();
             WSU.OPC.Decorator.showLoader('#opc-co-shipping-method-form',"<h1>Refreshing</h1>");
             WSU.OPC.Decorator.setSaveBtnDoing("shipping_method","Refreshing");
             WSU.OPC.ajaxManager.addReq("reloadShippingsMethods",{
@@ -140,9 +153,7 @@
 
             if ( WSU.OPC.defined(response.shipping_methods) ){
                 $('#opc-co-shipping-method-form').empty().html(response.shipping_methods);
-                if( null !== WSU.OPC.shipping_method.already_choosen && $('[name="shipping_method"][value="' + WSU.OPC.shipping_method.already_choosen + '"]').length ){
-                    $('[name="shipping_method"][value="' + WSU.OPC.shipping_method.already_choosen + '"]').attr("checked",true);
-                }
+                WSU.OPC.shipping_method.setFromCache();
                 WSU.OPC.Decorator.setSaveBtnSaved("shipping_method");
                 WSU.OPC.shipping_method.init_change();
             }
@@ -244,7 +255,8 @@
                 }else{
                     WSU.OPC.form_status.shipping.skipping = false;
                 }
-
+                console.log("validateForm on shipping ");
+                console.log("WSU.OPC.form_status.shipping.skipping " + WSU.OPC.form_status.shipping.skipping);
                 var valid = false;
                 if( WSU.OPC.form_status.shipping.skipping ){
                     WSU.OPC.clearAddressForm("shipping");
@@ -259,9 +271,8 @@
                             WSU.OPC.Decorator.setSaveBtnAction("shipping_method,shipping",function(){
                                 WSU.OPC.shipping.save();
                             });
-                        }else{
-                            WSU.OPC.shipping.save();
                         }
+                        WSU.OPC.shipping.save();
                     }
                     else{
                         if(window.click_to_save){
@@ -280,6 +291,7 @@
 
         /** METHOD CREATE AJAX REQUEST FOR UPDATE SHIPPIN METHOD **/
         save: function(){
+            console.log("save shipping");
             var form = $('#opc-address-form-shipping').serializeArray();
             form = WSU.OPC.shipping_method.appendData(form);
             WSU.OPC.Decorator.showLoader(".shipping-block#opc-address-form-shipping","<h1>Saving</h1>");
