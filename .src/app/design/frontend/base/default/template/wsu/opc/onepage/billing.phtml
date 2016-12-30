@@ -4,7 +4,7 @@ $predone_billing = $this->escapeHtml($this->getAddress()->getStreet(1));
 ?>
 <div id="co-billing-form">
     <?php if("" !== $predone_billing): ?>
-        <a id="billing_click_to_save" class="to_save saved hide"></a>
+        <a id="billing_click_to_save" data-action='' class="to_save hide"></a>
     <?php endif;?>
     <h3><?=$this->__('Billing')?> <span id="and_shipping"><?=$this->__('and Shipping')?> </span><?=$this->__('Information')?></h3>
     <ul class="form-list">
