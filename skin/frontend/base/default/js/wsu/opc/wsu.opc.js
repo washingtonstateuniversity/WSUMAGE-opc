@@ -78,12 +78,17 @@ jQuery.WSU=jQuery.WSU||{};
 
 //too old??
         savingOrder:false,
-        ready_billing:false,
-        ready_shipping:false,
-        ready_shipping_method:false,
-        ready_payment_method:false,
-        ready_discounts:false,
-        ready_reviewed:false,
+
+        form_status:{
+            billing:{ready:false, saved:false},
+            shipping:{ready:false, saved:false},
+            shipping_method:{ready:false, saved:false},
+            payment_method:{ready:false, saved:false},
+            discounts:{ready:false, saved:false},
+            reviewed:{ready:false, saved:false},
+        },
+
+
 
         defined : function(item){
             return "undefined" !== item && undefined !== item;
@@ -242,15 +247,13 @@ jQuery.WSU=jQuery.WSU||{};
                 WSU.OPC.Plugin.dispatch('saveOrderBefore');
                 if (WSU.OPC.Checkout.isVirtual===false){
                     WSU.OPC.Checkout.lockPlaceOrder();
-                    WSU.OPC.Shipping.saveShippingMethod();
+                    WSU.OPC.shipping.saveShippingMethod();
                 }else{
                     WSU.OPC.validatePayment();
                 }
             });
 
         },
-
-
 
         /** INIT CHAGE PAYMENT METHOD **/
         initPayment: function(){
@@ -351,8 +354,6 @@ jQuery.WSU=jQuery.WSU||{};
                 }, 500);
             });
         },
-
-
 
         /** UNBIND CHANGE PAYMENT FIELDS **/
         unbindChangePaymentFields: function(){
@@ -565,6 +566,87 @@ jQuery.WSU=jQuery.WSU||{};
             }
 
             WSU.OPC.Plugin.dispatch('responseSaveOrder', response);
+        },
+
+        /** VALIDATE ADDRESS BEFORE SEND TO SAVE QUOTE**/
+        validateAddressForm: function(form){
+            var has_empty = false; // check all required fields not empty
+            $('#opc-address-form-'+form+' .validation-passed').removeClass("validation-passed"); //force the validation path
+            $('#opc-address-form-'+form+' .required-entry').each(function(){
+                if($(this).val() === '' && $(this).css('display') !== 'none' && !$(this).attr('disabled')){
+                    has_empty = true;
+                }
+            });
+
+            if(has_empty){
+                console.log("tried to validated " + form + " but was empty");
+                return false;
+            }
+
+            var addressForm = new Validation('opc-address-form-'+form, { onSubmit : false, stopOnFirst : false, focusOnError : false});
+            if (addressForm.validate()){
+                console.log("just validated " + form + " and it passed");
+                return true;
+            }else{
+                console.log("just validated " + form + " and it passed");
+                return false;
+            }
+        },
+        clearAddressForm: function(form){
+            console.log("clearing the "+form+" address form  --");
+            $("#opc-address-form-"+form+" input[type='text']").val("");
+            $("#opc-address-form-"+form+" :checked").attr("checked",false);
+            $("#opc-address-form-"+form+" :selected").attr("selected",false);
+
+            //we will do it fourcfull to cover all browser by repeating
+            //function with different selector patterns.  Again just in case
+            $('#opc-address-form-'+form+' :input').each(function(){
+                if( $(this).is("select") ){
+                    $(this).find(":selected").removeAttr("selected");
+                } else if( "checkbox" === $(this).attr("type") ){
+                    $(this).removeAttr("checked");
+                } else {
+                    $(this).val("");
+                }
+            });
+        },
+
+        is_dirty: function (form){
+            var formdata = $("#opc-address-form-"+form).serialize();
+            if( formdata === WSU.OPC[form]._data ){
+                return false;
+            }else{
+                WSU.OPC[form]._data = formdata;
+                WSU.OPC.form_status[form].ready = false;
+                WSU.OPC.form_status[form].saved = false;
+                return true;
+            }
+        },
+        is_address_forms_ready: function(){
+            return WSU.OPC.form_status['billing'].ready && WSU.OPC.form_status['billing'].saved
+                    && WSU.OPC.form_status['shipping'].ready && WSU.OPC.form_status['shipping'].saved;
+        },
+/** CREATE EVENT FOR UPDATE SHIPPING BLOCK **/
+        initChangeAddress: function(form){
+            $('#opc-address-form-'+form+' :input').on("change keyup blur",function(){
+                if( WSU.OPC.is_dirty(form) ){
+                    console.log("#opc-address-form-"+form+" :input select change is drity");
+                    WSU.OPC.Checkout.abortAjax();
+                    WSU.OPC[form].validateForm(300,function(){
+                        if( WSU.OPC.form_status[form].ready ){
+                            console.log(form+" is drity but valid");
+                            WSU.OPC.Checkout.reloadShippingsMethods(form);
+                        }else{
+                            console.log(form+" is drity and NOT valid");
+                        }
+                    });
+                }
+            });
+        },
+        displayShippingMethodAccurrecy: function(caller){
+            if( (WSU.OPC.form_status['billing'].ready && !WSU.OPC.form_status['billing'].saved) || (WSU.OPC.form_status['shipping'].ready && !WSU.OPC.form_status['shipping'].saved) ){
+                WSU.OPC.Decorator.setSaveBtnDoing("shipping_method","Updating Options");
+            }
         },
     };
 })(jQuery,jQuery.WSU);

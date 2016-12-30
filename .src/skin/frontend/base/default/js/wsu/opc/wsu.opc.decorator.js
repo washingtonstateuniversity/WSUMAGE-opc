@@ -22,8 +22,9 @@
             var html = WSU.OPC.defined(message) ? message:"";
             if(window.click_to_save){
                 var asText = "" !== html ? $(html).text() : "Saving "+$(jObj + " h3").text();
-                $(jObj+' .to_save').addClass("saving");
-                $(jObj+' .to_save.saving:after').css("content","\""+asText+"\"");
+                //$(jObj+' .to_save').addClass("saving");
+                $(jObj+' .to_save').data("action",asText);
+                //$(jObj+' .to_save.saving:after').css("content",'"'+asText+'"');
             }else{
 
                 WSU.OPC.Decorator.createLoader(parentBlock, message);
@@ -52,9 +53,18 @@
             });
         },
 
+        setSaveBtnDoing: function(mode,asText){
+            $.each(mode.split(","), function(idx, itm){
+                console.log("-------- for setSaveBtnDoing "+ itm + " with " + asText);
+                $("#"+itm.trim()+"_click_to_save").data("action",asText);
+            });
+        },
+
+
         disableSaveBtn: function(mode){
             $.each(mode.split(","), function(idx, itm){
                 $("#"+itm.trim()+"_click_to_save").addClass("hide");
+                $("#"+itm.trim()+"_click_to_save").data("action","");
             });
         },
 
@@ -62,7 +72,8 @@
         hideLoader: function(parentBlock){
             var jObj = WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
             if(window.click_to_save){
-                $(jObj+' .to_save').removeClass("saving");
+                //$(jObj+' .to_save').removeClass("saving");
+                $(jObj+' .to_save').data("action","");
             }else{
                 $(jObj+' .opc-ajax-loader').hide();
                 $(jObj+' .opc-ajax-loader .loader .message').remove();

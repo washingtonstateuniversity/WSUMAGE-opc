@@ -272,7 +272,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
                 //load shipping methods block if shipping as billing;
                 $data = $this->getRequest()->getPost('billing', array());
                 if (isset($data['use_for_shipping']) && $data['use_for_shipping'] == 1) {
-                    $result['shipping'] = $this->_getShippingMethodsHtml();
+                    $result['shipping_methods'] = $this->_getShippingMethodsHtml();
                 }
 
                 // get list of available methods after discount changes
@@ -332,7 +332,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
                 $responseData['message'] = $result['message'];
                 $responseData['messageBlock'] = 'shipping';
             } else {
-                $responseData['shipping'] = $this->_getShippingMethodsHtml();
+                $responseData['shipping_methods'] = $this->_getShippingMethodsHtml();
 
                 // get grand totals after
                 $totals_after = $this->_getSession()->getQuote()->getGrandTotal();
@@ -352,7 +352,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
     /**
     * reload available shipping methods based on address
     */
-    public function reloadShippingsPaymentsAction()
+    public function reloadShippingsMethodsAction()
     {
 
         if ($this->_expireAjax()) {
@@ -403,7 +403,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
             }
 
             if (!isset($result['error'])) {
-                $result = $this->setShippingResult($address);
+                $result = $this->setShippingResult($result, $address, $address_type, $methods_before, $totals_before);
             } else {
                 $result['error'] = true;
                 $result['message'] = $result['message'];
@@ -414,9 +414,9 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
         }
     }
 
-    public function setShippingResult($address)
+    public function setShippingResult($result, $address, $address_type, $methods_before, $totals_before)
     {
-        $result = array();
+        //$result = array();
         $address->implodeStreetAddress();
         $ufs = 0;
 
@@ -449,7 +449,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
         $result['isVirtual'] = $this->getOnepage()->getQuote()->isVirtual();
 
         if (($address_type == 'billing' && $ufs == 1) || $address_type == 'shipping') {
-            $result['shipping'] = $this->_getShippingMethodsHtml();
+            $result['shipping_methods'] = $this->_getShippingMethodsHtml();
         }
 
         /// get list of available methods after discount changes
@@ -471,7 +471,7 @@ class Wsu_Opc_JsonController extends Mage_Core_Controller_Front_Action
                 $result['reload_totals'] = true;
             }
         }
-        $result['worked_on'] = "shipping_payments";
+        $result['worked_on'] = "shipping_methods";
         return $result;
     }
 
