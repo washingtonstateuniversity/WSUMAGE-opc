@@ -363,8 +363,8 @@
                 WSU.OPC.Plugin.dispatch('saveOrderBefore');
                 if (WSU.OPC.Checkout.isVirtual===false){
                     WSU.OPC.order.lock();
-                    //WSU.OPC.shipping_method.save();
-                    WSU.OPC.Checkout.run_to_checkout("shipping_method");
+                    WSU.OPC.shipping_method.save();
+                    //WSU.OPC.Checkout.run_to_checkout("shipping_method");
                 }else{
                     WSU.OPC.payment.validateForm();
                 }
