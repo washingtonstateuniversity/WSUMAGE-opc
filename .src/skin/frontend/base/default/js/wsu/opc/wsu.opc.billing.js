@@ -1,16 +1,12 @@
 (function($,WSU){
 
     WSU.OPC.billing = {
-        bill_need_update: true,
-        need_reload_shippings_payments: false,
         validate_timeout: false,
         _data:null,
 
         init: function(){
-            // should be an option but this is to shim
-            //$('[name="billing[use_for_shipping]"]:checked').trigger("click");
             console.log("init billing");
-            WSU.OPC.billing.bill_need_update = true;
+
             WSU.OPC.Decorator.createLoader("#opc-address-form-billing");
             //set flag use billing for shipping and init change flag
             var use_for_ship = false;
@@ -32,11 +28,15 @@
             }else{
                 this.setBillingForShipping(false, true);
             }
-            if(window.click_to_save){
-                if($("#billing_click_to_save").length<=0){
-                    $("#co-billing-form").prepend("<a id='billing_click_to_save' data-action='' class='to_save'></a>");
-                    $("#billing_click_to_save").addClass("hide");
-                }
+
+            this.init_change();
+        },
+
+        init_change: function(){
+
+            if( window.click_to_save && $("#billing_click_to_save").length<=0){
+                $("#co-billing-form").prepend("<a id='billing_click_to_save' data-action='' class='to_save'></a>");
+                $("#billing_click_to_save").addClass("hide");
             }
 
             WSU.OPC.Checkout.setUpShippingBillingSwitcher();
@@ -56,52 +56,7 @@
             });
 
             WSU.OPC.initChangeAddress('billing');
-            this.initChangeSelectAddress();
-        },
 
-        validateForm: function(delay, callback){
-            clearTimeout(WSU.OPC.billing.validate_timeout);
-            if( WSU.OPC.defined(delay) || false === delay){
-                delay = 100;
-            }
-            WSU.OPC.billing.validate_timeout = setTimeout(function(){
-                //console.log("checking valid");
-                var mode = WSU.OPC.billing.need_reload_shippings_payment;
-                WSU.OPC.billing.need_reload_shippings_payment = false;
-                WSU.OPC.Decorator.resetSaveBtn("billing");
-
-                var valid = WSU.OPC.validateAddressForm('billing');
-                WSU.OPC.form_status.billing.ready = valid;
-                if (valid){
-
-                    console.log("VALID billing info");
-                    if(window.click_to_save){
-                        WSU.OPC.Decorator.setSaveBtnAction("billing",function(){
-                            WSU.OPC.billing.save();
-                        });
-                        $("#billing_click_to_save:not(.saved)").trigger("click");
-                    }else{
-                        WSU.OPC.billing.save();
-                    }
-                }else{
-                    console.log("INvalid billing info");
-                    if(window.click_to_save){
-                        $("#billing_click_to_save").addClass("hide");
-                    }
-                    if(mode !== false){
-                        WSU.OPC.Checkout.checkRunReloadShippingsMethods(mode);
-                    }
-                }
-
-                if( WSU.OPC.defined(callback) && "function" === typeof callback ){
-                    callback(valid);
-                };
-            },delay);
-        },
-
-
-        /** CREATE EVENT FOR CHANGE ADDRESS TO NEW OR FROM ADDRESS BOOK **/
-        initChangeSelectAddress: function(){
             $('#billing-address-select').change(function(){
                 if ($(this).val()==''){
                     $('#billing-new-address-form').show();
@@ -111,6 +66,8 @@
                 }
             });
         },
+
+
 
         /** SET SHIPPING AS BILLING TO TRUE OR FALSE **/
         setBillingForShipping:function(useBilling, skip_copy){
@@ -131,7 +88,6 @@
                 }
             }
         },
-
         /** COPY FIELD FROM BILLING FORM TO SHIPPING **/
         pushBilingToShipping:function(clearShippingForm){
             //pull country
@@ -166,29 +122,72 @@
             $('#opc-address-form-shipping select[name="shipping[country_id]"]').change();
         },
 
+        validateForm: function(delay, callback){
+            clearTimeout(WSU.OPC.billing.validate_timeout);
+            if( WSU.OPC.defined(delay) || false === delay){
+                delay = 100;
+            }
+            WSU.OPC.billing.validate_timeout = setTimeout(function(){
+                //console.log("checking valid");
+                var mode = WSU.OPC.billing.need_reload_shippings_payment;
+                WSU.OPC.billing.need_reload_shippings_payment = false;
+                WSU.OPC.Decorator.resetSaveBtn("billing");
 
+                var valid = WSU.OPC.validateAddressForm('billing');
+                WSU.OPC.form_status.billing.ready = valid;
+                if (valid){
+
+                    console.log("VALID billing info");
+                    if(window.click_to_save){
+                        WSU.OPC.Decorator.setSaveBtnAction("billing",function(){
+                            WSU.OPC.billing.save();
+                        });
+                        $("#billing_click_to_save:not(.saved)").trigger("click");
+                    }else{
+                        WSU.OPC.billing.save();
+                    }
+                }else{
+                    console.log("INvalid billing info");
+                    if(window.click_to_save){
+                        $("#billing_click_to_save").addClass("hide");
+                    }
+                    if(mode !== false){
+                        WSU.OPC.shipping_method.reloadHtml(mode);
+                    }
+                }
+
+                if( WSU.OPC.defined(callback) && "function" === typeof callback ){
+                    callback(valid);
+                };
+            },delay);
+        },
 
         save: function(){
             var form = $('#opc-address-form-billing').serializeArray();
-            form = WSU.OPC.Checkout.applyShippingMethod(form);
+
+            form = WSU.OPC.shipping_method.appendData(form);
             form = WSU.OPC.Checkout.applySubscribed(form);
+
             form.push({ "name":"billing[use_for_shipping]", "value": jQuery('[name*=use_for_shipping]:checked').length });
             if($('input[name="billing[use_for_shipping]"]').is(':checked')){
                 WSU.OPC.Decorator.showLoader();
             }else{
-                WSU.OPC.Checkout.lockPlaceOrder(1);
+                WSU.OPC.order.lock(1);
             }
 
-            WSU.OPC.billing.bill_need_update = false;
             WSU.OPC.displayShippingMethodAccurrecy('billing');
             WSU.OPC.Decorator.showLoader("#opc-address-form-billing","<h1>Saving billing information</h1>");
+            WSU.OPC.Decorator.setSaveBtnDoing("billing","Saving Billing");
             WSU.OPC.ajaxManager.addReq("saveBilling",{
                 type: 'POST',
                 url: WSU.OPC.Checkout.config.baseUrl + 'onepage/json/saveBilling',
                 dataType: 'json',
                 data: form,
-                success: WSU.OPC.Checkout.prepareAddressResponse
+                success: WSU.OPC.billing.saveResponse
             });
-        }
+        },
+        saveResponse: function(response){
+            WSU.OPC.Checkout.prepareAddressResponse(response);
+        },
     };
 })(jQuery,jQuery.WSU||{});

@@ -21,9 +21,9 @@
             var jObj = WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
             var html = WSU.OPC.defined(message) ? message:"";
             if(window.click_to_save){
-                var asText = "" !== html ? $(html).text() : "Saving "+$(jObj + " h3").text();
+                var asText = "" !== html ? $(html).text() : "Saving " + $(jObj + " h3").text();
                 //$(jObj+' .to_save').addClass("saving");
-                $(jObj+' .to_save').data("action",asText);
+                $(jObj+' .to_save').attr("data-action",asText);
                 //$(jObj+' .to_save.saving:after').css("content",'"'+asText+'"');
             }else{
 
@@ -40,11 +40,14 @@
             $.each(mode.split(","), function(idx, itm){
                 $("#"+itm.trim()+"_click_to_save").removeClass("saved");
                 $("#"+itm.trim()+"_click_to_save").removeClass("hide");
+                $("#"+itm.trim()+"_click_to_save").data("action","");
             });
         },
         setSaveBtnSaved: function(mode){
             $.each(mode.split(","), function(idx, itm){
                 $("#"+itm.trim()+"_click_to_save").addClass("saved");
+                $("#"+itm.trim()+"_click_to_save").addClass("hide");
+                $("#"+itm.trim()+"_click_to_save").data("action","");
             });
         },
         setSaveBtnAction: function(mode,action){
@@ -73,7 +76,7 @@
             var jObj = WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
             if(window.click_to_save){
                 //$(jObj+' .to_save').removeClass("saving");
-                $(jObj+' .to_save').data("action","");
+                $(jObj+' .to_save').attr("data-action","");
             }else{
                 $(jObj+' .opc-ajax-loader').hide();
                 $(jObj+' .opc-ajax-loader .loader .message').remove();

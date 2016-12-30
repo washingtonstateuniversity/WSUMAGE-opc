@@ -1,7 +1,8 @@
 (function($,WSU){
     $(document).ready(function(){
+        $("[id$='click_to_save']").attr('data-action',"");
         WSU.OPC.Checkout.init();
-        WSU.OPC.Coupon.init();
+        WSU.OPC.coupon.init();
         WSU.OPC.Comment.init();
         WSU.OPC.Agreement.init();
         WSU.OPC.Login.init();

@@ -1,14 +1,17 @@
 (function($,WSU){
-    WSU.OPC.Coupon = {
+    WSU.OPC.coupon = {
+        removing:false,
         init: function(){
 
             $(document).on('click', '.apply-coupon', function(){
-                WSU.OPC.Coupon.applyCoupon(false);
+                WSU.OPC.coupon.removing = false;
+                WSU.OPC.coupon.save();
             });
 
 
             $(document).on('click', '.remove-coupon', function(){
-                WSU.OPC.Coupon.applyCoupon(true);
+                WSU.OPC.coupon.removing = true;
+                WSU.OPC.coupon.save();
             });
 
 
@@ -21,78 +24,78 @@
                     $(this).next().removeClass('hidden');
                 }
             });
-        $(document).ready(function(){
-        if($("#alumni_coupon_code").length){
-            var alum_code = $("#real_dis_code").val();
-            var mess = $(".success-msg span").text();
-            if(mess.indexOf("alumni102948274sjs1")>0){
-                $(".success-msg span").text('Your Alumni discount was applied.');
-            }
-            if("undefined" !== alum_code){
-                if("" !== alum_code && "alumni102948274sjs1" === alum_code){
-                    console.log("already had it alumni");
-                    console.log("---"+alum_code+"----");
-                    $("#discount-coupon-form-inline").hide();
-                }else if("" !== alum_code){
-                    console.log("already had it alumni");
-                    console.log("---"+alum_code+"----");
-                    $("#alumni_discount-coupon-form").hide();
-                }
-            }
+            $(document).ready(function(){
+                if($("#alumni_coupon_code").length){
+                    var alum_code = $("#real_dis_code").val();
+                    var mess = $(".success-msg span").text();
+                    if(mess.indexOf("alumni102948274sjs1")>0){
+                        $(".success-msg span").text('Your Alumni discount was applied.');
+                    }
+                    if("undefined" !== alum_code){
+                        if("" !== alum_code && "alumni102948274sjs1" === alum_code){
+                            console.log("already had it alumni");
+                            console.log("---"+alum_code+"----");
+                            $("#discount-coupon-form-inline").hide();
+                        }else if("" !== alum_code){
+                            console.log("already had it alumni");
+                            console.log("---"+alum_code+"----");
+                            $("#alumni_discount-coupon-form").hide();
+                        }
+                    }
 
-            $("#alumni_coupon_code").on("keyup",function(){
-                console.log("typing in alumni");
-                var code = $(this).val();
-                if(code.length>0){
-                    console.log("setting  alumni");
-                    $("#real_dis_code").val("alumni102948274sjs1");
-                    $("#discount-coupon-form-inline").fadeOut();
-                }else{
-                    console.log("re---setting  alumni");
-                    $("#real_dis_code").val("");
-                    $("#discount-coupon-form-inline").fadeIn();
-                }
-            });
-            $("#coupon_code_shim").on("keyup",function(){
-                var code = $(this).val();
-                if(code.length>0){
-                    $("#real_dis_code").val(code);
-                    $("#alumni_discount-coupon-form").fadeOut();
-                }else{
-                    console.log("re---setting  alumni");
-                    $("#real_dis_code").val("");
-                    $("#alumni_discount-coupon-form").fadeIn();
-                }
-            });
+                    $("#alumni_coupon_code").on("keyup",function(){
+                        console.log("typing in alumni");
+                        var code = $(this).val();
+                        if(code.length>0){
+                            console.log("setting  alumni");
+                            $("#real_dis_code").val("alumni102948274sjs1");
+                            $("#discount-coupon-form-inline").fadeOut();
+                        }else{
+                            console.log("re---setting  alumni");
+                            $("#real_dis_code").val("");
+                            $("#discount-coupon-form-inline").fadeIn();
+                        }
+                    });
+                    $("#coupon_code_shim").on("keyup",function(){
+                        var code = $(this).val();
+                        if(code.length>0){
+                            $("#real_dis_code").val(code);
+                            $("#alumni_discount-coupon-form").fadeOut();
+                        }else{
+                            console.log("re---setting  alumni");
+                            $("#real_dis_code").val("");
+                            $("#alumni_discount-coupon-form").fadeIn();
+                        }
+                    });
 
-            $(".alum-remove-coupon").on("click", function(){
-                console.log("trying to clear");
-                $("#real_dis_code").val("");
-                $("#discount-coupon-form-inline input[type='text']").val("");
-                $("#alumni_discount-coupon-form input[type='text']").val("");
-                WSU.OPC.Coupon.applyCoupon(true);
+                    $(".alum-remove-coupon").on("click", function(){
+                        console.log("trying to clear");
+                        $("#real_dis_code").val("");
+                        $("#discount-coupon-form-inline input[type='text']").val("");
+                        $("#alumni_discount-coupon-form input[type='text']").val("");
+                        WSU.OPC.coupon.removing = true;
+                        WSU.OPC.coupon.save();
+                    });
+                }
             });
-        }
-    });
         },
 
-        applyCoupon: function(remove){
+        save: function(){
             var form = jQuery('#opc-discount-coupon-form').serializeArray();
-            if (remove === false){
+            if (WSU.OPC.coupon.removing === false){
                 form.push({"name":"remove", "value":"0"});
             }else{
                 form.push({"name":"remove", "value":"1"});
             }
             WSU.OPC.Decorator.showLoader('.discount-block');
 
-
             WSU.OPC.ajaxManager.addReq("couponPost",{
-            type: 'POST',
-            url: WSU.OPC.Checkout.config.baseUrl + 'onepage/coupon/couponPost',
-            dataType: 'json',
-            data: form,
-            success:WSU.OPC.Coupon.prepareResponse
-        });
+                type: 'POST',
+                url: WSU.OPC.Checkout.config.baseUrl + 'onepage/coupon/couponPost',
+                dataType: 'json',
+                data: form,
+                success:WSU.OPC.coupon.prepareResponse
+            });
         },
 
         prepareResponse: function(response){
@@ -100,7 +103,7 @@
             if ( WSU.OPC.defined(response.message) ){
                 WSU.OPC.popup_message(response.message);
                 WSU.OPC.ready_payment_method=false;
-                //WSU.OPC.Checkout.pullPayments();
+                //WSU.OPC.payment.reloadHtml();
                 WSU.OPC.Checkout.pullReview();
             }
             if ( WSU.OPC.defined(response.coupon) && "" !== response.coupon){
@@ -111,12 +114,12 @@
             if ( WSU.OPC.defined(response.payments) ){
                 $('#checkout-payment-method-load').html(response.payments);
 
-                WSU.OPC.removeNotAllowedPaymentMethods();
+                WSU.OPC.payment.filterMethods();
 
                 payment.initWhatIsCvvListeners();
-                WSU.OPC.bindChangePaymentFields();
+                WSU.OPC.payments.init_change();
             };
-            WSU.OPC.Coupon.init();
+            WSU.OPC.coupon.init();
         }
     };
 })(jQuery,jQuery.WSU||{});
