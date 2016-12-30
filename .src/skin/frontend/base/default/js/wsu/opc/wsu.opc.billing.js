@@ -58,7 +58,7 @@
             WSU.OPC.initChangeAddress('billing');
 
             $('#billing-address-select').change(function(){
-                if ($(this).val()==''){
+                if ( '' === $(this).val() ){
                     $('#billing-new-address-form').show();
                 }else{
                     $('#billing-new-address-form').hide();
@@ -71,7 +71,7 @@
 
         /** SET SHIPPING AS BILLING TO TRUE OR FALSE **/
         setBillingForShipping:function(useBilling, skip_copy){
-            if (useBilling==true){
+            if ( true === useBilling ){
                 $('input[name="billing[use_for_shipping]"]').prop('checked', true);
                 $('input[name="shipping[same_as_billing]"]').prop('checked', true);
                 $('#opc-address-form-shipping').addClass('hidden');
@@ -89,11 +89,11 @@
             }
         },
         /** COPY FIELD FROM BILLING FORM TO SHIPPING **/
-        pushBilingToShipping:function(clearShippingForm){
+        pushBilingToShipping:function(){//clearShippingForm){
             //pull country
             var valueCountry = $('#billing-new-address-form select[name="billing[country_id]"]').val();
             $('#opc-address-form-shipping  select[name="shipping[country_id]"] [value="' + valueCountry + '"]').prop("selected", true);
-            shippingRegionUpdater.update();
+            window.shippingRegionUpdater.update();
 
 
             //pull region id
@@ -112,7 +112,7 @@
             $('#billing-new-address-form input[name="billing[street][]"]').each(function(indexBilling){
                 var valueAddress = $(this).val();
                 $('#opc-address-form-shipping input[name="shipping[street][]"]').each(function(indexShipping){
-                    if (indexBilling==indexShipping){
+                    if ( indexBilling === indexShipping ){
                         $(this).val(valueAddress);
                     }
                 });
@@ -158,7 +158,7 @@
 
                 if( WSU.OPC.defined(callback) && "function" === typeof callback ){
                     callback(valid);
-                };
+                }
             },delay);
         },
 

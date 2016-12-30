@@ -13,7 +13,8 @@ module.exports = function(grunt) {
         },*/
         watch: {
             files: [ "./app/**/*.*","./js/**/*.*","./skin/**/*.*","./media/**/*.*" ],
-            tasks: [/*"concat", "sass", "postcss", "cssmin", "copy", "csslint",*/  "clean", "phpcbf", "phpcs", "sync"]
+            tasks: [/*"concat", "sass", "postcss", "cssmin", "copy", "csslint",*/
+            "clean", "jshint", "phpcbf", "phpcs", "sync"]
         },
 
         sass: {
@@ -142,7 +143,49 @@ module.exports = function(grunt) {
                 src:'./'
             },
         },
-
+        jshint: {
+            files: [
+                    "./skin/**/*.js",
+                    "./app/**/*.js",
+                    "./error/**/*.js",
+                    "./media/**/*.js",
+                    "./js/**/*.js",
+                    "./lib/**/*.js",
+                ],
+            options: {
+                // options here to override JSHint defaults
+                boss: true,
+                curly: true,
+                eqeqeq: true,
+                eqnull: true,
+                expr: true,
+                immed: true,
+                noarg: true,
+                smarttabs: true,
+                trailing: true,
+                undef: true,
+                unused: true,
+                globals: {
+                    jQuery: true,
+                    $: true,
+                    console: true,
+                    module: true,
+                    document: true,
+                    window:true,
+                    define:true,
+                    alert:true,
+                    setTimeout:true,
+                    clearTimeout:true,
+                    Validation:true,
+                    MutationObserver:true,
+                    setLocation:true,
+                    tinyMCE:true,
+                    tinymce:true,
+                    VarienForm:true,
+                    payment:true,//work to remove this one
+                }
+            }
+        },
     });
 
     grunt.loadNpmTasks( "grunt-postcss" );
@@ -154,6 +197,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks( "grunt-contrib-csslint" );
     grunt.loadNpmTasks( "grunt-contrib-clean" );
     grunt.loadNpmTasks( "grunt-contrib-watch" );
+    grunt.loadNpmTasks( "grunt-contrib-jshint" );
     grunt.loadNpmTasks( "grunt-phpcs" );
     grunt.loadNpmTasks( 'grunt-phpcbf' );
 

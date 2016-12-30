@@ -1,6 +1,6 @@
 jQuery.WSU=jQuery.WSU||{};
 (function($,WSU){
-
+    //for PO boxes
     Validation.add('validate-pobox','We cannot ship to your P.O. Please check the button to ship to a different address.',function(field_value) {
         // setup a regex var for pretty much every possibility of PO box...
         var regex = /[P|p]*(OST|ost)*\.*\s*[O|o|0]*(ffice|FFICE)*\.*\s*[B|b][O|o|0][X|x]/gi;
@@ -142,7 +142,7 @@ jQuery.WSU=jQuery.WSU||{};
                         $( "#mess" ).dialog( "destroy" );
                         $( "#mess" ).remove();
                     }
-                }
+                };
                 defaultParams = jQuery.extend(defaultParams,sizeObj);
                 $( "#mess" ).dialog(defaultParams);
             }
@@ -194,12 +194,10 @@ jQuery.WSU=jQuery.WSU||{};
                 stop:  function() {
                     requests = [];
                     requests_obj = {};
-                    clearTimeout(this.tid);
+                    clearTimeout( this.tid );
                 }
             };
         }()),
-
-
 
 
         /** ADD AGGREMENTS TO ORDER FORM **/
@@ -251,8 +249,9 @@ jQuery.WSU=jQuery.WSU||{};
             if(WSU.OPC.agreements !== null){
                 $.each(WSU.OPC.agreements, function(index, data){
                     $('#checkout-agreements input').each(function(){
-                        if(data.name === $(this).prop('name'))
+                        if(data.name === $(this).prop('name')){
                             $(this).prop('checked', true);
+                        }
                     });
                 });
             }
@@ -329,8 +328,7 @@ jQuery.WSU=jQuery.WSU||{};
         },
 
         is_address_forms_ready: function(){
-            return WSU.OPC.form_status['billing'].ready && WSU.OPC.form_status['billing'].saved
-                    && WSU.OPC.form_status['shipping'].ready && WSU.OPC.form_status['shipping'].saved;
+            return WSU.OPC.form_status.billing.ready && WSU.OPC.form_status.billing.saved && WSU.OPC.form_status.shipping.ready && WSU.OPC.form_status.shipping.saved;
         },
 /** CREATE EVENT FOR UPDATE SHIPPING BLOCK **/
         initChangeAddress: function(form){
@@ -349,9 +347,8 @@ jQuery.WSU=jQuery.WSU||{};
                 }
             });
         },
-        displayShippingMethodAccurrecy: function(caller){
-            if( ( WSU.OPC.form_status['billing'].ready && !WSU.OPC.form_status['billing'].saved )
-                || ( WSU.OPC.form_status['shipping'].ready && !WSU.OPC.form_status['shipping'].saved ) )
+        displayShippingMethodAccurrecy: function(){//caller){
+            if( ( WSU.OPC.form_status.billing.ready && !WSU.OPC.form_status.billing.saved ) || ( WSU.OPC.form_status.shipping.ready && !WSU.OPC.form_status.shipping.saved ) )
             {
                 WSU.OPC.Decorator.setSaveBtnDoing("shipping_method","Updating Options");
             }

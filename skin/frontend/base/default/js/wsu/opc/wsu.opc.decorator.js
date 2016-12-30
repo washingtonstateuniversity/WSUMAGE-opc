@@ -1,8 +1,7 @@
 (function($,WSU){
     WSU.OPC.Decorator = {
-        createLoader: function(parentBlock,message){
+        createLoader: function(parentBlock){//,message){
             if(window.click_to_save){
-
 
             }else{
                 var jObj =  WSU.OPC.defined(parentBlock) ? parentBlock:"#general_message";
@@ -89,10 +88,10 @@
             $('a.review-total').on('click',function(e){
                 e.preventDefault();
                 if ($(this).hasClass('open')){
-                    $(this).removeClass('open')
+                    $(this).removeClass('open');
                     $('#opc-review-block').addClass('hidden');
                 }else{
-                    $(this).addClass('open')
+                    $(this).addClass('open');
                     $('#opc-review-block').removeClass('hidden');
                 }
             });

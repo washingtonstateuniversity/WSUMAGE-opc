@@ -111,7 +111,7 @@
             }
         },
 
-        reloadHtml: function(form_type, delay){
+        reloadHtml: function(){//form_type, delay){
             WSU.OPC.Decorator.showLoader('#opc-co-shipping-method-form',"<h1>Getting Shipping Options</h1>");
             WSU.OPC.ajaxManager.addReq("reloadShippingsMethods",{
                 type: 'POST',
@@ -145,7 +145,7 @@
                     $('#checkout-payment-method-load').empty().html(response.payments);
 
                     WSU.OPC.payment.filterMethods();
-                    payment.initWhatIsCvvListeners();//default logic for view "what is this?"
+                    //payment.initWhatIsCvvListeners();//default logic for view "what is this?"
                 }
                 if (WSU.OPC.defined(response.worked_on)){
                     if("shipping_method"===response.worked_on){
@@ -248,7 +248,7 @@
 
                 if( WSU.OPC.defined(callback) && "function" === typeof callback ){
                     callback(valid);
-                };
+                }
             },delay);
         },
 
